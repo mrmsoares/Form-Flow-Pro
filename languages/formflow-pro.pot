@@ -1,0 +1,116 @@
+# Translation Template for FormFlow Pro Enterprise
+# Copyright (C) 2025 FormFlow Pro Team
+# This file is distributed under the same license as the FormFlow Pro Enterprise package.
+msgid ""
+msgstr ""
+"Project-Id-Version: FormFlow Pro Enterprise 2.0.0\n"
+"Report-Msgid-Bugs-To: https://formflowpro.com/support\n"
+"POT-Creation-Date: 2025-11-19 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Admin Menu
+msgid "FormFlow Pro"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Forms"
+msgstr ""
+
+msgid "Submissions"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Autentique Documents"
+msgstr ""
+
+msgid "Autentique"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+# Autentique Page
+msgid "Autentique not configured!"
+msgstr ""
+
+msgid "Please configure your Autentique API key in settings to start using digital signatures."
+msgstr ""
+
+msgid "Go to Settings"
+msgstr ""
+
+msgid "Total Documents"
+msgstr ""
+
+msgid "Pending Signature"
+msgstr ""
+
+msgid "Signed"
+msgstr ""
+
+msgid "Refused"
+msgstr ""
+
+msgid "All Statuses"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "From date"
+msgstr ""
+
+msgid "To date"
+msgstr ""
+
+msgid "Apply Filters"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Document ID"
+msgstr ""
+
+msgid "Document Name"
+msgstr ""
+
+msgid "Submission"
+msgstr ""
+
+msgid "Signer"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Signed At"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Document Details"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Open in Autentique"
+msgstr ""

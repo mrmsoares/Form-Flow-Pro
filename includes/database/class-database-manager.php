@@ -56,5 +56,28 @@ class DatabaseManager
         ) $charset_collate;";
 
         dbDelta($sql);
+
+        // Autentique documents table
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}formflow_autentique_documents (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            document_id varchar(100) NOT NULL,
+            document_name varchar(255) NOT NULL,
+            submission_id bigint(20) unsigned,
+            signer_email varchar(255),
+            signer_name varchar(255),
+            status varchar(50) NOT NULL DEFAULT 'pending',
+            signature_url text,
+            signed_at datetime,
+            metadata longtext,
+            created_at datetime NOT NULL,
+            updated_at datetime,
+            PRIMARY KEY  (id),
+            UNIQUE KEY document_id (document_id),
+            KEY submission_id (submission_id),
+            KEY status (status),
+            KEY created_at (created_at)
+        ) $charset_collate;";
+
+        dbDelta($sql);
     }
 }

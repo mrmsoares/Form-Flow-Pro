@@ -79,6 +79,17 @@ class Autentique_Service
         // Save document info to submission
         $this->save_document_info($submission_id, $document_id, $signatures);
 
+        // Save to autentique documents table
+        $this->save_to_documents_table(
+            $document_id,
+            $document['name'],
+            $submission_id,
+            $signatures[0]['email'] ?? '',
+            $signatures[0]['name'] ?? '',
+            $signatures[0]['link']['short_link'] ?? '',
+            $signatures
+        );
+
         // Get signature URL (primeiro signatário)
         $signature_url = $signatures[0]['link']['short_link'] ?? null;
 
@@ -454,5 +465,113 @@ class Autentique_Service
 
         // Log the update
         do_action('formflow_signature_status_updated', $document_id, $status);
+
+        // Also update in autentique documents table
+        $update_data = [
+            'status' => $status,
+            'updated_at' => current_time('mysql'),
+        ];
+
+        if ($status === 'signed' && $signed_at) {
+            $update_data['signed_at'] = $signed_at;
+        }
+
+        $wpdb->update(
+            $wpdb->prefix . 'formflow_autentique_documents',
+            $update_data,
+            ['document_id' => $document_id],
+            array_fill(0, count($update_data), '%s'),
+            ['%s']
+        );
+    }
+
+    /**
+     * Save document to autentique documents table
+     */
+    private function save_to_documents_table(
+        string $document_id,
+        string $document_name,
+        int $submission_id,
+        string $signer_email,
+        string $signer_name,
+        string $signature_url,
+        array $signatures
+    ): void {
+        global $wpdb;
+
+        $wpdb->insert(
+            $wpdb->prefix . 'formflow_autentique_documents',
+            [
+                'document_id' => $document_id,
+                'document_name' => $document_name,
+                'submission_id' => $submission_id,
+                'signer_email' => $signer_email,
+                'signer_name' => $signer_name,
+                'status' => 'pending',
+                'signature_url' => $signature_url,
+                'metadata' => wp_json_encode(['signatures' => $signatures]),
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql'),
+            ],
+            ['%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s']
+        );
+    }
+
+    /**
+     * Resend signature link
+     * Note: Autentique doesn't have a specific "resend" endpoint,
+     * so we'll retrieve the document and return the existing link
+     */
+    public function resend_signature_link(string $document_id): bool
+    {
+        try {
+            $document = $this->get_document_status($document_id);
+
+            if (empty($document)) {
+                return false;
+            }
+
+            // Get the signer's email and link
+            $signatures = $document['signatures'] ?? [];
+
+            foreach ($signatures as $signature) {
+                // Only resend to pending signers
+                if (empty($signature['signed'])) {
+                    $email = $signature['email'] ?? '';
+                    $link = $signature['link']['short_link'] ?? '';
+
+                    if ($email && $link) {
+                        // Send email notification with the link
+                        $this->send_signature_reminder($email, $link, $document['name'] ?? '');
+                    }
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            error_log('FormFlow Autentique resend error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send signature reminder email
+     */
+    private function send_signature_reminder(string $email, string $link, string $document_name): bool
+    {
+        $subject = sprintf(
+            __('Reminder: Please sign the document "%s"', 'formflow-pro'),
+            $document_name
+        );
+
+        $message = sprintf(
+            __("Hello,\n\nThis is a friendly reminder to sign the document:\n\n%s\n\nPlease click the link below to sign:\n%s\n\nThank you!", 'formflow-pro'),
+            $document_name,
+            $link
+        );
+
+        $headers = ['Content-Type: text/plain; charset=UTF-8'];
+
+        return wp_mail($email, $subject, $message, $headers);
     }
 }

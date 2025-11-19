@@ -83,6 +83,18 @@ class Admin
                 'all'
             );
         }
+
+        // Autentique admin CSS
+        $screen = get_current_screen();
+        if ($screen && strpos($screen->id, 'formflow-autentique') !== false) {
+            wp_enqueue_style(
+                $this->plugin_name . '-autentique',
+                FORMFLOW_URL . 'assets/css/autentique-admin.css',
+                [$this->plugin_name],
+                $this->version,
+                'all'
+            );
+        }
     }
 
     /**
@@ -133,6 +145,16 @@ class Admin
             wp_enqueue_script(
                 $this->plugin_name . '-analytics',
                 FORMFLOW_URL . 'assets/js/analytics.min.js',
+                ['jquery', $this->plugin_name],
+                $this->version,
+                true
+            );
+        }
+
+        if ($screen && strpos($screen->id, 'formflow-autentique') !== false) {
+            wp_enqueue_script(
+                $this->plugin_name . '-autentique',
+                FORMFLOW_URL . 'assets/js/autentique.min.js',
                 ['jquery', $this->plugin_name],
                 $this->version,
                 true
@@ -214,6 +236,16 @@ class Admin
             [$this, 'display_analytics_page']
         );
 
+        // Autentique
+        add_submenu_page(
+            'formflow-pro',
+            __('Autentique Documents', 'formflow-pro'),
+            __('Autentique', 'formflow-pro'),
+            'manage_options',
+            'formflow-autentique',
+            [$this, 'display_autentique_page']
+        );
+
         // Settings
         add_submenu_page(
             'formflow-pro',
@@ -263,6 +295,16 @@ class Admin
     public function display_analytics_page()
     {
         include_once FORMFLOW_PATH . 'includes/admin/views/analytics.php';
+    }
+
+    /**
+     * Render the autentique page.
+     *
+     * @since 2.0.0
+     */
+    public function display_autentique_page()
+    {
+        include_once FORMFLOW_PATH . 'includes/admin/views/autentique.php';
     }
 
     /**
