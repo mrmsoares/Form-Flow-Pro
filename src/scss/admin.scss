@@ -424,3 +424,372 @@ $spacing: 20px;
         grid-template-columns: 1fr;
     }
 }
+
+// Forms Management
+.formflow-forms {
+    // Empty State
+    .formflow-empty-state {
+        max-width: 600px;
+        margin: 60px auto;
+        text-align: center;
+
+        .card {
+            padding: 60px 40px;
+        }
+
+        .formflow-empty-icon {
+            margin-bottom: $spacing;
+
+            .dashicons {
+                width: 80px;
+                height: 80px;
+                font-size: 80px;
+                color: #ccc;
+            }
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #23282d;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: $spacing * 1.5;
+        }
+    }
+
+    // Forms Table
+    .formflow-forms-table {
+        .column-cb {
+            width: 2.2em;
+        }
+
+        .column-name {
+            width: 40%;
+        }
+
+        .column-status {
+            width: 120px;
+        }
+
+        .column-submissions {
+            width: 100px;
+            text-align: center;
+        }
+
+        .column-date {
+            width: 140px;
+        }
+
+        .column-actions {
+            width: 120px;
+        }
+
+        .status-badge {
+            &.status-active {
+                background-color: lighten($success-color, 40%);
+                color: $success-color;
+            }
+
+            &.status-draft {
+                background-color: lighten($warning-color, 40%);
+                color: darken($warning-color, 10%);
+            }
+
+            &.status-inactive {
+                background-color: #f0f0f0;
+                color: #666;
+            }
+        }
+
+        .description {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+    }
+}
+
+// Modal
+.formflow-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .formflow-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(2px);
+    }
+
+    .formflow-modal-content {
+        position: relative;
+        background: #fff;
+        border-radius: 8px;
+        max-width: 900px;
+        width: 90%;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .formflow-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing;
+        border-bottom: 1px solid #e5e5e5;
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .formflow-modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            color: #666;
+            transition: color 0.2s;
+
+            &:hover {
+                color: $error-color;
+            }
+
+            .dashicons {
+                width: 24px;
+                height: 24px;
+                font-size: 24px;
+            }
+        }
+    }
+
+    .formflow-modal-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: $spacing;
+    }
+
+    .formflow-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: $spacing;
+        border-top: 1px solid #e5e5e5;
+        background: #f9f9f9;
+    }
+}
+
+// Form Builder
+#form-builder-form {
+    .formflow-form-section {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: $border-radius;
+        padding: $spacing;
+        margin-bottom: $spacing;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: $spacing;
+            font-size: 16px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+    }
+
+    .formflow-form-group {
+        margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 13px;
+
+            .required {
+                color: $error-color;
+            }
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    }
+}
+
+// Form Fields Container
+#form-fields-container {
+    margin-bottom: $spacing;
+
+    .form-field-item {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: $border-radius;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: $primary-color;
+            box-shadow: 0 2px 5px rgba(0, 115, 170, 0.1);
+        }
+
+        &.ui-sortable-helper {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-color: $primary-color;
+        }
+    }
+
+    .field-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+
+        .field-drag-handle {
+            cursor: move;
+            color: #999;
+            font-size: 20px;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+
+        .field-label {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: $border-radius;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+            }
+        }
+
+        .remove-field {
+            color: $error-color;
+            padding: 5px;
+
+            &:hover {
+                color: darken($error-color, 10%);
+            }
+
+            .dashicons {
+                width: 18px;
+                height: 18px;
+                font-size: 18px;
+            }
+        }
+    }
+
+    .field-settings {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        padding-left: 30px;
+    }
+
+    .field-setting {
+        label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+
+            input[type="checkbox"] {
+                margin-right: 5px;
+            }
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            border-radius: $border-radius;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+            }
+        }
+    }
+}
+
+// Add Field Button
+#add-form-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    .dashicons {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+// Autentique Settings
+#autentique-settings {
+    padding-top: 15px;
+    border-top: 1px solid #e5e5e5;
+    margin-top: 15px;
+}
+
+// Body class when modal is open
+body.modal-open {
+    overflow: hidden;
+}
+
+// Responsive Forms
+@media (max-width: 782px) {
+    .formflow-modal {
+        .formflow-modal-content {
+            width: 95%;
+            max-height: 95vh;
+        }
+    }
+
+    #form-fields-container {
+        .field-settings {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .formflow-forms {
+        .formflow-forms-table {
+            .column-date,
+            .column-submissions {
+                display: none;
+            }
+        }
+    }
+}

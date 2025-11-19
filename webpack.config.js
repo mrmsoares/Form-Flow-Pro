@@ -10,6 +10,7 @@ module.exports = (env, argv) => {
         entry: {
             // Admin scripts
             'admin': './src/admin/index.js',
+            'forms': './src/admin/forms.js',
             'submissions': './src/admin/submissions.js',
             'analytics': './src/admin/analytics.js',
             'settings': './src/admin/settings.js',

@@ -109,6 +109,16 @@ class Admin
         );
 
         // Page-specific scripts (lazy loaded)
+        if ($screen && strpos($screen->id, 'formflow-forms') !== false) {
+            wp_enqueue_script(
+                $this->plugin_name . '-forms',
+                FORMFLOW_URL . 'assets/js/forms.min.js',
+                ['jquery', $this->plugin_name],
+                $this->version,
+                true
+            );
+        }
+
         if ($screen && strpos($screen->id, 'formflow-submissions') !== false) {
             wp_enqueue_script(
                 $this->plugin_name . '-submissions',
@@ -174,6 +184,16 @@ class Admin
             [$this, 'display_dashboard_page']
         );
 
+        // Forms
+        add_submenu_page(
+            'formflow-pro',
+            __('Forms', 'formflow-pro'),
+            __('Forms', 'formflow-pro'),
+            'manage_options',
+            'formflow-forms',
+            [$this, 'display_forms_page']
+        );
+
         // Submissions
         add_submenu_page(
             'formflow-pro',
@@ -213,6 +233,16 @@ class Admin
     public function display_dashboard_page()
     {
         include_once FORMFLOW_PATH . 'includes/admin/views/dashboard.php';
+    }
+
+    /**
+     * Render the forms page.
+     *
+     * @since 2.0.0
+     */
+    public function display_forms_page()
+    {
+        include_once FORMFLOW_PATH . 'includes/admin/views/forms.php';
     }
 
     /**
