@@ -105,3 +105,15 @@ function run_formflow_pro() {
 }
 
 run_formflow_pro();
+
+/**
+ * Initialize Elementor Integration
+ *
+ * @since 2.0.0
+ */
+function formflow_init_elementor_integration() {
+    require_once FORMFLOW_PATH . 'includes/integrations/elementor/class-elementor-integration.php';
+    FormFlowPro\Integrations\Elementor\Elementor_Integration::get_instance();
+}
+
+add_action('plugins_loaded', 'formflow_init_elementor_integration');

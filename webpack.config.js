@@ -15,9 +15,16 @@ module.exports = (env, argv) => {
             'analytics': './src/admin/analytics.js',
             'settings': './src/admin/settings.js',
 
+            // Elementor integration scripts
+            'elementor': './src/elementor/elementor.js',
+            'elementor-editor': './src/elementor/elementor-editor.js',
+
             // Admin styles
             'admin-style': './src/scss/admin.scss',
             'critical-style': './src/scss/critical.scss',
+
+            // Elementor styles
+            'elementor-style': './src/scss/elementor.scss',
         },
 
         output: {
