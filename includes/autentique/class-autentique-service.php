@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) exit;
 
 /**
  * Autentique API Service - Real GraphQL Integration
+ *
+ * Conforme documentação oficial: https://docs.autentique.com.br/api/
  */
 class Autentique_Service
 {
@@ -43,43 +45,25 @@ class Autentique_Service
 
         // Generate PDF first
         $pdf_generator = new \FormFlowPro\PDF\PDF_Generator();
-        $pdf_url = $pdf_generator->generate_submission_pdf($submission_id);
+        $pdf_path = $pdf_generator->generate_submission_pdf($submission_id);
 
-        // Prepare signers
+        if (!file_exists($pdf_path)) {
+            throw new \Exception('PDF file not found: ' . $pdf_path);
+        }
+
+        // Prepare signers (separado conforme API)
         $signers = $this->prepare_signers($form_data);
 
-        // Create document via GraphQL
-        $mutation = '
-        mutation CreateDocument($document: DocumentInput!) {
-            createDocument(document: $document) {
-                id
-                name
-                signatures {
-                    public_id
-                    email
-                    created_at
-                    action {
-                        name
-                    }
-                    link {
-                        short_link
-                    }
-                }
-            }
-        }';
-
-        $variables = [
-            'document' => [
-                'name' => $submission->form_name . ' - Submission #' . $submission_id,
-                'file' => [
-                    'url' => $pdf_url
-                ],
-                'signers' => $signers,
-                'show_audit_page' => true,
-            ]
+        // Prepare document data (separado conforme API)
+        $document = [
+            'name' => $submission->form_name . ' - Submission #' . $submission_id,
+            'refusable' => true,
+            'sortable' => false,
+            'show_audit_page' => true,
         ];
 
-        $response = $this->graphql_request($mutation, $variables);
+        // Create document via GraphQL with multipart upload
+        $response = $this->create_document_multipart($document, $signers, $pdf_path);
 
         if (isset($response['errors'])) {
             throw new \Exception('Autentique API error: ' . json_encode($response['errors']));
@@ -95,10 +79,127 @@ class Autentique_Service
         // Save document info to submission
         $this->save_document_info($submission_id, $document_id, $signatures);
 
-        // Get signature URL
+        // Get signature URL (primeiro signatário)
         $signature_url = $signatures[0]['link']['short_link'] ?? null;
 
+        // Clean up temporary PDF
+        if (file_exists($pdf_path)) {
+            @unlink($pdf_path);
+        }
+
         return $signature_url;
+    }
+
+    /**
+     * Create document with multipart/form-data upload
+     * Conforme: https://docs.autentique.com.br/api/mutations/criando-um-documento
+     */
+    private function create_document_multipart(array $document, array $signers, string $file_path): array
+    {
+        // GraphQL Mutation conforme documentação oficial
+        $mutation = 'mutation CreateDocumentMutation($document: DocumentInput!, $signers: [SignerInput!]!, $file: Upload!) {
+            createDocument(document: $document, signers: $signers, file: $file) {
+                id
+                name
+                refusable
+                sortable
+                created_at
+                signatures {
+                    public_id
+                    name
+                    email
+                    created_at
+                    action {
+                        name
+                    }
+                    link {
+                        short_link
+                    }
+                    user {
+                        id
+                        name
+                        email
+                    }
+                }
+            }
+        }';
+
+        // Variables (sem o file, que vai no multipart)
+        $variables = [
+            'document' => $document,
+            'signers' => $signers,
+            'file' => null, // Será substituído pelo upload
+        ];
+
+        // Operations JSON
+        $operations = wp_json_encode([
+            'query' => $mutation,
+            'variables' => $variables,
+        ]);
+
+        // Map JSON (mapeia o arquivo para variables.file)
+        $map = wp_json_encode([
+            'file' => ['variables.file'],
+        ]);
+
+        // Boundary para multipart
+        $boundary = wp_generate_password(24, false);
+
+        // Build multipart body
+        $body = $this->build_multipart_body($operations, $map, $file_path, $boundary);
+
+        // Make request
+        $response = wp_remote_post(self::API_URL, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->api_key,
+                'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+            ],
+            'body' => $body,
+            'timeout' => 60, // Upload pode demorar
+        ]);
+
+        if (is_wp_error($response)) {
+            throw new \Exception('API request failed: ' . $response->get_error_message());
+        }
+
+        $response_body = wp_remote_retrieve_body($response);
+        $data = json_decode($response_body, true);
+
+        return $data ?? [];
+    }
+
+    /**
+     * Build multipart/form-data body
+     * Formato conforme spec: https://github.com/jaydenseric/graphql-multipart-request-spec
+     */
+    private function build_multipart_body(string $operations, string $map, string $file_path, string $boundary): string
+    {
+        $body = '';
+        $eol = "\r\n";
+
+        // Part 1: operations
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="operations"' . $eol . $eol;
+        $body .= $operations . $eol;
+
+        // Part 2: map
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="map"' . $eol . $eol;
+        $body .= $map . $eol;
+
+        // Part 3: file
+        $filename = basename($file_path);
+        $file_contents = file_get_contents($file_path);
+
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . $eol;
+        $body .= 'Content-Type: application/pdf' . $eol . $eol;
+        $body .= $file_contents . $eol;
+
+        // End boundary
+        $body .= '--' . $boundary . '--' . $eol;
+
+        return $body;
     }
 
     /**
@@ -189,19 +290,17 @@ class Autentique_Service
     {
         $mutation = '
         mutation DeleteDocument($id: ID!) {
-            deleteDocument(id: $id) {
-                id
-            }
+            deleteDocument(id: $id)
         }';
 
         $variables = ['id' => $document_id];
         $response = $this->graphql_request($mutation, $variables);
 
-        return isset($response['data']['deleteDocument']['id']);
+        return isset($response['data']['deleteDocument']) && $response['data']['deleteDocument'] === true;
     }
 
     /**
-     * Make GraphQL request
+     * Make GraphQL request (sem upload de arquivo)
      */
     private function graphql_request(string $query, array $variables = []): array
     {
@@ -229,6 +328,7 @@ class Autentique_Service
 
     /**
      * Prepare signers from form data
+     * Conforme: https://docs.autentique.com.br/api/mutations/criando-um-documento
      */
     private function prepare_signers(array $form_data): array
     {
@@ -236,20 +336,30 @@ class Autentique_Service
 
         // Try to get email and name from form data
         $email = $form_data['email'] ?? $form_data['user_email'] ?? '';
-        $name = $form_data['name'] ?? $form_data['user_name'] ?? $form_data['full_name'] ?? 'User';
+        $name = $form_data['name'] ?? $form_data['user_name'] ?? $form_data['full_name'] ?? '';
 
         if (!empty($email)) {
-            $signers[] = [
+            $signer = [
                 'email' => $email,
                 'action' => 'SIGN',
-                'positions' => [
-                    [
-                        'x' => '50',
-                        'y' => '85',
-                        'z' => '1',
-                    ]
+            ];
+
+            // Add name if available (opcional)
+            if (!empty($name)) {
+                $signer['name'] = $name;
+            }
+
+            // Add positions (CORRIGIDO: z deve ser int, não string)
+            $signer['positions'] = [
+                [
+                    'x' => '50.0',
+                    'y' => '85.0',
+                    'z' => 1, // INT conforme documentação
+                    'element' => 'SIGNATURE',
                 ]
             ];
+
+            $signers[] = $signer;
         }
 
         // Add company signer if configured
@@ -260,12 +370,17 @@ class Autentique_Service
                 'action' => 'SIGN',
                 'positions' => [
                     [
-                        'x' => '50',
-                        'y' => '90',
-                        'z' => '1',
+                        'x' => '50.0',
+                        'y' => '90.0',
+                        'z' => 1, // INT
+                        'element' => 'SIGNATURE',
                     ]
                 ]
             ];
+        }
+
+        if (empty($signers)) {
+            throw new \Exception('No signers configured. Email is required.');
         }
 
         return $signers;
