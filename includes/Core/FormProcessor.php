@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Form Processor - Core form submission processing engine.
  *

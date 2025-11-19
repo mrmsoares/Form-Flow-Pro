@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Database Migration v2.0.0
  *

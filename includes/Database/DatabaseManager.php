@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Database Manager - Handles all database operations and migrations.
  *

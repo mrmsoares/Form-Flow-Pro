@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Autentique Webhook Handler.
  *
@@ -163,7 +164,6 @@ class WebhookHandler
                 ],
                 200
             );
-
         } catch (\Exception $e) {
             // Log error
             $this->logWebhook('error', $data ?? [], $e->getMessage());
@@ -439,7 +439,6 @@ class WebhookHandler
                 'success' => true,
                 'result' => $result,
             ];
-
         } catch (\Exception $e) {
             return [
                 'success' => false,

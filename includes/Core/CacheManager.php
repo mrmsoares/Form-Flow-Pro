@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cache Manager - Multi-tier caching system for performance optimization.
  *

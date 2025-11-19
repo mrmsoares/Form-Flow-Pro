@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Autentique Service.
  *
@@ -138,7 +139,6 @@ class AutentiqueService
                 'document_id' => $response['id'],
                 'message' => 'Document created successfully',
             ];
-
         } catch (\Exception $e) {
             $this->logActivity($submission_id, 'error', 'Failed to create Autentique document', [
                 'error' => $e->getMessage(),
@@ -209,7 +209,6 @@ class AutentiqueService
                 'success' => true,
                 'message' => 'Webhook processed',
             ];
-
         } catch (\Exception $e) {
             // Log error but return success to prevent webhook retry
             error_log('Autentique webhook error: ' . $e->getMessage());
@@ -252,7 +251,6 @@ class AutentiqueService
             }
 
             return $status;
-
         } catch (\Exception $e) {
             return [
                 'success' => false,
@@ -299,7 +297,6 @@ class AutentiqueService
                 'file_url' => $upload['url'],
                 'file_path' => $upload['file'],
             ];
-
         } catch (\Exception $e) {
             return [
                 'success' => false,

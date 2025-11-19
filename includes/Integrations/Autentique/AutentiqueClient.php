@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Autentique API Client.
  *
@@ -147,7 +148,7 @@ class AutentiqueClient
             return $this->downloadFile($response['download_url']);
         }
 
-        return $response;
+        throw new \Exception('Download URL not found in response');
     }
 
     /**
