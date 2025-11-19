@@ -1,0 +1,159 @@
+/**
+ * FormFlow Pro - Admin Styles
+ *
+ * @package FormFlowPro
+ * @since 2.0.0
+ */
+
+// Variables
+$primary-color: #0073aa;
+$secondary-color: #00a0d2;
+$success-color: #46b450;
+$warning-color: #ffb900;
+$error-color: #dc3232;
+
+$border-radius: 4px;
+$spacing: 20px;
+
+// Admin Layout
+.formflow-admin {
+    padding: $spacing;
+
+    h1, h2, h3 {
+        margin-bottom: $spacing;
+    }
+
+    .card {
+        background: #fff;
+        border: 1px solid #ccd0d4;
+        border-radius: $border-radius;
+        padding: $spacing;
+        margin-bottom: $spacing;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    }
+
+    .button-primary {
+        background-color: $primary-color;
+        border-color: darken($primary-color, 10%);
+
+        &:hover {
+            background-color: darken($primary-color, 5%);
+        }
+    }
+}
+
+// Submissions Table
+.formflow-submissions-table {
+    width: 100%;
+
+    th {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 2px solid #ccd0d4;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: $border-radius;
+        font-size: 12px;
+        font-weight: 600;
+
+        &.status-completed {
+            background-color: lighten($success-color, 40%);
+            color: $success-color;
+        }
+
+        &.status-pending {
+            background-color: lighten($warning-color, 40%);
+            color: darken($warning-color, 10%);
+        }
+
+        &.status-failed {
+            background-color: lighten($error-color, 40%);
+            color: $error-color;
+        }
+    }
+}
+
+// Analytics Dashboard
+.formflow-analytics {
+    .chart-container {
+        background: #fff;
+        padding: $spacing;
+        margin-bottom: $spacing;
+        border-radius: $border-radius;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: $spacing;
+        margin-bottom: $spacing;
+
+        .stat-card {
+            background: #fff;
+            padding: $spacing;
+            border-radius: $border-radius;
+            border-left: 4px solid $primary-color;
+
+            .stat-value {
+                font-size: 32px;
+                font-weight: 700;
+                color: $primary-color;
+            }
+
+            .stat-label {
+                font-size: 14px;
+                color: #666;
+            }
+        }
+    }
+}
+
+// Settings Page
+.formflow-settings {
+    .nav-tab-wrapper {
+        margin-bottom: $spacing;
+    }
+
+    .settings-section {
+        background: #fff;
+        padding: $spacing;
+        margin-bottom: $spacing;
+        border-radius: $border-radius;
+
+        h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+
+        .form-table {
+            th {
+                width: 200px;
+                padding: 15px 10px 15px 0;
+            }
+
+            td {
+                padding: 15px 10px;
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 782px) {
+    .formflow-admin {
+        padding: 10px;
+    }
+
+    .formflow-analytics .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
