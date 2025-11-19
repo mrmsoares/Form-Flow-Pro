@@ -989,3 +989,232 @@ body.modal-open {
         }
     }
 }
+
+// Analytics Dashboard
+.formflow-analytics {
+    // Filters
+    .analytics-filters {
+        background: #fff;
+        padding: 15px $spacing;
+        margin-bottom: $spacing;
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #666;
+            }
+
+            select,
+            input[type="date"] {
+                padding: 6px 10px;
+                border: 1px solid #ddd;
+                border-radius: $border-radius;
+                font-size: 13px;
+
+                &:focus {
+                    outline: none;
+                    border-color: $primary-color;
+                }
+            }
+
+            select {
+                min-width: 200px;
+            }
+
+            input[type="date"] {
+                min-width: 150px;
+            }
+        }
+    }
+
+    // Stats Grid
+    .analytics-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: $spacing;
+        margin-bottom: $spacing * 1.5;
+
+        .stat-card {
+            background: #fff;
+            border-radius: $border-radius;
+            padding: $spacing;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid #ddd;
+            transition: all 0.2s;
+
+            &:hover {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+            &.stat-primary {
+                border-left-color: $primary-color;
+            }
+
+            &.stat-success {
+                border-left-color: $success-color;
+            }
+
+            &.stat-warning {
+                border-left-color: $warning-color;
+            }
+
+            &.stat-info {
+                border-left-color: $secondary-color;
+            }
+
+            .stat-icon {
+                font-size: 40px;
+                line-height: 1;
+                opacity: 0.7;
+
+                .dashicons {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 40px;
+                }
+            }
+
+            .stat-content {
+                flex: 1;
+            }
+
+            .stat-value {
+                font-size: 32px;
+                font-weight: 700;
+                line-height: 1;
+                margin-bottom: 5px;
+                color: #23282d;
+            }
+
+            .stat-label {
+                font-size: 13px;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+
+    // Charts Grid
+    .analytics-charts-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: $spacing;
+
+        .chart-card {
+            background: #fff;
+            border-radius: $border-radius;
+            padding: $spacing;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+            &.chart-large {
+                grid-column: span 12;
+            }
+
+            &.chart-medium {
+                grid-column: span 6;
+            }
+
+            &.chart-small {
+                grid-column: span 4;
+            }
+
+            .chart-header {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid $primary-color;
+
+                h3 {
+                    margin: 0 0 5px 0;
+                    font-size: 18px;
+                    color: #23282d;
+                }
+
+                .chart-description {
+                    margin: 0;
+                    font-size: 13px;
+                    color: #666;
+                }
+            }
+
+            .chart-body {
+                position: relative;
+                height: 300px;
+
+                canvas {
+                    max-height: 100%;
+                }
+            }
+
+            // Adjust chart heights
+            &.chart-large .chart-body {
+                height: 350px;
+            }
+
+            &.chart-small .chart-body {
+                height: 300px;
+            }
+        }
+    }
+}
+
+// Analytics Responsive
+@media (max-width: 1200px) {
+    .formflow-analytics {
+        .analytics-charts-grid {
+            .chart-card {
+                &.chart-large,
+                &.chart-medium,
+                &.chart-small {
+                    grid-column: span 12;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 782px) {
+    .formflow-analytics {
+        .analytics-filters {
+            form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+
+                select,
+                input[type="date"] {
+                    width: 100%;
+                    min-width: auto;
+                }
+
+                button,
+                a {
+                    width: 100%;
+                }
+            }
+        }
+
+        .analytics-stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}
