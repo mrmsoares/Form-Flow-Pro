@@ -129,3 +129,15 @@ function formflow_init_ajax_handlers() {
 }
 
 add_action('admin_init', 'formflow_init_ajax_handlers');
+
+/**
+ * Initialize Services (Queue, PDF, Email, Cache)
+ *
+ * @since 2.0.0
+ */
+function formflow_init_services() {
+    require_once FORMFLOW_PATH . 'includes/class-services.php';
+    FormFlowPro\Services::init();
+}
+
+add_action('init', 'formflow_init_services');
