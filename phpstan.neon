@@ -1,0 +1,13 @@
+parameters:
+    level: 5
+    paths:
+        - includes/
+    excludePaths:
+        - includes/admin/views/
+    ignoreErrors:
+        - '#Function .+ not found#'
+        - '#Constant FORMFLOW_\w+ not found#'
+        - '#Constant ABSPATH not found#'
+        - '#Comparison operation#'
+    bootstrapFiles:
+        - tests/mocks/wordpress-functions.php

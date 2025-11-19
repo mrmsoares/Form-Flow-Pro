@@ -1,0 +1,76 @@
+Cache Manager (FormFlowPro\Tests\Unit\Core\CacheManager)
+ [x] Set and get simple value
+ [x] Set and get array
+ [x] Get returns default for missing key
+ [x] Delete removes cached value
+ [x] Remember returns cached value
+ [x] Get stats returns correct structure
+ [x] Cache disabled returns default
+ [ ] Hit rate calculation
+ [x] Flush returns true
+ [x] Set with custom ttl
+ [x] Remember with custom ttl
+ [x] Cache serializes objects
+ [x] Cache handles null value
+ [x] Multiple deletes
+ [x] Stats track writes
+ [x] Stats track deletes
+
+Form Processor (FormFlowPro\Tests\Unit\Core\FormProcessor)
+ [x] Process submission with invalid form returns error
+ [x] Process submission with valid form returns success
+ [x] Data sanitization
+ [x] Submission data compression
+ [x] Queue jobs created for pdf template
+ [x] Ip address detection
+
+Database Manager (FormFlowPro\Tests\Unit\Database\DatabaseManager)
+ [x] Get table name
+ [x] Get charset collate
+ [x] Table exists returns false for nonexistent table
+ [x] Table exists returns true for existing table
+
+Autentique Client (FormFlowPro\Tests\Unit\Integrations\Autentique\AutentiqueClient)
+ [x] Constructor throws exception without api key
+ [x] Constructor accepts api key parameter
+ [x] Create document with valid data
+ [x] Create document requires name
+ [x] Create document requires file
+ [x] Create document requires signers
+ [x] Get document status returns data
+ [x] Download document returns content
+ [x] Cancel document sends reason
+ [x] Resend email for signer
+ [x] Api error handling
+ [x] Network error handling
+ [x] Connection test returns true on success
+ [x] Connection test returns false on error
+
+Autentique Service (FormFlowPro\Tests\Unit\Integrations\Autentique\AutentiqueService)
+ [ ] Create document from submission success
+ [x] Create document fails with invalid submission
+ [ ] Create document fails when autentique disabled
+ [x] Process signature webhook document signed
+ [x] Process signature webhook document completed
+ [x] Process signature webhook with missing data
+ [x] Check document status uses cache
+ [x] Check document status fetches from api
+ [x] Download signed document stores file
+ [x] Download signed document handles errors
+ [ ] Submission status updates
+ [ ] Queue job created for status check
+
+Webhook Handler (FormFlowPro\Tests\Unit\Integrations\Autentique\WebhookHandler)
+ [x] Get webhook url returns correct url
+ [x] Handle webhook processes valid request
+ [x] Handle webhook rejects invalid json
+ [x] Handle webhook validates signature
+ [ ] Handle webhook accepts valid signature
+ [x] Handle webhook logs activity
+ [x] Test webhook endpoint returns success
+ [ ] Get webhook stats returns statistics
+ [x] Retry webhook retries failed webhook
+ [x] Retry webhook rejects non failed webhooks
+ [ ] Clean old logs removes old webhooks
+ [x] Verify webhook permission returns true
+
