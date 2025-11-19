@@ -25,7 +25,9 @@ Thumbs.db
 
 # Testing
 /coverage/
+/build/
 .phpunit.result.cache
+phpunit.xml.bak
 
 # Logs
 *.log
