@@ -66,7 +66,8 @@ if (!class_exists('wpdb')) {
         public function insert($table, $data, $format = null)
         {
             $this->mock_inserts[] = ['table' => $table, 'data' => $data];
-            return true;
+            $this->insert_id++; // Increment for next insert
+            return 1; // Return number of rows inserted (WordPress behavior)
         }
 
         public function update($table, $data, $where, $format = null, $where_format = null)
@@ -208,6 +209,13 @@ if (!function_exists('current_time')) {
     function current_time($type)
     {
         return date('Y-m-d H:i:s');
+    }
+}
+
+if (!function_exists('wp_unslash')) {
+    function wp_unslash($value)
+    {
+        return is_string($value) ? stripslashes($value) : $value;
     }
 }
 

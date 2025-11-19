@@ -340,7 +340,7 @@ class CacheManager
             )
         );
 
-        if ($result) {
+        if ($result && isset($result->cache_value)) {
             return $result->cache_value;
         }
 
