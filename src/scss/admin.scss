@@ -1218,3 +1218,294 @@ body.modal-open {
         }
     }
 }
+
+// Settings Page
+.formflow-settings {
+    // Tab navigation with icons
+    .nav-tab-wrapper {
+        margin-bottom: $spacing;
+
+        .nav-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 10px 15px;
+
+            .dashicons {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+            }
+
+            &.nav-tab-active {
+                .dashicons {
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+
+    // Tab content
+    .tab-content {
+        margin-top: $spacing;
+    }
+
+    // Settings sections
+    .settings-section {
+        background: #fff;
+        padding: $spacing;
+        margin-bottom: $spacing;
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: $spacing;
+            font-size: 20px;
+            border-bottom: 2px solid $primary-color;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: $spacing;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+    }
+
+    // Form table enhancements
+    .form-table {
+        th {
+            width: 200px;
+            font-weight: 600;
+            padding: 20px 10px 20px 0;
+        }
+
+        td {
+            padding: 20px 10px;
+        }
+
+        .description {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .required {
+            color: $error-color;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select {
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: 0 0 0 1px $primary-color;
+            }
+
+            &.invalid {
+                border-color: $error-color;
+            }
+        }
+
+        fieldset {
+            label {
+                display: block;
+                margin-bottom: 10px;
+
+                input[type="checkbox"] {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+
+    // API test section
+    .api-test-section {
+        margin-top: $spacing * 1.5;
+        padding-top: $spacing;
+        border-top: 1px solid #e5e5e5;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        #api-test-result {
+            margin-top: 15px;
+
+            .notice {
+                padding: 10px 15px;
+            }
+        }
+    }
+
+    // Copy webhook URL button
+    .copy-webhook-url {
+        vertical-align: middle;
+        margin-left: 10px;
+        padding: 4px 12px;
+        height: auto;
+        line-height: 1.4;
+
+        .dashicons {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+        }
+
+        &.button-success {
+            background: $success-color;
+            border-color: darken($success-color, 5%);
+            color: #fff;
+        }
+    }
+
+    // System info table
+    .system-info-table {
+        background: #fff;
+
+        th {
+            width: 300px;
+            font-weight: 600;
+            padding: 12px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e5e5;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+    }
+
+    // Database tables
+    .widefat {
+        thead th {
+            background: #f9f9f9;
+            font-weight: 600;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    }
+
+    // Submit button
+    .submit {
+        margin-top: $spacing;
+        padding-top: $spacing;
+        border-top: 1px solid #e5e5e5;
+
+        .button-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            height: auto;
+
+            .dashicons {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    // Inline notices
+    .notice.inline {
+        margin: 0;
+
+        strong {
+            font-weight: 600;
+        }
+    }
+
+    // Error messages
+    .error-message {
+        display: inline-block;
+        margin-left: 5px;
+        font-weight: 600;
+    }
+
+    // Cache driver warning
+    .cache-driver-warning {
+        animation: fadeIn 0.3s;
+    }
+}
+
+// Settings Responsive
+@media (max-width: 782px) {
+    .formflow-settings {
+        .nav-tab-wrapper {
+            .nav-tab {
+                display: block;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+
+        .form-table {
+            th,
+            td {
+                display: block;
+                width: 100%;
+                padding: 10px 0;
+            }
+
+            th {
+                padding-bottom: 5px;
+            }
+
+            td {
+                padding-top: 5px;
+                padding-bottom: 20px;
+            }
+        }
+
+        .system-info-table {
+            th,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            th {
+                background: #f5f5f5;
+                border-bottom: none;
+                padding-bottom: 5px;
+            }
+
+            td {
+                padding-top: 5px;
+                padding-bottom: 15px;
+            }
+        }
+
+        .copy-webhook-url {
+            display: block;
+            margin-left: 0;
+            margin-top: 10px;
+            width: 100%;
+        }
+    }
+}
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
