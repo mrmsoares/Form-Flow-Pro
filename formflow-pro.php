@@ -117,3 +117,15 @@ function formflow_init_elementor_integration() {
 }
 
 add_action('plugins_loaded', 'formflow_init_elementor_integration');
+
+/**
+ * Initialize AJAX Handlers
+ *
+ * @since 2.0.0
+ */
+function formflow_init_ajax_handlers() {
+    require_once FORMFLOW_PATH . 'includes/ajax/class-ajax-handler.php';
+    FormFlowPro\Ajax\Ajax_Handler::init();
+}
+
+add_action('admin_init', 'formflow_init_ajax_handlers');
