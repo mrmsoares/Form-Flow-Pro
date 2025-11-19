@@ -357,7 +357,36 @@ key2=value2', 'formflow-pro'),
      */
     private function process_signature(int $submission_id, array $fields): void
     {
-        // This would integrate with your Autentique service
-        do_action('formflow_process_signature', $submission_id, $fields);
+        try {
+            // Initialize Autentique service
+            require_once FORMFLOW_PATH . 'includes/autentique/class-autentique-service.php';
+            $autentique = new \FormFlowPro\Autentique\Autentique_Service();
+
+            // Create document directly (synchronous)
+            $signature_url = $autentique->create_document($submission_id, $fields);
+
+            if ($signature_url) {
+                // Queue background job for status checking
+                require_once FORMFLOW_PATH . 'includes/queue/class-queue-manager.php';
+                $queue = \FormFlowPro\Queue\Queue_Manager::get_instance();
+                $queue->add_job('check_signature_status', [
+                    'submission_id' => $submission_id,
+                ], 5);
+
+                // Fire success action
+                do_action('formflow_signature_created', $submission_id, $signature_url, $fields);
+            }
+        } catch (\Exception $e) {
+            // Log error
+            require_once FORMFLOW_PATH . 'includes/logs/class-log-manager.php';
+            $log = \FormFlowPro\Logs\Log_Manager::get_instance();
+            $log->error('Signature processing failed', [
+                'submission_id' => $submission_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            // Fire error action
+            do_action('formflow_signature_error', $submission_id, $e->getMessage());
+        }
     }
 }

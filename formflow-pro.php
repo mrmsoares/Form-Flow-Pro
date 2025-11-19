@@ -131,6 +131,18 @@ function formflow_init_ajax_handlers() {
 add_action('admin_init', 'formflow_init_ajax_handlers');
 
 /**
+ * Initialize Cron Schedules
+ *
+ * @since 2.0.0
+ */
+function formflow_init_cron_schedules() {
+    require_once FORMFLOW_PATH . 'includes/class-cron-schedules.php';
+    FormFlowPro\Cron_Schedules::init();
+}
+
+add_action('init', 'formflow_init_cron_schedules', 1); // Priority 1 to run early
+
+/**
  * Initialize Services (Queue, PDF, Email, Cache)
  *
  * @since 2.0.0

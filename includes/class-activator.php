@@ -120,12 +120,27 @@ class Activator
     private static function set_default_options()
     {
         $defaults = [
+            // Cache settings
             'formflow_cache_enabled' => true,
             'formflow_cache_ttl' => 3600,
+
+            // Debug and performance
             'formflow_debug_mode' => false,
             'formflow_performance_mode' => 'balanced', // balanced, speed, memory
+
+            // Queue settings
             'formflow_queue_enabled' => true,
             'formflow_queue_batch_size' => 10,
+            'formflow_queue_max_attempts' => 3,
+
+            // Logs and archive
+            'formflow_log_retention_days' => 30,
+            'formflow_archive_after_days' => 90,
+            'formflow_auto_archive_enabled' => false,
+
+            // Autentique integration
+            'autentique_api_key' => '',
+            'formflow_company_email' => get_option('admin_email'),
         ];
 
         foreach ($defaults as $option => $value) {
@@ -142,6 +157,10 @@ class Activator
      */
     private static function schedule_events()
     {
+        // Register custom cron intervals FIRST
+        require_once FORMFLOW_PATH . 'includes/class-cron-schedules.php';
+        Cron_Schedules::init();
+
         // Process queue every 5 minutes
         if (!wp_next_scheduled('formflow_process_queue')) {
             wp_schedule_event(time(), 'five_minutes', 'formflow_process_queue');

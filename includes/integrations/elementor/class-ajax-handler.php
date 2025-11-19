@@ -319,10 +319,40 @@ class Ajax_Handler
      */
     private static function create_signature_document(int $submission_id, object $form, array $form_data): ?string
     {
-        // This would integrate with your Autentique service
-        // For now, return null
-        // TODO: Implement Autentique integration
+        try {
+            // Initialize Autentique service
+            require_once FORMFLOW_PATH . 'includes/autentique/class-autentique-service.php';
+            $autentique = new \FormFlowPro\Autentique\Autentique_Service();
 
-        return apply_filters('formflow_signature_url', null, $submission_id, $form, $form_data);
+            // Create document and get signature URL
+            $signature_url = $autentique->create_document($submission_id, $form_data);
+
+            // Queue job for status checking
+            require_once FORMFLOW_PATH . 'includes/queue/class-queue-manager.php';
+            $queue = \FormFlowPro\Queue\Queue_Manager::get_instance();
+            $queue->add_job('check_signature_status', [
+                'submission_id' => $submission_id,
+            ], 5);
+
+            // Log success
+            if ($signature_url) {
+                error_log("FormFlow: Signature document created for submission #{$submission_id}");
+            }
+
+            return apply_filters('formflow_signature_url', $signature_url, $submission_id, $form, $form_data);
+        } catch (\Exception $e) {
+            // Log error
+            error_log('FormFlow Autentique Error: ' . $e->getMessage());
+
+            // Log to database
+            require_once FORMFLOW_PATH . 'includes/logs/class-log-manager.php';
+            $log = \FormFlowPro\Logs\Log_Manager::get_instance();
+            $log->error('Failed to create Autentique document', [
+                'submission_id' => $submission_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 }

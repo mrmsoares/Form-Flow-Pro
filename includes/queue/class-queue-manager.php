@@ -24,14 +24,7 @@ class Queue_Manager
     private function __construct()
     {
         add_action('formflow_process_queue', [$this, 'process_queue']);
-        add_action('init', [$this, 'schedule_cron']);
-    }
-
-    public function schedule_cron(): void
-    {
-        if (!wp_next_scheduled('formflow_process_queue')) {
-            wp_schedule_event(time(), 'hourly', 'formflow_process_queue');
-        }
+        // Note: Cron scheduling is handled in Activator class
     }
 
     public function add_job(string $type, array $data, int $priority = 10): int

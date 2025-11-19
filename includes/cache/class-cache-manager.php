@@ -27,6 +27,9 @@ class Cache_Manager
     {
         $this->ttl = (int) get_option('formflow_cache_ttl', 3600);
         $this->init_driver();
+
+        // Register cache cleanup cron hook
+        add_action('formflow_cleanup_cache', [$this, 'cleanup_expired_cache']);
     }
 
     private function init_driver(): void
@@ -99,6 +102,20 @@ class Cache_Manager
         $this->set($key, $value, $ttl);
 
         return $value;
+    }
+
+    /**
+     * Cleanup expired cache entries (called by cron)
+     */
+    public function cleanup_expired_cache(): void
+    {
+        // For database driver, WordPress handles expired transients automatically
+        // For file driver, we need to clean up expired files
+        if ($this->driver instanceof File_Driver) {
+            $this->driver->cleanup_expired();
+        }
+
+        // For other drivers (Redis, Memcached, APCu), expiration is automatic
     }
 
     private function prefix_key(string $key): string
@@ -200,6 +217,29 @@ class File_Driver
     private function get_file_path(string $key): string
     {
         return $this->cache_dir . '/' . md5($key) . '.cache';
+    }
+
+    /**
+     * Cleanup expired cache files
+     */
+    public function cleanup_expired(): void
+    {
+        $files = glob($this->cache_dir . '/*.cache');
+        foreach ($files as $file) {
+            if (!file_exists($file)) {
+                continue;
+            }
+
+            $data = @unserialize(file_get_contents($file));
+            if (!is_array($data) || !isset($data['expires'])) {
+                continue;
+            }
+
+            // Delete if expired
+            if ($data['expires'] < time()) {
+                unlink($file);
+            }
+        }
     }
 }
 
