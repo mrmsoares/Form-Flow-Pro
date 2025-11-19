@@ -39,5 +39,22 @@ class DatabaseManager
         ) $charset_collate;";
 
         dbDelta($sql);
+
+        // Logs table
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}formflow_logs (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            type varchar(50) NOT NULL,
+            message text NOT NULL,
+            context longtext,
+            user_id bigint(20) unsigned,
+            ip_address varchar(100),
+            created_at datetime NOT NULL,
+            PRIMARY KEY  (id),
+            KEY type (type),
+            KEY user_id (user_id),
+            KEY created_at (created_at)
+        ) $charset_collate;";
+
+        dbDelta($sql);
     }
 }

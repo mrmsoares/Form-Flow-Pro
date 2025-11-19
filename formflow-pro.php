@@ -141,3 +141,42 @@ function formflow_init_services() {
 }
 
 add_action('init', 'formflow_init_services');
+
+/**
+ * Initialize Autentique Integration
+ *
+ * @since 2.0.0
+ */
+function formflow_init_autentique() {
+    require_once FORMFLOW_PATH . 'includes/autentique/class-autentique-service.php';
+    require_once FORMFLOW_PATH . 'includes/autentique/class-webhook-handler.php';
+    new FormFlowPro\Autentique\Webhook_Handler();
+}
+
+add_action('init', 'formflow_init_autentique');
+
+/**
+ * Initialize Shortcodes
+ *
+ * @since 2.0.0
+ */
+function formflow_init_shortcodes() {
+    require_once FORMFLOW_PATH . 'includes/shortcodes/class-form-shortcode.php';
+    new FormFlowPro\Shortcodes\Form_Shortcode();
+}
+
+add_action('init', 'formflow_init_shortcodes');
+
+/**
+ * Initialize Logs & Archive
+ *
+ * @since 2.0.0
+ */
+function formflow_init_logs_archive() {
+    require_once FORMFLOW_PATH . 'includes/logs/class-log-manager.php';
+    require_once FORMFLOW_PATH . 'includes/class-archive-manager.php';
+    FormFlowPro\Logs\Log_Manager::get_instance();
+    FormFlowPro\Archive_Manager::get_instance();
+}
+
+add_action('init', 'formflow_init_logs_archive');
