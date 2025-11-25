@@ -143,6 +143,10 @@ $settings = [
             <span class="dashicons dashicons-info"></span>
             <?php esc_html_e('System Info', 'formflow-pro'); ?>
         </a>
+        <a href="?page=formflow-settings&tab=whitelabel" class="nav-tab <?php echo $active_tab === 'whitelabel' ? 'nav-tab-active' : ''; ?>">
+            <span class="dashicons dashicons-art"></span>
+            <?php esc_html_e('White Label', 'formflow-pro'); ?>
+        </a>
     </nav>
 
     <form method="post" action="" class="settings-form">
@@ -825,8 +829,427 @@ $settings = [
             </div>
         <?php endif; ?>
 
-        <!-- Submit Button (except for system info tab) -->
-        <?php if ($active_tab !== 'system') : ?>
+        <!-- White Label Tab (V2.2.0) -->
+        <?php if ($active_tab === 'whitelabel') : ?>
+            <?php
+            require_once FORMFLOW_PATH . 'includes/Core/WhiteLabel.php';
+            $whitelabel = \FormFlowPro\Core\WhiteLabel::get_instance();
+            $wl_settings = $whitelabel->get_all();
+            ?>
+            <div class="tab-content whitelabel-settings">
+                <div class="settings-section card">
+                    <h2>
+                        <span class="dashicons dashicons-art"></span>
+                        <?php esc_html_e('White Label Settings', 'formflow-pro'); ?>
+                        <span class="badge badge-pro">Enterprise</span>
+                    </h2>
+                    <p class="description">
+                        <?php esc_html_e('Customize the plugin branding for your agency or client projects.', 'formflow-pro'); ?>
+                    </p>
+
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <?php esc_html_e('Enable White Label', 'formflow-pro'); ?>
+                            </th>
+                            <td>
+                                <label class="toggle-switch">
+                                    <input type="checkbox"
+                                           name="wl_enabled"
+                                           id="wl_enabled"
+                                           value="1"
+                                           <?php checked($wl_settings['enabled'], true); ?>>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <p class="description"><?php esc_html_e('Enable white label mode to customize plugin branding', 'formflow-pro'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="settings-section card whitelabel-options" <?php echo !$wl_settings['enabled'] ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
+                    <h3><?php esc_html_e('Branding', 'formflow-pro'); ?></h3>
+
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_plugin_name"><?php esc_html_e('Plugin Name', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text"
+                                       id="wl_plugin_name"
+                                       name="wl_plugin_name"
+                                       value="<?php echo esc_attr($wl_settings['plugin_name']); ?>"
+                                       class="regular-text">
+                                <p class="description"><?php esc_html_e('Custom plugin name shown in admin', 'formflow-pro'); ?></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_plugin_author"><?php esc_html_e('Author Name', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text"
+                                       id="wl_plugin_author"
+                                       name="wl_plugin_author"
+                                       value="<?php echo esc_attr($wl_settings['plugin_author']); ?>"
+                                       class="regular-text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_plugin_author_url"><?php esc_html_e('Author URL', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="url"
+                                       id="wl_plugin_author_url"
+                                       name="wl_plugin_author_url"
+                                       value="<?php echo esc_attr($wl_settings['plugin_author_url']); ?>"
+                                       class="regular-text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_logo_url"><?php esc_html_e('Custom Logo URL', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="url"
+                                       id="wl_logo_url"
+                                       name="wl_logo_url"
+                                       value="<?php echo esc_attr($wl_settings['logo_url']); ?>"
+                                       class="regular-text">
+                                <button type="button" class="button" id="wl_upload_logo"><?php esc_html_e('Upload', 'formflow-pro'); ?></button>
+                                <p class="description"><?php esc_html_e('URL to your custom logo image', 'formflow-pro'); ?></p>
+                                <?php if (!empty($wl_settings['logo_url'])) : ?>
+                                <div class="logo-preview" style="margin-top: 10px;">
+                                    <img src="<?php echo esc_url($wl_settings['logo_url']); ?>" style="max-width: 150px; height: auto;">
+                                </div>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="settings-section card whitelabel-options" <?php echo !$wl_settings['enabled'] ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
+                    <h3><?php esc_html_e('Colors', 'formflow-pro'); ?></h3>
+
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_primary_color"><?php esc_html_e('Primary Color', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color"
+                                       id="wl_primary_color"
+                                       name="wl_primary_color"
+                                       value="<?php echo esc_attr($wl_settings['primary_color']); ?>">
+                                <input type="text"
+                                       id="wl_primary_color_text"
+                                       value="<?php echo esc_attr($wl_settings['primary_color']); ?>"
+                                       class="small-text"
+                                       pattern="^#([a-fA-F0-9]{3}){1,2}$">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_secondary_color"><?php esc_html_e('Secondary Color', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color"
+                                       id="wl_secondary_color"
+                                       name="wl_secondary_color"
+                                       value="<?php echo esc_attr($wl_settings['secondary_color']); ?>">
+                                <input type="text"
+                                       id="wl_secondary_color_text"
+                                       value="<?php echo esc_attr($wl_settings['secondary_color']); ?>"
+                                       class="small-text"
+                                       pattern="^#([a-fA-F0-9]{3}){1,2}$">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="color-preview" style="margin-top: 20px; padding: 15px; border-radius: 6px; background: #f6f7f7;">
+                        <p><strong><?php esc_html_e('Preview:', 'formflow-pro'); ?></strong></p>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button type="button" class="button button-primary" id="preview-primary-btn"><?php esc_html_e('Primary Button', 'formflow-pro'); ?></button>
+                            <button type="button" class="button" id="preview-secondary-btn"><?php esc_html_e('Secondary Button', 'formflow-pro'); ?></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section card whitelabel-options" <?php echo !$wl_settings['enabled'] ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
+                    <h3><?php esc_html_e('Display Options', 'formflow-pro'); ?></h3>
+
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <?php esc_html_e('Hide Version', 'formflow-pro'); ?>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox"
+                                           name="wl_hide_version"
+                                           value="1"
+                                           <?php checked($wl_settings['hide_version'], true); ?>>
+                                    <?php esc_html_e('Hide version number in admin', 'formflow-pro'); ?>
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <?php esc_html_e('Hide Support Links', 'formflow-pro'); ?>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox"
+                                           name="wl_hide_support_links"
+                                           value="1"
+                                           <?php checked($wl_settings['hide_support_links'], true); ?>>
+                                    <?php esc_html_e('Hide support links on plugins page', 'formflow-pro'); ?>
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <?php esc_html_e('Remove Powered By', 'formflow-pro'); ?>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox"
+                                           name="wl_remove_powered_by"
+                                           value="1"
+                                           <?php checked($wl_settings['remove_powered_by'], true); ?>>
+                                    <?php esc_html_e('Remove "Powered by FormFlow Pro" text', 'formflow-pro'); ?>
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_custom_footer_text"><?php esc_html_e('Custom Footer Text', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text"
+                                       id="wl_custom_footer_text"
+                                       name="wl_custom_footer_text"
+                                       value="<?php echo esc_attr($wl_settings['custom_footer_text']); ?>"
+                                       class="large-text">
+                                <p class="description"><?php esc_html_e('Custom text for admin footer (on plugin pages)', 'formflow-pro'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="settings-section card whitelabel-options" <?php echo !$wl_settings['enabled'] ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
+                    <h3><?php esc_html_e('Custom URLs', 'formflow-pro'); ?></h3>
+
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_custom_support_url"><?php esc_html_e('Custom Support URL', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="url"
+                                       id="wl_custom_support_url"
+                                       name="wl_custom_support_url"
+                                       value="<?php echo esc_attr($wl_settings['custom_support_url']); ?>"
+                                       class="regular-text"
+                                       placeholder="https://your-site.com/support">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="wl_custom_docs_url"><?php esc_html_e('Custom Documentation URL', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <input type="url"
+                                       id="wl_custom_docs_url"
+                                       name="wl_custom_docs_url"
+                                       value="<?php echo esc_attr($wl_settings['custom_docs_url']); ?>"
+                                       class="regular-text"
+                                       placeholder="https://your-site.com/docs">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <p class="submit">
+                    <button type="button" id="save-whitelabel" class="button button-primary button-large">
+                        <span class="dashicons dashicons-saved"></span>
+                        <?php esc_html_e('Save White Label Settings', 'formflow-pro'); ?>
+                    </button>
+                    <button type="button" id="reset-whitelabel" class="button">
+                        <?php esc_html_e('Reset to Defaults', 'formflow-pro'); ?>
+                    </button>
+                </p>
+            </div>
+
+            <style>
+            .whitelabel-settings .badge-pro {
+                background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                color: #fff;
+                font-size: 10px;
+                padding: 2px 8px;
+                border-radius: 3px;
+                margin-left: 10px;
+                vertical-align: middle;
+            }
+            .toggle-switch {
+                position: relative;
+                display: inline-block;
+                width: 50px;
+                height: 26px;
+            }
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .toggle-slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .3s;
+                border-radius: 26px;
+            }
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 20px;
+                width: 20px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: .3s;
+                border-radius: 50%;
+            }
+            .toggle-switch input:checked + .toggle-slider {
+                background-color: #0073aa;
+            }
+            .toggle-switch input:checked + .toggle-slider:before {
+                transform: translateX(24px);
+            }
+            </style>
+
+            <script>
+            jQuery(document).ready(function($) {
+                // Toggle white label options
+                $('#wl_enabled').on('change', function() {
+                    if ($(this).is(':checked')) {
+                        $('.whitelabel-options').css({'opacity': 1, 'pointer-events': 'auto'});
+                    } else {
+                        $('.whitelabel-options').css({'opacity': 0.5, 'pointer-events': 'none'});
+                    }
+                });
+
+                // Sync color inputs
+                $('#wl_primary_color').on('change', function() {
+                    $('#wl_primary_color_text').val($(this).val());
+                    updatePreview();
+                });
+                $('#wl_primary_color_text').on('change', function() {
+                    $('#wl_primary_color').val($(this).val());
+                    updatePreview();
+                });
+                $('#wl_secondary_color').on('change', function() {
+                    $('#wl_secondary_color_text').val($(this).val());
+                    updatePreview();
+                });
+                $('#wl_secondary_color_text').on('change', function() {
+                    $('#wl_secondary_color').val($(this).val());
+                    updatePreview();
+                });
+
+                function updatePreview() {
+                    var primary = $('#wl_primary_color').val();
+                    var secondary = $('#wl_secondary_color').val();
+                    $('#preview-primary-btn').css({
+                        'background': primary,
+                        'border-color': primary
+                    });
+                }
+
+                // Save white label settings
+                $('#save-whitelabel').on('click', function() {
+                    var $btn = $(this);
+                    $btn.prop('disabled', true).text('<?php esc_html_e('Saving...', 'formflow-pro'); ?>');
+
+                    $.ajax({
+                        url: formflowData.ajax_url,
+                        type: 'POST',
+                        data: {
+                            action: 'formflow_save_whitelabel_settings',
+                            nonce: formflowData.nonce,
+                            enabled: $('#wl_enabled').is(':checked') ? '1' : '0',
+                            plugin_name: $('#wl_plugin_name').val(),
+                            plugin_author: $('#wl_plugin_author').val(),
+                            plugin_author_url: $('#wl_plugin_author_url').val(),
+                            logo_url: $('#wl_logo_url').val(),
+                            primary_color: $('#wl_primary_color').val(),
+                            secondary_color: $('#wl_secondary_color').val(),
+                            hide_version: $('input[name="wl_hide_version"]').is(':checked') ? '1' : '0',
+                            hide_support_links: $('input[name="wl_hide_support_links"]').is(':checked') ? '1' : '0',
+                            remove_powered_by: $('input[name="wl_remove_powered_by"]').is(':checked') ? '1' : '0',
+                            custom_footer_text: $('#wl_custom_footer_text').val(),
+                            custom_support_url: $('#wl_custom_support_url').val(),
+                            custom_docs_url: $('#wl_custom_docs_url').val()
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert('<?php esc_html_e('Settings saved!', 'formflow-pro'); ?>');
+                                location.reload();
+                            } else {
+                                alert(response.data?.message || '<?php esc_html_e('Error saving settings', 'formflow-pro'); ?>');
+                            }
+                        },
+                        error: function() {
+                            alert('<?php esc_html_e('Error saving settings', 'formflow-pro'); ?>');
+                        },
+                        complete: function() {
+                            $btn.prop('disabled', false).html('<span class="dashicons dashicons-saved"></span> <?php esc_html_e('Save White Label Settings', 'formflow-pro'); ?>');
+                        }
+                    });
+                });
+
+                // Reset to defaults
+                $('#reset-whitelabel').on('click', function() {
+                    if (!confirm('<?php esc_html_e('Are you sure you want to reset all white label settings to defaults?', 'formflow-pro'); ?>')) {
+                        return;
+                    }
+
+                    $.ajax({
+                        url: formflowData.ajax_url,
+                        type: 'POST',
+                        data: {
+                            action: 'formflow_reset_whitelabel_settings',
+                            nonce: formflowData.nonce
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                location.reload();
+                            }
+                        }
+                    });
+                });
+
+                updatePreview();
+            });
+            </script>
+        <?php endif; ?>
+
+        <!-- Submit Button (except for system info and whitelabel tabs) -->
+        <?php if ($active_tab !== 'system' && $active_tab !== 'whitelabel') : ?>
             <p class="submit">
                 <button type="submit" name="formflow_settings_submit" class="button button-primary button-large">
                     <span class="dashicons dashicons-saved"></span>

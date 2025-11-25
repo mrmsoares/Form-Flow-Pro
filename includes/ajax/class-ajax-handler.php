@@ -40,6 +40,7 @@ class Ajax_Handler
         Settings_Ajax::init();
         Dashboard_Ajax::init();
         Config_Ajax::init(); // V2.2.0
+        WhiteLabel_Ajax::init(); // V2.2.0
     }
 
     /**
@@ -55,5 +56,6 @@ class Ajax_Handler
         require_once FORMFLOW_PATH . 'includes/ajax/class-settings-ajax.php';
         require_once FORMFLOW_PATH . 'includes/ajax/class-dashboard-ajax.php';
         require_once FORMFLOW_PATH . 'includes/ajax/class-config-ajax.php'; // V2.2.0
+        require_once FORMFLOW_PATH . 'includes/ajax/class-whitelabel-ajax.php'; // V2.2.0
     }
 }
