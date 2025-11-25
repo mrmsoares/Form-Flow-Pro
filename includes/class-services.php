@@ -203,3 +203,168 @@ add_action('formflow_process_send_notification', function ($data, $job_id) {
         error_log('FormFlow Email Notification Error: ' . $e->getMessage());
     }
 }, 10, 2);
+
+/**
+ * Process check_signature_status queue job
+ *
+ * Checks the current status of an Autentique document and updates
+ * the submission accordingly.
+ *
+ * @since 2.0.0
+ */
+add_action('formflow_process_check_signature_status', function ($data, $job_id) {
+    try {
+        $submission_id = $data['submission_id'] ?? null;
+        if (!$submission_id) {
+            error_log('FormFlow: check_signature_status - Missing submission_id');
+            return;
+        }
+
+        global $wpdb;
+
+        // Get submission to find document_id
+        $submission = $wpdb->get_row($wpdb->prepare(
+            "SELECT id, signature_document_id, signature_status FROM {$wpdb->prefix}formflow_submissions WHERE id = %d",
+            $submission_id
+        ));
+
+        if (!$submission) {
+            error_log("FormFlow: Submission #{$submission_id} not found");
+            return;
+        }
+
+        // If no document ID yet, try to get from autentique_documents table
+        $document_id = $submission->signature_document_id;
+        if (!$document_id) {
+            $doc = $wpdb->get_row($wpdb->prepare(
+                "SELECT document_id FROM {$wpdb->prefix}formflow_autentique_documents WHERE submission_id = %d ORDER BY created_at DESC LIMIT 1",
+                $submission_id
+            ));
+            $document_id = $doc->document_id ?? null;
+        }
+
+        if (!$document_id) {
+            error_log("FormFlow: No document_id found for submission #{$submission_id}");
+            return;
+        }
+
+        // Initialize Autentique service
+        require_once FORMFLOW_PATH . 'includes/autentique/class-autentique-service.php';
+        $autentique = new \FormFlowPro\Autentique\Autentique_Service();
+
+        // Get current document status from Autentique API
+        $document_status = $autentique->get_document_status($document_id);
+
+        if (empty($document_status)) {
+            error_log("FormFlow: Could not get status for document {$document_id}");
+            return;
+        }
+
+        // Check signature status
+        $all_signed = true;
+        $any_refused = false;
+        $signed_at = null;
+
+        if (!empty($document_status['signatures'])) {
+            foreach ($document_status['signatures'] as $signature) {
+                // Check if refused
+                if (!empty($signature['refused'])) {
+                    $any_refused = true;
+                    break;
+                }
+
+                // Check if not signed yet
+                if (empty($signature['signed'])) {
+                    $all_signed = false;
+                } else {
+                    // Use the latest signature timestamp
+                    $signature_time = $signature['signed']['created_at'] ?? null;
+                    if ($signature_time && (!$signed_at || $signature_time > $signed_at)) {
+                        $signed_at = $signature_time;
+                    }
+                }
+            }
+        }
+
+        // Determine new status
+        $new_status = 'pending';
+        if ($any_refused) {
+            $new_status = 'refused';
+        } elseif ($all_signed) {
+            $new_status = 'signed';
+        }
+
+        // Update submission if status changed
+        if ($new_status !== $submission->signature_status) {
+            $update_data = [
+                'signature_status' => $new_status,
+                'updated_at' => current_time('mysql'),
+            ];
+
+            if ($signed_at) {
+                $update_data['signed_at'] = $signed_at;
+            }
+
+            $wpdb->update(
+                $wpdb->prefix . 'formflow_submissions',
+                $update_data,
+                ['id' => $submission_id],
+                ['%s', '%s', '%s'],
+                ['%d']
+            );
+
+            // Also update the autentique_documents table
+            $wpdb->update(
+                $wpdb->prefix . 'formflow_autentique_documents',
+                [
+                    'status' => $new_status,
+                    'signed_at' => $signed_at,
+                    'updated_at' => current_time('mysql'),
+                ],
+                ['document_id' => $document_id],
+                ['%s', '%s', '%s'],
+                ['%s']
+            );
+
+            // Fire action for status change
+            do_action('formflow_signature_status_changed', $submission_id, $new_status, $document_id);
+
+            // Log the status change
+            require_once FORMFLOW_PATH . 'includes/logs/class-log-manager.php';
+            $log = \FormFlowPro\Logs\Log_Manager::get_instance();
+            $log->info('Signature status updated', [
+                'submission_id' => $submission_id,
+                'document_id' => $document_id,
+                'old_status' => $submission->signature_status,
+                'new_status' => $new_status,
+            ]);
+
+            error_log("FormFlow: Signature status updated for submission #{$submission_id}: {$new_status}");
+        }
+
+        // If still pending, re-queue for later check (max 24 hours)
+        if ($new_status === 'pending') {
+            $check_count = ($data['check_count'] ?? 0) + 1;
+
+            // Check up to 288 times (24 hours at 5-minute intervals)
+            if ($check_count < 288) {
+                $queue = \FormFlowPro\Queue\Queue_Manager::get_instance();
+                $queue->add_job('check_signature_status', [
+                    'submission_id' => $submission_id,
+                    'check_count' => $check_count,
+                ], 5);
+            } else {
+                error_log("FormFlow: Max signature checks reached for submission #{$submission_id}");
+            }
+        }
+    } catch (\Exception $e) {
+        error_log('FormFlow Signature Status Check Error: ' . $e->getMessage());
+
+        require_once FORMFLOW_PATH . 'includes/logs/class-log-manager.php';
+        $log = \FormFlowPro\Logs\Log_Manager::get_instance();
+        $log->error('Signature status check failed', [
+            'submission_id' => $data['submission_id'] ?? null,
+            'error' => $e->getMessage(),
+        ]);
+    }
+}, 10, 2);
