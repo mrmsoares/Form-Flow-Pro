@@ -265,6 +265,16 @@ class Admin
             'formflow-settings',
             [$this, 'display_settings_page']
         );
+
+        // Tools (V2.2.0)
+        add_submenu_page(
+            'formflow-pro',
+            __('Tools', 'formflow-pro'),
+            __('Tools', 'formflow-pro'),
+            'manage_options',
+            'formflow-tools',
+            [$this, 'display_tools_page']
+        );
     }
 
     /**
@@ -325,6 +335,16 @@ class Admin
     public function display_settings_page()
     {
         include_once FORMFLOW_PATH . 'includes/admin/views/settings.php';
+    }
+
+    /**
+     * Render the tools page.
+     *
+     * @since 2.2.0
+     */
+    public function display_tools_page()
+    {
+        include_once FORMFLOW_PATH . 'includes/admin/views/tools.php';
     }
 
     /**

@@ -39,6 +39,7 @@ class Ajax_Handler
         Analytics_Ajax::init();
         Settings_Ajax::init();
         Dashboard_Ajax::init();
+        Config_Ajax::init(); // V2.2.0
     }
 
     /**
@@ -53,5 +54,6 @@ class Ajax_Handler
         require_once FORMFLOW_PATH . 'includes/ajax/class-analytics-ajax.php';
         require_once FORMFLOW_PATH . 'includes/ajax/class-settings-ajax.php';
         require_once FORMFLOW_PATH . 'includes/ajax/class-dashboard-ajax.php';
+        require_once FORMFLOW_PATH . 'includes/ajax/class-config-ajax.php'; // V2.2.0
     }
 }
