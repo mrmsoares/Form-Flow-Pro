@@ -2,13 +2,13 @@
 
 **Version:** 2.0.0
 **Requires at least:** WordPress 6.0
-**Requires PHP:** 8.0+
+**Requires PHP:** 8.1+
 **License:** GPL-2.0+
-**Status:** 🚀 **Production Ready (90%)**
+**Status:** 🚀 **Production Ready (95%)**
 
-![Tests](https://img.shields.io/badge/tests-26%20passed-success)
-![Coverage](https://img.shields.io/badge/coverage-100%25-success)
-![PHP](https://img.shields.io/badge/PHP-8.0%20%7C%208.1%20%7C%208.2%20%7C%208.3-blue)
+![Tests](https://img.shields.io/badge/tests-26%20passed%2C%2059%20assertions-success)
+![Coverage](https://img.shields.io/badge/coverage-enabled-success)
+![PHP](https://img.shields.io/badge/PHP-8.1%20%7C%208.2%20%7C%208.3-blue)
 ![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen)
 ![Autentique](https://img.shields.io/badge/Autentique-100%25%20compliant-green)
 ![i18n](https://img.shields.io/badge/i18n-pt__BR-blue)
@@ -83,8 +83,8 @@ FormFlow Pro Enterprise é um plugin WordPress de classe enterprise para process
 ## 🧪 Testing & Quality
 
 ### Automated Testing
-- ✅ **26 PHPUnit tests** - 100% passing, 52 assertions
-- ✅ **Multi-PHP CI** - Tests on PHP 8.0, 8.1, 8.2, 8.3
+- ✅ **26 PHPUnit tests** - 100% passing, 59 assertions
+- ✅ **Multi-PHP CI** - Tests on PHP 8.1, 8.2, 8.3
 - ✅ **PHPStan Level 5** - Static analysis passing
 - ✅ **Code Coverage** - Tracking enabled
 - ✅ **GitHub Actions** - Automated testing on every push
@@ -102,7 +102,7 @@ Ver documentação completa: [`tests/README.md`](tests/README.md)
 
 ### Requisitos
 - WordPress 6.0+
-- PHP 8.0+
+- PHP 8.1+ (8.1, 8.2, 8.3 suportados)
 - MySQL 5.7+ ou MariaDB 10.3+
 - Composer
 - Node.js 16+ & npm
@@ -334,7 +334,7 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 
 ## 📝 Roadmap
 
-### ✅ V2.0.0 (Current - PRODUCTION READY 90%)
+### ✅ V2.0.0 (Current - PRODUCTION READY 95%)
 **Phase 1-2: Fundação**
 - [x] Plugin skeleton & architecture
 - [x] Admin interface (6 páginas: Dashboard, Forms, Submissions, Analytics, Autentique, Settings)
@@ -342,8 +342,8 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 - [x] Migration v2.0.0 (11 tabelas otimizadas)
 - [x] Cache Manager (multi-tier)
 - [x] Form Processor (pipeline completo)
-- [x] PHPUnit test suite (26 tests, 100% passing)
-- [x] CI/CD pipeline (GitHub Actions)
+- [x] PHPUnit test suite (26 tests, 59 assertions - 100% passing)
+- [x] CI/CD pipeline (GitHub Actions - PHP 8.1, 8.2, 8.3)
 - [x] PHPStan level 5 static analysis
 
 **Phase 3-8: Core Features**
@@ -371,9 +371,14 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 - [x] Tradução pt_BR (400+ strings)
 - [x] README atualizado
 
-### 🚀 V2.1.0 (Future - 10% para 100%)
+**Phase 11: Polimento Final**
+- [x] Cache statistics (hit rate calculation) implementado
+- [x] PHP 8.0 dropped (requires 8.1+)
+- [x] CI/CD fixes para coverage
+- [x] Testes de hit rate funcionando
+
+### 🚀 V2.1.0 (Future - 5% para 100%)
 - [ ] Admin UI para configuração Autentique (Settings page)
-- [ ] Cache statistics implementation
 - [ ] Performance optimizations finais
 - [ ] Screenshots para README
 - [ ] Video demo/tutorial
