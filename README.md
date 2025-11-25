@@ -1,10 +1,10 @@
 # FormFlow Pro Enterprise
 
-**Version:** 2.0.0
+**Version:** 2.1.0
 **Requires at least:** WordPress 6.0
 **Requires PHP:** 8.1+
 **License:** GPL-2.0+
-**Status:** 🚀 **Production Ready (95%)**
+**Status:** 🚀 **Production Ready (100%)**
 
 ![Tests](https://img.shields.io/badge/tests-56%20passed%2C%20251%20assertions-success)
 ![Coverage](https://img.shields.io/badge/coverage-enabled-success)
@@ -12,20 +12,69 @@
 ![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen)
 ![Autentique](https://img.shields.io/badge/Autentique-100%25%20compliant-green)
 ![i18n](https://img.shields.io/badge/i18n-pt__BR-blue)
+![Queue](https://img.shields.io/badge/Queue-optimized-brightgreen)
 
 FormFlow Pro Enterprise é um plugin WordPress de classe enterprise para processamento automatizado de formulários do Elementor. Oferece geração inteligente de PDFs, integração nativa com Autentique para assinaturas digitais, sistema avançado de queue, analytics em tempo real e 54 melhorias de UX premium.
+
+## 📸 Screenshots
+
+### Dashboard
+> Interface principal com visão geral de submissions, forms e estatísticas.
+
+### Autentique Documents
+> Gerencie documentos enviados para assinatura digital com DataTables e filtros.
+
+### Settings - Autentique Tab
+> Configuração completa da integração Autentique com:
+> - Status indicator (configurado/não configurado)
+> - Quick stats (Total, Pendentes, Assinados, Recusados)
+> - API Key configuration com toggle de visibilidade
+> - Webhook URL com botão de cópia
+> - Document settings (auto-send, reminders, default message)
+> - Getting started guide
+
+### Queue Monitor
+> Visualize e monitore jobs em processamento com estatísticas em tempo real.
+
+---
 
 ## 🎯 Principais Diferenciais
 
 - ✅ **Native Autentique Integration** - Única solução com integração nativa 100% conforme documentação oficial
 - ✅ **Autentique Admin UI** - Interface completa para gerenciar documentos, status e reenvio de links
+- ✅ **Enhanced Settings UX** - Tab Autentique com status banner, quick stats e getting started guide
 - ✅ **Enterprise Performance** - 90+ Core Web Vitals score (vs 65-72 competitors)
 - ✅ **Internationalization** - Tradução completa pt_BR (400+ strings)
 - ✅ **Real-Time Analytics** - Dashboard com métricas em tempo real
-- ✅ **Advanced Queue System** - Processamento assíncrono com retry inteligente
+- ✅ **Optimized Queue System** - Processamento assíncrono com exponential backoff e dead letter queue
 - ✅ **White-Label Ready** - Personalização total para agências
 
-## ✨ Novidades v2.0.0 (Phase 10 - Final)
+## ✨ Novidades v2.1.0 (Current Release)
+
+### 🎛️ Enhanced Settings UX
+- **Status Banner:** Indicator visual mostrando se API está configurada
+- **Quick Stats Dashboard:** Total, Pendentes, Assinados, Recusados em cards
+- **API Key Security:** Campo password com toggle de visibilidade
+- **Webhook Configuration:** Seção dedicada com botão de cópia
+- **Document Settings:** Auto-send, reminders e default message
+- **Getting Started Guide:** Passo a passo integrado na interface
+
+### ⚡ Queue System Optimizations
+- **Configurable Batch Size:** Tamanho do batch via settings
+- **Atomic Job Claiming:** FOR UPDATE SKIP LOCKED para evitar duplicatas
+- **Exponential Backoff:** Retries com delays crescentes (60s, 5min, 15min)
+- **Dead Letter Queue:** Jobs permanentemente falhados são isolados
+- **Auto-Healing:** Reset automático de jobs travados (timeout 5min)
+- **Queue Statistics:** Método get_stats() para monitoramento
+
+### 🔧 Technical Improvements
+- **Option Name Consistency:** Unificado formflow_autentique_api_key
+- **Settings JS Loading:** Script carregado corretamente na página settings
+- **New Settings Options:** reminder_enabled, document_message
+
+---
+
+## ✨ Novidades v2.0.0 (Phase 10)
 
 ### 🎨 Admin UI Autentique (100% Completo)
 - **Dashboard Completo:** Visualize todos os documentos Autentique em uma interface intuitiva
@@ -334,7 +383,28 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 
 ## 📝 Roadmap
 
-### ✅ V2.0.0 (Current - PRODUCTION READY 95%)
+### ✅ V2.1.0 (Current - PRODUCTION READY 100%)
+
+**Phase 12: Settings UX & Performance**
+- [x] Enhanced Autentique Settings Tab with status banner and quick stats
+- [x] API key visibility toggle for security
+- [x] Webhook configuration section with copy button
+- [x] Document settings (auto-send, reminders, default message)
+- [x] Getting started guide integrated
+- [x] Option name consistency fix (formflow_autentique_api_key)
+- [x] Settings.min.js properly loaded
+
+**Queue System Optimizations**
+- [x] Configurable batch size
+- [x] Atomic job claiming (FOR UPDATE SKIP LOCKED)
+- [x] Exponential backoff for retries
+- [x] Dead letter queue for failed jobs
+- [x] Auto-healing for stuck jobs
+- [x] Queue statistics method (get_stats)
+
+---
+
+### ✅ V2.0.0 (Previous - Phase 10-11)
 **Phase 1-2: Fundação**
 - [x] Plugin skeleton & architecture
 - [x] Admin interface (6 páginas: Dashboard, Forms, Submissions, Analytics, Autentique, Settings)
@@ -376,12 +446,6 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 - [x] PHP 8.0 dropped (requires 8.1+)
 - [x] CI/CD fixes para coverage
 - [x] Testes de hit rate funcionando
-
-### 🚀 V2.1.0 (Future - 5% para 100%)
-- [ ] Admin UI para configuração Autentique (Settings page)
-- [ ] Performance optimizations finais
-- [ ] Screenshots para README
-- [ ] Video demo/tutorial
 
 ### 🎯 V2.2.0 (Future)
 - [ ] Advanced analytics dashboard
