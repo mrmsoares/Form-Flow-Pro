@@ -5,13 +5,16 @@ declare(strict_types=1);
 /**
  * Analytics AJAX Handlers
  *
- * Handles all AJAX requests for Analytics.
+ * Handles all AJAX requests for Analytics including advanced metrics.
  *
  * @package FormFlowPro\Ajax
  * @since 2.0.0
+ * @updated 2.2.0 Added advanced analytics and real-time stats
  */
 
 namespace FormFlowPro\Ajax;
+
+use FormFlowPro\Analytics\Analytics_Service;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
@@ -32,6 +35,176 @@ class Analytics_Ajax
     {
         add_action('wp_ajax_formflow_get_analytics_data', [__CLASS__, 'get_analytics_data']);
         add_action('wp_ajax_formflow_export_analytics', [__CLASS__, 'export_analytics']);
+        // V2.2.0 Advanced Analytics
+        add_action('wp_ajax_formflow_get_advanced_analytics', [__CLASS__, 'get_advanced_analytics']);
+        add_action('wp_ajax_formflow_export_analytics_csv', [__CLASS__, 'export_analytics_csv']);
+        add_action('wp_ajax_formflow_get_realtime_stats', [__CLASS__, 'get_realtime_stats']);
+        add_action('wp_ajax_formflow_compare_periods', [__CLASS__, 'compare_periods']);
+    }
+
+    /**
+     * Get advanced analytics using Analytics_Service (V2.2.0)
+     *
+     * @return void
+     */
+    public static function get_advanced_analytics(): void
+    {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'formflow_nonce')) {
+            wp_send_json_error(['message' => __('Security check failed.', 'formflow-pro')], 403);
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'formflow-pro')], 403);
+        }
+
+        $date_from = sanitize_text_field($_POST['date_from'] ?? date('Y-m-d', strtotime('-30 days')));
+        $date_to = sanitize_text_field($_POST['date_to'] ?? date('Y-m-d'));
+        $form_id = (int) ($_POST['form_id'] ?? 0);
+
+        require_once FORMFLOW_PATH . 'includes/analytics/class-analytics-service.php';
+        $analytics = Analytics_Service::get_instance();
+
+        $data = $analytics->get_dashboard_metrics($date_from, $date_to, $form_id);
+
+        wp_send_json_success($data);
+    }
+
+    /**
+     * Export advanced analytics to CSV (V2.2.0)
+     *
+     * @return void
+     */
+    public static function export_analytics_csv(): void
+    {
+        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'formflow_nonce')) {
+            wp_die(__('Security check failed.', 'formflow-pro'), 403);
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_die(__('Insufficient permissions.', 'formflow-pro'), 403);
+        }
+
+        $date_from = sanitize_text_field($_GET['date_from'] ?? date('Y-m-d', strtotime('-30 days')));
+        $date_to = sanitize_text_field($_GET['date_to'] ?? date('Y-m-d'));
+        $form_id = (int) ($_GET['form_id'] ?? 0);
+
+        require_once FORMFLOW_PATH . 'includes/analytics/class-analytics-service.php';
+        $analytics = Analytics_Service::get_instance();
+
+        $csv = $analytics->export_to_csv($date_from, $date_to, $form_id);
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="formflow-analytics-' . date('Y-m-d') . '.csv"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        // UTF-8 BOM
+        echo chr(0xEF) . chr(0xBB) . chr(0xBF);
+        echo $csv;
+        exit;
+    }
+
+    /**
+     * Get real-time statistics for live dashboard (V2.2.0)
+     *
+     * @return void
+     */
+    public static function get_realtime_stats(): void
+    {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'formflow_nonce')) {
+            wp_send_json_error(['message' => __('Security check failed.', 'formflow-pro')], 403);
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'formflow-pro')], 403);
+        }
+
+        global $wpdb;
+        $today = current_time('Y-m-d');
+        $table = $wpdb->prefix . 'formflow_submissions';
+        $queue_table = $wpdb->prefix . 'formflow_queue';
+
+        $stats = [
+            'submissions_today' => (int) $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM {$table} WHERE DATE(created_at) = %s",
+                $today
+            )),
+            'completed_today' => (int) $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM {$table} WHERE status = 'completed' AND DATE(created_at) = %s",
+                $today
+            )),
+            'pending_signatures' => (int) $wpdb->get_var(
+                "SELECT COUNT(*) FROM {$table} WHERE status = 'pending_signature'"
+            ),
+            'queue_pending' => (int) $wpdb->get_var(
+                "SELECT COUNT(*) FROM {$queue_table} WHERE status = 'pending'"
+            ),
+            'queue_processing' => (int) $wpdb->get_var(
+                "SELECT COUNT(*) FROM {$queue_table} WHERE status = 'processing'"
+            ),
+            'last_submission' => $wpdb->get_var(
+                "SELECT created_at FROM {$table} ORDER BY created_at DESC LIMIT 1"
+            ),
+            'server_time' => current_time('Y-m-d H:i:s'),
+        ];
+
+        wp_send_json_success($stats);
+    }
+
+    /**
+     * Compare two periods (V2.2.0)
+     *
+     * @return void
+     */
+    public static function compare_periods(): void
+    {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'formflow_nonce')) {
+            wp_send_json_error(['message' => __('Security check failed.', 'formflow-pro')], 403);
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'formflow-pro')], 403);
+        }
+
+        $current_from = sanitize_text_field($_POST['current_from'] ?? '');
+        $current_to = sanitize_text_field($_POST['current_to'] ?? '');
+        $previous_from = sanitize_text_field($_POST['previous_from'] ?? '');
+        $previous_to = sanitize_text_field($_POST['previous_to'] ?? '');
+        $form_id = (int) ($_POST['form_id'] ?? 0);
+
+        require_once FORMFLOW_PATH . 'includes/analytics/class-analytics-service.php';
+        $analytics = Analytics_Service::get_instance();
+
+        $current = $analytics->get_dashboard_metrics($current_from, $current_to, $form_id);
+        $previous = $analytics->get_dashboard_metrics($previous_from, $previous_to, $form_id);
+
+        // Calculate changes
+        $comparison = [
+            'current' => $current['overview'],
+            'previous' => $previous['overview'],
+            'changes' => [
+                'total' => self::calculate_change($previous['overview']['total'], $current['overview']['total']),
+                'completed' => self::calculate_change($previous['overview']['completed'], $current['overview']['completed']),
+                'conversion_rate' => $current['overview']['conversion_rate'] - $previous['overview']['conversion_rate'],
+            ],
+        ];
+
+        wp_send_json_success($comparison);
+    }
+
+    /**
+     * Calculate percentage change between two values.
+     *
+     * @param float $old Old value.
+     * @param float $new New value.
+     * @return float Percentage change.
+     */
+    private static function calculate_change(float $old, float $new): float
+    {
+        if ($old == 0) {
+            return $new > 0 ? 100 : 0;
+        }
+        return round((($new - $old) / $old) * 100, 2);
     }
 
     /**

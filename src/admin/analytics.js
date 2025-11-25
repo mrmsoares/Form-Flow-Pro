@@ -1,8 +1,12 @@
 /**
- * FormFlow Pro - Analytics Dashboard
+ * FormFlow Pro - Analytics Dashboard V2.2.0
+ *
+ * Advanced analytics with real-time stats, period comparison,
+ * and export capabilities.
  *
  * @package FormFlowPro
  * @since 2.0.0
+ * @updated 2.2.0 Added advanced analytics features
  */
 
 (function ($) {
@@ -13,41 +17,313 @@
      */
     const FormFlowAnalytics = {
         charts: {},
+        config: {},
+        realtimeInterval: null,
+        REALTIME_INTERVAL_MS: 30000, // 30 seconds
 
         /**
          * Initialize
          */
         init() {
             this.setupEventListeners();
-            console.log('FormFlow Analytics initialized');
+            console.log('FormFlow Analytics V2.2.0 initialized');
         },
 
         /**
          * Setup event listeners
          */
         setupEventListeners() {
-            // Export report
-            $('#export-analytics').on('click', (e) => {
+            // Export dropdown
+            $('#export-dropdown').on('click', (e) => {
                 e.preventDefault();
-                this.exportReport();
+                e.stopPropagation();
+                $('#export-menu').toggleClass('show');
+            });
+
+            // Export actions
+            $('[data-export]').on('click', (e) => {
+                e.preventDefault();
+                const format = $(e.currentTarget).data('export');
+                this.exportReport(format);
+                $('#export-menu').removeClass('show');
+            });
+
+            // Close dropdown on outside click
+            $(document).on('click', (e) => {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('#export-menu').removeClass('show');
+                }
+            });
+
+            // Refresh real-time stats
+            $('#refresh-realtime').on('click', () => {
+                this.loadRealtimeStats();
+            });
+
+            // Date preset buttons
+            $('.preset-btn').on('click', (e) => {
+                const days = $(e.currentTarget).data('days');
+                this.setDatePreset(days);
+            });
+
+            // Compare periods button
+            $('#compare-periods').on('click', () => {
+                this.comparePeriods();
             });
         },
 
         /**
-         * Initialize all charts
+         * Initialize all charts with config
          */
-        initCharts(data) {
-            // Submissions Trend Chart (Line)
-            this.createTrendChart(data.trend);
+        initCharts(data, config = {}) {
+            this.config = config;
 
-            // Status Distribution Chart (Doughnut)
-            this.createStatusChart(data.status);
+            if (config.viewMode === 'overview' || !config.viewMode) {
+                // Submissions Trend Chart (Line)
+                this.createTrendChart(data.trend);
 
-            // Hourly Distribution Chart (Bar)
-            this.createHourlyChart(data.hourly);
+                // Status Distribution Chart (Doughnut)
+                this.createStatusChart(data.status);
 
-            // Top Forms Chart (Horizontal Bar)
-            this.createTopFormsChart(data.forms);
+                // Hourly Distribution Chart (Bar)
+                this.createHourlyChart(data.hourly);
+
+                // Top Forms Chart (Horizontal Bar)
+                this.createTopFormsChart(data.forms);
+            } else if (config.viewMode === 'performance') {
+                this.createPerformanceChart(data);
+            } else if (config.viewMode === 'compare') {
+                this.createComparisonChart(data);
+            }
+        },
+
+        /**
+         * Initialize advanced features
+         */
+        initAdvancedFeatures(config) {
+            this.config = config;
+
+            // Start real-time stats polling
+            this.loadRealtimeStats();
+            this.startRealtimePolling();
+
+            // Load queue metrics if on performance view
+            if (config.viewMode === 'performance') {
+                this.loadQueueMetrics();
+                this.checkSystemHealth();
+            }
+        },
+
+        /**
+         * Start real-time stats polling
+         */
+        startRealtimePolling() {
+            if (this.realtimeInterval) {
+                clearInterval(this.realtimeInterval);
+            }
+
+            this.realtimeInterval = setInterval(() => {
+                this.loadRealtimeStats();
+            }, this.REALTIME_INTERVAL_MS);
+        },
+
+        /**
+         * Load real-time statistics
+         */
+        loadRealtimeStats() {
+            const $refreshBtn = $('#refresh-realtime');
+            $refreshBtn.find('.dashicons').addClass('spin');
+
+            $.ajax({
+                url: formflowData.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'formflow_get_realtime_stats',
+                    nonce: formflowData.nonce
+                },
+                success: (response) => {
+                    if (response.success) {
+                        this.updateRealtimeDisplay(response.data);
+                    }
+                },
+                complete: () => {
+                    $refreshBtn.find('.dashicons').removeClass('spin');
+                }
+            });
+        },
+
+        /**
+         * Update real-time display
+         */
+        updateRealtimeDisplay(stats) {
+            $('#rt-submissions-today').text(stats.submissions_today || 0);
+            $('#rt-completed-today').text(stats.completed_today || 0);
+            $('#rt-pending-signatures').text(stats.pending_signatures || 0);
+            $('#rt-queue-pending').text(stats.queue_pending || 0);
+
+            if (stats.last_submission) {
+                const lastTime = this.formatRelativeTime(stats.last_submission);
+                $('#rt-last-submission').text(lastTime);
+            } else {
+                $('#rt-last-submission').text('-');
+            }
+
+            // Update queue metrics if on performance page
+            if (this.config.viewMode === 'performance') {
+                $('#queue-pending-count').text(stats.queue_pending || 0);
+                $('#queue-processing-count').text(stats.queue_processing || 0);
+            }
+        },
+
+        /**
+         * Format relative time
+         */
+        formatRelativeTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            return Math.floor(diff / 86400) + 'd ago';
+        },
+
+        /**
+         * Load queue metrics
+         */
+        loadQueueMetrics() {
+            // Queue metrics come from real-time stats
+            // Additional detailed metrics could be loaded here
+        },
+
+        /**
+         * Check system health
+         */
+        checkSystemHealth() {
+            const $healthStatus = $('#health-status');
+            const $healthDot = $healthStatus.find('.health-dot');
+            const $healthText = $healthStatus.find('.health-text');
+
+            // Check basic system status
+            $.ajax({
+                url: formflowData.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'formflow_get_realtime_stats',
+                    nonce: formflowData.nonce
+                },
+                success: (response) => {
+                    if (response.success) {
+                        const data = response.data;
+                        const queueBacklog = data.queue_pending || 0;
+
+                        if (queueBacklog > 100) {
+                            $healthDot.css('background', '#dc3232');
+                            $healthText.text('Warning: High queue backlog');
+                        } else if (queueBacklog > 50) {
+                            $healthDot.css('background', '#ffb900');
+                            $healthText.text('Notice: Queue processing');
+                        } else {
+                            $healthDot.css('background', '#46b450');
+                            $healthText.text('All systems operational');
+                        }
+                    }
+                },
+                error: () => {
+                    $healthDot.css('background', '#dc3232');
+                    $healthText.text('Connection error');
+                }
+            });
+        },
+
+        /**
+         * Set date preset
+         */
+        setDatePreset(days) {
+            const today = new Date();
+            const from = new Date(today);
+            from.setDate(from.getDate() - days);
+
+            $('#date-from').val(this.formatDate(from));
+            $('#date-to').val(this.formatDate(today));
+
+            // Highlight active preset
+            $('.preset-btn').removeClass('active');
+            $(`.preset-btn[data-days="${days}"]`).addClass('active');
+        },
+
+        /**
+         * Format date to YYYY-MM-DD
+         */
+        formatDate(date) {
+            return date.toISOString().split('T')[0];
+        },
+
+        /**
+         * Compare periods
+         */
+        comparePeriods() {
+            const currentFrom = $('#current-from').val();
+            const currentTo = $('#current-to').val();
+            const previousFrom = $('#previous-from').val();
+            const previousTo = $('#previous-to').val();
+            const formId = this.config.formId || '';
+
+            const $btn = $('#compare-periods');
+            $btn.prop('disabled', true).text('Comparing...');
+
+            $.ajax({
+                url: formflowData.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'formflow_compare_periods',
+                    nonce: formflowData.nonce,
+                    current_from: currentFrom,
+                    current_to: currentTo,
+                    previous_from: previousFrom,
+                    previous_to: previousTo,
+                    form_id: formId
+                },
+                success: (response) => {
+                    if (response.success) {
+                        this.updateComparisonDisplay(response.data);
+                    }
+                },
+                complete: () => {
+                    $btn.prop('disabled', false).text('Compare');
+                }
+            });
+        },
+
+        /**
+         * Update comparison display
+         */
+        updateComparisonDisplay(data) {
+            // Update values
+            $('#cmp-current-total').text(data.current.total.toLocaleString());
+            $('#cmp-previous-total').text(data.previous.total.toLocaleString());
+            this.updateChangeValue('#cmp-change-total', data.changes.total, '%');
+
+            $('#cmp-current-completed').text(data.current.completed.toLocaleString());
+            $('#cmp-previous-completed').text(data.previous.completed.toLocaleString());
+            this.updateChangeValue('#cmp-change-completed', data.changes.completed, '%');
+
+            $('#cmp-current-rate').text(data.current.conversion_rate + '%');
+            $('#cmp-previous-rate').text(data.previous.conversion_rate + '%');
+            this.updateChangeValue('#cmp-change-rate', data.changes.conversion_rate, 'pp');
+        },
+
+        /**
+         * Update change value with styling
+         */
+        updateChangeValue(selector, value, suffix) {
+            const $el = $(selector);
+            const $parent = $el.closest('.change-value');
+            const formatted = (value >= 0 ? '+' : '') + value.toFixed(1) + suffix;
+
+            $el.text(formatted);
+            $parent.removeClass('positive negative').addClass(value >= 0 ? 'positive' : 'negative');
         },
 
         /**
@@ -313,6 +589,98 @@
         },
 
         /**
+         * Create performance chart
+         */
+        createPerformanceChart(data) {
+            const ctx = document.getElementById('performance-chart');
+            if (!ctx) return;
+
+            // Create a placeholder performance chart
+            this.charts.performance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.trend?.labels || [],
+                    datasets: [{
+                        label: 'Avg Processing Time (ms)',
+                        data: [], // Would need performance data from backend
+                        borderColor: '#9b59b6',
+                        backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Milliseconds'
+                            }
+                        }
+                    }
+                }
+            });
+        },
+
+        /**
+         * Create comparison chart
+         */
+        createComparisonChart(data) {
+            const ctx = document.getElementById('comparison-chart');
+            if (!ctx) return;
+
+            this.charts.comparison = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Submissions', 'Completed', 'Pending', 'Failed'],
+                    datasets: [
+                        {
+                            label: 'Current Period',
+                            data: [0, 0, 0, 0], // Placeholder
+                            backgroundColor: 'rgba(0, 115, 170, 0.7)',
+                            borderColor: '#0073aa',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Previous Period',
+                            data: [0, 0, 0, 0], // Placeholder
+                            backgroundColor: 'rgba(150, 150, 150, 0.7)',
+                            borderColor: '#969696',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        },
+
+        /**
          * Get colors for status chart
          */
         getStatusColors(statuses) {
@@ -328,6 +696,10 @@
                 'pending_signature': {
                     background: 'rgba(0, 166, 210, 0.7)',
                     border: '#00a0d2'
+                },
+                'processing': {
+                    background: 'rgba(155, 89, 182, 0.7)',
+                    border: '#9b59b6'
                 },
                 'failed': {
                     background: 'rgba(220, 50, 50, 0.7)',
@@ -366,59 +738,26 @@
         /**
          * Export analytics report
          */
-        exportReport() {
-            // Get current filter values
-            const formId = $('#form-filter').val();
-            const dateFrom = $('#date-from').val();
-            const dateTo = $('#date-to').val();
+        exportReport(format = 'csv') {
+            const formId = this.config.formId || $('#form-filter').val() || '';
+            const dateFrom = this.config.dateFrom || $('#date-from').val();
+            const dateTo = this.config.dateTo || $('#date-to').val();
 
-            // Create export form
-            const form = $('<form>', {
-                method: 'POST',
-                action: formflowData.ajax_url
-            });
+            if (format === 'csv') {
+                // Use the new CSV export endpoint
+                const params = new URLSearchParams({
+                    action: 'formflow_export_analytics_csv',
+                    nonce: formflowData.nonce,
+                    date_from: dateFrom,
+                    date_to: dateTo,
+                    form_id: formId
+                });
 
-            // Add fields
-            form.append($('<input>', {
-                type: 'hidden',
-                name: 'action',
-                value: 'formflow_export_analytics'
-            }));
-
-            form.append($('<input>', {
-                type: 'hidden',
-                name: 'nonce',
-                value: formflowData.nonce
-            }));
-
-            if (formId) {
-                form.append($('<input>', {
-                    type: 'hidden',
-                    name: 'form_id',
-                    value: formId
-                }));
+                window.location.href = formflowData.ajax_url + '?' + params.toString();
+            } else if (format === 'pdf') {
+                // PDF export would require additional backend implementation
+                alert('PDF export coming soon!');
             }
-
-            if (dateFrom) {
-                form.append($('<input>', {
-                    type: 'hidden',
-                    name: 'date_from',
-                    value: dateFrom
-                }));
-            }
-
-            if (dateTo) {
-                form.append($('<input>', {
-                    type: 'hidden',
-                    name: 'date_to',
-                    value: dateTo
-                }));
-            }
-
-            // Submit form
-            $('body').append(form);
-            form.submit();
-            form.remove();
         },
 
         /**
@@ -431,6 +770,16 @@
                 }
             });
             this.charts = {};
+        },
+
+        /**
+         * Cleanup on page unload
+         */
+        cleanup() {
+            if (this.realtimeInterval) {
+                clearInterval(this.realtimeInterval);
+            }
+            this.destroyCharts();
         }
     };
 
@@ -440,6 +789,11 @@
     // Initialize on document ready
     $(document).ready(() => {
         FormFlowAnalytics.init();
+    });
+
+    // Cleanup on page unload
+    $(window).on('beforeunload', () => {
+        FormFlowAnalytics.cleanup();
     });
 
 })(jQuery);
