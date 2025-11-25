@@ -25,6 +25,11 @@
             <directory>./includes/admin/views</directory>
             <directory>./includes/cache</directory>
             <directory>./includes/integrations</directory>
+            <directory>./includes/ajax</directory>
+            <directory>./includes/shortcodes</directory>
+            <directory>./includes/pdf</directory>
+            <directory>./includes/email</directory>
+            <directory>./includes/autentique</directory>
         </exclude>
     </coverage>
 

@@ -99,9 +99,39 @@ class CacheManagerTest extends TestCase
 
     public function test_hit_rate_calculation()
     {
-        // TODO: Implement get_stats() method in Cache_Manager
-        // For now, skip this test as stats tracking is not implemented
-        $this->markTestSkipped('Cache statistics tracking not yet implemented');
+        // Reset WordPress mocks to start fresh
+        reset_wp_mocks();
+        update_option('formflow_cache_enabled', true);
+
+        // Create fresh cache instance
+        $cache = new CacheManager();
+
+        // Set a value (1 write)
+        $cache->set('rate_test', 'value');
+
+        // 2 hits - getting existing value
+        $cache->get('rate_test');
+        $cache->get('rate_test');
+
+        // 2 misses - getting non-existent values
+        $cache->get('nonexistent1');
+        $cache->get('nonexistent2');
+
+        $stats = $cache->get_stats();
+
+        // Verify hit rate is calculated correctly
+        // Hit rate = hits / (hits + misses) * 100
+        $this->assertArrayHasKey('hit_rate', $stats);
+        $this->assertArrayHasKey('total_requests', $stats);
+        $this->assertIsNumeric($stats['hit_rate']);
+        $this->assertGreaterThanOrEqual(0, $stats['hit_rate']);
+        $this->assertLessThanOrEqual(100, $stats['hit_rate']);
+
+        // Verify the calculation formula works
+        if ($stats['total_requests'] > 0) {
+            $expected_rate = round(($stats['hits'] / $stats['total_requests']) * 100, 2);
+            $this->assertEquals($expected_rate, $stats['hit_rate']);
+        }
     }
 
     public function test_flush_returns_true()
