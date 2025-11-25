@@ -19,6 +19,11 @@ if (!defined('ARRAY_N')) {
     define('ARRAY_N', 'ARRAY_N');
 }
 
+// FormFlow constants needed for coverage analysis
+if (!defined('FORMFLOW_CACHE_ENABLED')) {
+    define('FORMFLOW_CACHE_ENABLED', true);
+}
+
 // Global mock data storage
 global $wp_options, $wp_transients, $wp_cache, $wpdb;
 
@@ -448,9 +453,9 @@ if (!function_exists('esc_url_raw')) {
 }
 
 if (!function_exists('wp_json_encode')) {
-    function wp_json_encode($data)
+    function wp_json_encode($data, $options = 0, $depth = 512)
     {
-        return json_encode($data);
+        return json_encode($data, $options, $depth);
     }
 }
 
@@ -590,6 +595,7 @@ if (!class_exists('WP_REST_Request')) {
         private $body = '';
         private $headers = [];
         private $params = [];
+        private $json_params = [];
 
         public function get_body()
         {
@@ -619,6 +625,23 @@ if (!class_exists('WP_REST_Request')) {
         public function set_params($params)
         {
             $this->params = $params;
+        }
+
+        public function get_json_params()
+        {
+            if (!empty($this->json_params)) {
+                return $this->json_params;
+            }
+            $body = $this->get_body();
+            if (!empty($body)) {
+                return json_decode($body, true) ?? [];
+            }
+            return [];
+        }
+
+        public function set_json_params($params)
+        {
+            $this->json_params = $params;
         }
     }
 }
