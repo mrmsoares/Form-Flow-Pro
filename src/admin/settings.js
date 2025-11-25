@@ -35,6 +35,11 @@
                 this.testApiConnection();
             });
 
+            // Toggle API key visibility
+            $('#toggle-api-key-visibility').on('click', () => {
+                this.toggleApiKeyVisibility();
+            });
+
             // Form validation
             $('.settings-form').on('submit', (e) => {
                 return this.validateForm(e);
@@ -97,6 +102,23 @@
                 $button.html(originalHtml);
                 $button.removeClass('button-success');
             }, 2000);
+        },
+
+        /**
+         * Toggle API key visibility
+         */
+        toggleApiKeyVisibility() {
+            const $input = $('#autentique_api_key');
+            const $button = $('#toggle-api-key-visibility');
+            const $icon = $button.find('.dashicons');
+
+            if ($input.attr('type') === 'password') {
+                $input.attr('type', 'text');
+                $icon.removeClass('dashicons-visibility').addClass('dashicons-hidden');
+            } else {
+                $input.attr('type', 'password');
+                $icon.removeClass('dashicons-hidden').addClass('dashicons-visibility');
+            }
         },
 
         /**

@@ -161,6 +161,16 @@ class Admin
             );
         }
 
+        if ($screen && strpos($screen->id, 'formflow-settings') !== false) {
+            wp_enqueue_script(
+                $this->plugin_name . '-settings',
+                FORMFLOW_URL . 'assets/js/settings.min.js',
+                ['jquery', $this->plugin_name],
+                $this->version,
+                true
+            );
+        }
+
         // Localize script with data
         wp_localize_script(
             $this->plugin_name,

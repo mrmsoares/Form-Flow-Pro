@@ -69,7 +69,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['docum
 $status_filter = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
 
 // Check if API is configured
-$api_key = get_option('autentique_api_key', '');
+$api_key = get_option('formflow_autentique_api_key', '');
 $is_configured = !empty($api_key);
 
 ?>
