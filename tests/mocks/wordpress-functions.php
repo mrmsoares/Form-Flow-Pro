@@ -492,10 +492,40 @@ if (!function_exists('apply_filters')) {
     }
 }
 
+if (!function_exists('add_filter')) {
+    function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1)
+    {
+        // No-op for testing - filters are not actually registered
+        return true;
+    }
+}
+
 if (!function_exists('do_action')) {
     function do_action($tag, ...$args)
     {
         // No-op
+    }
+}
+
+if (!function_exists('add_action')) {
+    function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
+    {
+        // No-op for testing - actions are not actually registered
+        return true;
+    }
+}
+
+if (!function_exists('remove_action')) {
+    function remove_action($tag, $function_to_remove, $priority = 10)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('has_action')) {
+    function has_action($tag, $function_to_check = false)
+    {
+        return false;
     }
 }
 

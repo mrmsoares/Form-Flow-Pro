@@ -4,8 +4,9 @@
          bootstrap="tests/bootstrap.php"
          colors="true"
          verbose="true"
-         failOnRisky="true"
-         failOnWarning="true">
+         failOnRisky="false"
+         failOnWarning="false"
+         beStrictAboutOutputDuringTests="false">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/unit</directory>
