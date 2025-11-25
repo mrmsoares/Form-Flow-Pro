@@ -18,7 +18,7 @@ class Autentique_Service
 
     public function __construct()
     {
-        $this->api_key = get_option('autentique_api_key', '');
+        $this->api_key = get_option('formflow_autentique_api_key', '');
     }
 
     /**

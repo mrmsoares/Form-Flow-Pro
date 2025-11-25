@@ -32,6 +32,8 @@ if (isset($_POST['formflow_settings_submit'])) {
         update_option('formflow_autentique_sandbox_mode', isset($_POST['autentique_sandbox_mode']) ? 1 : 0);
         update_option('formflow_autentique_webhook_url', sanitize_text_field($_POST['autentique_webhook_url'] ?? ''));
         update_option('formflow_autentique_auto_send', isset($_POST['autentique_auto_send']) ? 1 : 0);
+        update_option('formflow_autentique_reminder_enabled', isset($_POST['autentique_reminder_enabled']) ? 1 : 0);
+        update_option('formflow_autentique_document_message', sanitize_textarea_field($_POST['autentique_document_message'] ?? ''));
     }
 
     // Email settings
@@ -222,66 +224,179 @@ $settings = [
 
         <!-- Autentique Tab -->
         <?php if ($active_tab === 'autentique') : ?>
+            <?php
+            // Get Autentique statistics
+            global $wpdb;
+            $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}formflow_autentique_documents'");
+            $autentique_stats = [
+                'total' => 0,
+                'pending' => 0,
+                'signed' => 0,
+                'refused' => 0,
+            ];
+            if ($table_exists) {
+                $autentique_stats['total'] = (int) $wpdb->get_var(
+                    "SELECT COUNT(*) FROM {$wpdb->prefix}formflow_autentique_documents"
+                );
+                $autentique_stats['pending'] = (int) $wpdb->get_var(
+                    "SELECT COUNT(*) FROM {$wpdb->prefix}formflow_autentique_documents WHERE status = 'pending'"
+                );
+                $autentique_stats['signed'] = (int) $wpdb->get_var(
+                    "SELECT COUNT(*) FROM {$wpdb->prefix}formflow_autentique_documents WHERE status = 'signed'"
+                );
+                $autentique_stats['refused'] = (int) $wpdb->get_var(
+                    "SELECT COUNT(*) FROM {$wpdb->prefix}formflow_autentique_documents WHERE status = 'refused'"
+                );
+            }
+            $is_api_configured = !empty($settings['autentique']['api_key']);
+            ?>
             <div class="tab-content">
+                <!-- Connection Status Banner -->
+                <div class="autentique-status-banner <?php echo $is_api_configured ? 'status-configured' : 'status-not-configured'; ?>" style="padding: 15px; margin-bottom: 20px; border-radius: 4px; display: flex; align-items: center; gap: 15px; <?php echo $is_api_configured ? 'background: #d4edda; border: 1px solid #c3e6cb;' : 'background: #fff3cd; border: 1px solid #ffeeba;'; ?>">
+                    <span class="dashicons <?php echo $is_api_configured ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>" style="font-size: 24px; <?php echo $is_api_configured ? 'color: #28a745;' : 'color: #856404;'; ?>"></span>
+                    <div>
+                        <strong><?php echo $is_api_configured ? esc_html__('API Configured', 'formflow-pro') : esc_html__('API Not Configured', 'formflow-pro'); ?></strong>
+                        <p style="margin: 5px 0 0 0; opacity: 0.8;">
+                            <?php echo $is_api_configured
+                                ? esc_html__('Your Autentique integration is ready to use.', 'formflow-pro')
+                                : esc_html__('Enter your API key below to enable digital signatures.', 'formflow-pro'); ?>
+                        </p>
+                    </div>
+                    <?php if ($is_api_configured) : ?>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=formflow-autentique')); ?>" class="button" style="margin-left: auto;">
+                            <?php esc_html_e('View Documents', 'formflow-pro'); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Quick Stats (if configured) -->
+                <?php if ($is_api_configured && $autentique_stats['total'] > 0) : ?>
+                <div class="autentique-quick-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+                    <div class="stat-box" style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #0073aa;"><?php echo esc_html($autentique_stats['total']); ?></div>
+                        <div style="color: #666; font-size: 12px;"><?php esc_html_e('Total Documents', 'formflow-pro'); ?></div>
+                    </div>
+                    <div class="stat-box" style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #f0ad4e;"><?php echo esc_html($autentique_stats['pending']); ?></div>
+                        <div style="color: #666; font-size: 12px;"><?php esc_html_e('Pending', 'formflow-pro'); ?></div>
+                    </div>
+                    <div class="stat-box" style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;"><?php echo esc_html($autentique_stats['signed']); ?></div>
+                        <div style="color: #666; font-size: 12px;"><?php esc_html_e('Signed', 'formflow-pro'); ?></div>
+                    </div>
+                    <div class="stat-box" style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #dc3545;"><?php echo esc_html($autentique_stats['refused']); ?></div>
+                        <div style="color: #666; font-size: 12px;"><?php esc_html_e('Refused', 'formflow-pro'); ?></div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <!-- API Configuration -->
                 <div class="settings-section card">
-                    <h2><?php esc_html_e('Autentique API Configuration', 'formflow-pro'); ?></h2>
+                    <h2><?php esc_html_e('API Configuration', 'formflow-pro'); ?></h2>
 
                     <table class="form-table">
                         <tr>
                             <th scope="row">
-                                <label for="autentique_api_key"><?php esc_html_e('API Key', 'formflow-pro'); ?> <span class="required">*</span></label>
+                                <label for="autentique_api_key"><?php esc_html_e('API Key', 'formflow-pro'); ?> <span class="required" style="color: #dc3545;">*</span></label>
                             </th>
                             <td>
-                                <input type="text"
-                                       id="autentique_api_key"
-                                       name="autentique_api_key"
-                                       value="<?php echo esc_attr($settings['autentique']['api_key']); ?>"
-                                       class="regular-text"
-                                       placeholder="<?php esc_attr_e('Enter your Autentique API key', 'formflow-pro'); ?>">
+                                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                    <input type="password"
+                                           id="autentique_api_key"
+                                           name="autentique_api_key"
+                                           value="<?php echo esc_attr($settings['autentique']['api_key']); ?>"
+                                           class="regular-text"
+                                           placeholder="<?php esc_attr_e('Enter your Autentique API key', 'formflow-pro'); ?>"
+                                           autocomplete="off">
+                                    <button type="button" class="button" id="toggle-api-key-visibility" title="<?php esc_attr_e('Show/Hide API Key', 'formflow-pro'); ?>">
+                                        <span class="dashicons dashicons-visibility"></span>
+                                    </button>
+                                </div>
                                 <p class="description">
                                     <?php esc_html_e('Get your API key from', 'formflow-pro'); ?>
-                                    <a href="https://www.autentique.com.br/developers" target="_blank">Autentique Developers</a>
+                                    <a href="https://www.autentique.com.br/developers" target="_blank" rel="noopener noreferrer">
+                                        Autentique Developers
+                                        <span class="dashicons dashicons-external" style="font-size: 14px; text-decoration: none;"></span>
+                                    </a>
                                 </p>
                             </td>
                         </tr>
 
                         <tr>
                             <th scope="row">
-                                <?php esc_html_e('Sandbox Mode', 'formflow-pro'); ?>
+                                <?php esc_html_e('Environment', 'formflow-pro'); ?>
                             </th>
                             <td>
                                 <fieldset>
-                                    <label>
+                                    <label style="display: flex; align-items: center; gap: 8px;">
                                         <input type="checkbox"
                                                name="autentique_sandbox_mode"
                                                value="1"
                                                <?php checked($settings['autentique']['sandbox_mode'], 1); ?>>
-                                        <?php esc_html_e('Enable sandbox mode for testing', 'formflow-pro'); ?>
+                                        <?php esc_html_e('Enable Sandbox Mode', 'formflow-pro'); ?>
+                                        <span class="sandbox-badge" style="background: #ffc107; color: #000; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: bold;">
+                                            <?php esc_html_e('TEST', 'formflow-pro'); ?>
+                                        </span>
                                     </label>
-                                    <p class="description"><?php esc_html_e('Use test environment. Disable for production.', 'formflow-pro'); ?></p>
+                                    <p class="description"><?php esc_html_e('Use sandbox environment for testing. Documents created in sandbox mode are not legally binding. Disable for production use.', 'formflow-pro'); ?></p>
                                 </fieldset>
                             </td>
                         </tr>
+                    </table>
 
+                    <div class="api-test-section" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <h3 style="margin-top: 0;"><?php esc_html_e('Connection Test', 'formflow-pro'); ?></h3>
+                        <p class="description" style="margin-bottom: 15px;"><?php esc_html_e('Verify that your API key is valid and the connection to Autentique is working.', 'formflow-pro'); ?></p>
+                        <button type="button" class="button button-secondary" id="test-api-connection">
+                            <span class="dashicons dashicons-update" style="margin-top: 4px;"></span>
+                            <?php esc_html_e('Test Connection', 'formflow-pro'); ?>
+                        </button>
+                        <div id="api-test-result" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <!-- Webhook Configuration -->
+                <div class="settings-section card" style="margin-top: 20px;">
+                    <h2><?php esc_html_e('Webhook Configuration', 'formflow-pro'); ?></h2>
+                    <p class="description"><?php esc_html_e('Configure webhooks to receive real-time notifications when documents are signed or refused.', 'formflow-pro'); ?></p>
+
+                    <table class="form-table">
                         <tr>
                             <th scope="row">
                                 <label for="autentique_webhook_url"><?php esc_html_e('Webhook URL', 'formflow-pro'); ?></label>
                             </th>
                             <td>
-                                <input type="text"
-                                       id="autentique_webhook_url"
-                                       name="autentique_webhook_url"
-                                       value="<?php echo esc_attr($settings['autentique']['webhook_url']); ?>"
-                                       class="regular-text"
-                                       readonly>
-                                <button type="button" class="button button-small copy-webhook-url">
-                                    <span class="dashicons dashicons-clipboard"></span>
-                                    <?php esc_html_e('Copy', 'formflow-pro'); ?>
-                                </button>
-                                <p class="description"><?php esc_html_e('Configure this URL in your Autentique dashboard', 'formflow-pro'); ?></p>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="text"
+                                           id="autentique_webhook_url"
+                                           name="autentique_webhook_url"
+                                           value="<?php echo esc_attr($settings['autentique']['webhook_url']); ?>"
+                                           class="regular-text"
+                                           readonly
+                                           style="background: #f5f5f5;">
+                                    <button type="button" class="button copy-webhook-url">
+                                        <span class="dashicons dashicons-clipboard" style="margin-top: 4px;"></span>
+                                        <?php esc_html_e('Copy', 'formflow-pro'); ?>
+                                    </button>
+                                </div>
+                                <p class="description">
+                                    <?php esc_html_e('Copy this URL and configure it in your', 'formflow-pro'); ?>
+                                    <a href="https://app.autentique.com.br/configuracoes/webhooks" target="_blank" rel="noopener noreferrer">
+                                        <?php esc_html_e('Autentique Webhook Settings', 'formflow-pro'); ?>
+                                        <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
+                                    </a>
+                                </p>
                             </td>
                         </tr>
+                    </table>
+                </div>
 
+                <!-- Document Settings -->
+                <div class="settings-section card" style="margin-top: 20px;">
+                    <h2><?php esc_html_e('Document Settings', 'formflow-pro'); ?></h2>
+
+                    <table class="form-table">
                         <tr>
                             <th scope="row">
                                 <?php esc_html_e('Auto Send Documents', 'formflow-pro'); ?>
@@ -293,21 +408,66 @@ $settings = [
                                                name="autentique_auto_send"
                                                value="1"
                                                <?php checked($settings['autentique']['auto_send'], 1); ?>>
-                                        <?php esc_html_e('Automatically send documents to signers', 'formflow-pro'); ?>
+                                        <?php esc_html_e('Automatically send documents to signers after creation', 'formflow-pro'); ?>
                                     </label>
-                                    <p class="description"><?php esc_html_e('If disabled, documents will be created but not sent', 'formflow-pro'); ?></p>
+                                    <p class="description"><?php esc_html_e('When enabled, signers will automatically receive an email with the signature link. If disabled, documents will be created but you will need to send them manually.', 'formflow-pro'); ?></p>
                                 </fieldset>
                             </td>
                         </tr>
-                    </table>
 
-                    <div class="api-test-section">
-                        <h3><?php esc_html_e('Test API Connection', 'formflow-pro'); ?></h3>
-                        <button type="button" class="button" id="test-api-connection">
-                            <?php esc_html_e('Test Connection', 'formflow-pro'); ?>
-                        </button>
-                        <div id="api-test-result"></div>
-                    </div>
+                        <tr>
+                            <th scope="row">
+                                <?php esc_html_e('Signature Reminders', 'formflow-pro'); ?>
+                            </th>
+                            <td>
+                                <fieldset>
+                                    <label>
+                                        <input type="checkbox"
+                                               name="autentique_reminder_enabled"
+                                               value="1"
+                                               <?php checked(get_option('formflow_autentique_reminder_enabled', 0), 1); ?>>
+                                        <?php esc_html_e('Send automatic reminders for pending signatures', 'formflow-pro'); ?>
+                                    </label>
+                                    <p class="description"><?php esc_html_e('Automatically send reminder emails to signers who have not signed their documents.', 'formflow-pro'); ?></p>
+                                </fieldset>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                <label for="autentique_document_message"><?php esc_html_e('Default Message', 'formflow-pro'); ?></label>
+                            </th>
+                            <td>
+                                <textarea id="autentique_document_message"
+                                          name="autentique_document_message"
+                                          rows="3"
+                                          class="large-text"
+                                          placeholder="<?php esc_attr_e('Please review and sign this document.', 'formflow-pro'); ?>"><?php echo esc_textarea(get_option('formflow_autentique_document_message', '')); ?></textarea>
+                                <p class="description"><?php esc_html_e('Default message included in signature request emails. Leave empty to use Autentique default.', 'formflow-pro'); ?></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Help Section -->
+                <div class="settings-section card" style="margin-top: 20px; background: #f8f9fa;">
+                    <h2 style="display: flex; align-items: center; gap: 10px;">
+                        <span class="dashicons dashicons-editor-help"></span>
+                        <?php esc_html_e('Getting Started', 'formflow-pro'); ?>
+                    </h2>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li><?php esc_html_e('Create an account at', 'formflow-pro'); ?> <a href="https://www.autentique.com.br" target="_blank">autentique.com.br</a></li>
+                        <li><?php esc_html_e('Go to Developer Settings and generate an API key', 'formflow-pro'); ?></li>
+                        <li><?php esc_html_e('Paste your API key in the field above', 'formflow-pro'); ?></li>
+                        <li><?php esc_html_e('Configure the webhook URL in your Autentique dashboard', 'formflow-pro'); ?></li>
+                        <li><?php esc_html_e('Test the connection to verify everything is working', 'formflow-pro'); ?></li>
+                    </ol>
+                    <p>
+                        <a href="https://docs.autentique.com.br" target="_blank" class="button">
+                            <span class="dashicons dashicons-book" style="margin-top: 4px;"></span>
+                            <?php esc_html_e('View Documentation', 'formflow-pro'); ?>
+                        </a>
+                    </p>
                 </div>
             </div>
         <?php endif; ?>
