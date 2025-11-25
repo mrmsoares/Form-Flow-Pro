@@ -104,7 +104,7 @@ class Activator
      */
     private static function create_tables()
     {
-        require_once FORMFLOW_PATH . 'includes/database/class-database-manager.php';
+        require_once FORMFLOW_PATH . 'includes/Database/DatabaseManager.php';
 
         $db_manager = new Database\DatabaseManager();
         $db_manager->create_tables();
