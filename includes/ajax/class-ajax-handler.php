@@ -42,6 +42,7 @@ class Ajax_Handler
         Config_Ajax::init(); // V2.2.0
         WhiteLabel_Ajax::init(); // V2.2.0
         Integrations_Ajax::init(); // V2.3.0
+        AI_Ajax::init(); // V2.3.0
     }
 
     /**
@@ -59,5 +60,6 @@ class Ajax_Handler
         require_once FORMFLOW_PATH . 'includes/ajax/class-config-ajax.php'; // V2.2.0
         require_once FORMFLOW_PATH . 'includes/ajax/class-whitelabel-ajax.php'; // V2.2.0
         require_once FORMFLOW_PATH . 'includes/ajax/class-integrations-ajax.php'; // V2.3.0
+        require_once FORMFLOW_PATH . 'includes/ajax/class-ai-ajax.php'; // V2.3.0
     }
 }
