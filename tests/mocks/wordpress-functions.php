@@ -836,6 +836,21 @@ if (!function_exists('__return_true')) {
     }
 }
 
+if (!function_exists('wp_create_nonce')) {
+    function wp_create_nonce($action = -1)
+    {
+        return substr(md5($action . 'salt'), 0, 10);
+    }
+}
+
+if (!function_exists('wp_verify_nonce')) {
+    function wp_verify_nonce($nonce, $action = -1)
+    {
+        $expected = wp_create_nonce($action);
+        return hash_equals($expected, $nonce) ? 1 : false;
+    }
+}
+
 function reset_wp_mocks()
 {
     global $wp_options, $wp_transients, $wp_cache, $wpdb;
