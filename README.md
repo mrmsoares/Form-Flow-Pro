@@ -6,7 +6,7 @@
 **License:** GPL-2.0+
 **Status:** 🚀 **Production Ready (95%)**
 
-![Tests](https://img.shields.io/badge/tests-26%20passed%2C%2059%20assertions-success)
+![Tests](https://img.shields.io/badge/tests-56%20passed%2C%20251%20assertions-success)
 ![Coverage](https://img.shields.io/badge/coverage-enabled-success)
 ![PHP](https://img.shields.io/badge/PHP-8.1%20%7C%208.2%20%7C%208.3-blue)
 ![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen)
@@ -83,7 +83,7 @@ FormFlow Pro Enterprise é um plugin WordPress de classe enterprise para process
 ## 🧪 Testing & Quality
 
 ### Automated Testing
-- ✅ **26 PHPUnit tests** - 100% passing, 59 assertions
+- ✅ **56 PHPUnit tests** - 100% passing, 251 assertions
 - ✅ **Multi-PHP CI** - Tests on PHP 8.1, 8.2, 8.3
 - ✅ **PHPStan Level 5** - Static analysis passing
 - ✅ **Code Coverage** - Tracking enabled
@@ -342,7 +342,7 @@ Este é um projeto em desenvolvimento ativo. Contribuições são bem-vindas!
 - [x] Migration v2.0.0 (11 tabelas otimizadas)
 - [x] Cache Manager (multi-tier)
 - [x] Form Processor (pipeline completo)
-- [x] PHPUnit test suite (26 tests, 59 assertions - 100% passing)
+- [x] PHPUnit test suite (56 tests, 251 assertions - 100% passing)
 - [x] CI/CD pipeline (GitHub Actions - PHP 8.1, 8.2, 8.3)
 - [x] PHPStan level 5 static analysis
 
