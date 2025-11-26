@@ -1,462 +1,557 @@
 <?php
 /**
- * Tests for MarketplaceManager class.
+ * Tests for ExtensionManager class (Marketplace module).
+ *
+ * @package FormFlowPro\Tests\Unit\Marketplace
  */
 
 namespace FormFlowPro\Tests\Unit\Marketplace;
 
 use FormFlowPro\Tests\TestCase;
-use FormFlowPro\Marketplace\MarketplaceManager;
+use FormFlowPro\Marketplace\ExtensionManager;
+use FormFlowPro\Marketplace\InstalledExtension;
+use FormFlowPro\Marketplace\MarketplaceExtension;
+use FormFlowPro\Marketplace\ExtensionStatus;
 
 class MarketplaceManagerTest extends TestCase
 {
-    private $manager;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = MarketplaceManager::getInstance();
+        // Reset singleton for each test
+        $reflection = new \ReflectionClass(ExtensionManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
     }
+
+    protected function tearDown(): void
+    {
+        // Reset singleton
+        $reflection = new \ReflectionClass(ExtensionManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
+    }
+
+    // ==========================================================================
+    // Singleton Tests
+    // ==========================================================================
 
     public function test_singleton_instance()
     {
-        $instance1 = MarketplaceManager::getInstance();
-        $instance2 = MarketplaceManager::getInstance();
+        $instance1 = ExtensionManager::getInstance();
+        $instance2 = ExtensionManager::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(ExtensionManager::class, $instance1);
     }
 
-    public function test_get_available_integrations()
+    // ==========================================================================
+    // ExtensionStatus Constants Tests
+    // ==========================================================================
+
+    public function test_extension_status_constants()
     {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Slack Integration',
-                'slug' => 'slack',
-                'category' => 'communication',
-                'status' => 'active',
-            ],
-            (object)[
-                'id' => '2',
-                'name' => 'Salesforce Integration',
-                'slug' => 'salesforce',
-                'category' => 'crm',
-                'status' => 'active',
-            ],
-        ]);
-
-        $integrations = $this->manager->getAvailableIntegrations();
-
-        $this->assertIsArray($integrations);
+        $this->assertEquals('active', ExtensionStatus::ACTIVE);
+        $this->assertEquals('inactive', ExtensionStatus::INACTIVE);
+        $this->assertEquals('installed', ExtensionStatus::INSTALLED);
+        $this->assertEquals('update_available', ExtensionStatus::UPDATE_AVAILABLE);
+        $this->assertEquals('not_installed', ExtensionStatus::NOT_INSTALLED);
     }
 
-    public function test_get_integration_by_slug()
-    {
-        global $wpdb;
+    // ==========================================================================
+    // InstalledExtension Model Tests
+    // ==========================================================================
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'name' => 'Slack Integration',
-            'slug' => 'slack',
-            'description' => 'Send notifications to Slack channels',
-            'category' => 'communication',
-            'config_schema' => json_encode([
-                'webhook_url' => ['type' => 'string', 'required' => true],
-                'channel' => ['type' => 'string', 'required' => false],
-            ]),
-            'status' => 'active',
+    public function test_installed_extension_constructor()
+    {
+        $extension = new InstalledExtension([
+            'id' => 'ext-1',
+            'slug' => 'my-extension',
+            'name' => 'My Extension',
+            'version' => '1.2.0',
+            'description' => 'Test extension description',
+            'author' => 'Test Author',
+            'author_uri' => 'https://example.com',
+            'category' => 'integrations',
+            'status' => ExtensionStatus::ACTIVE,
+            'path' => '/path/to/extension',
+            'main_file' => 'my-extension.php',
+            'icon' => 'https://example.com/icon.png',
+            'is_premium' => true,
+            'license_key' => 'LICENSE-KEY-123',
+            'license_expires' => '2025-12-31'
         ]);
 
-        $integration = $this->manager->getIntegration('slack');
-
-        $this->assertIsObject($integration);
-        $this->assertEquals('Slack Integration', $integration->name);
+        $this->assertEquals('ext-1', $extension->id);
+        $this->assertEquals('my-extension', $extension->slug);
+        $this->assertEquals('My Extension', $extension->name);
+        $this->assertEquals('1.2.0', $extension->version);
+        $this->assertEquals('Test Author', $extension->author);
+        $this->assertEquals('integrations', $extension->category);
+        $this->assertEquals(ExtensionStatus::ACTIVE, $extension->status);
+        $this->assertTrue($extension->is_premium);
+        $this->assertEquals('LICENSE-KEY-123', $extension->license_key);
     }
 
-    public function test_install_integration()
+    public function test_installed_extension_defaults()
     {
-        global $wpdb;
+        $extension = new InstalledExtension([]);
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'slug' => 'slack',
-            'name' => 'Slack Integration',
-            'status' => 'active',
-        ]);
-
-        $config = [
-            'webhook_url' => 'https://hooks.slack.com/services/xxx',
-            'channel' => '#notifications',
-        ];
-
-        $result = $this->manager->installIntegration('slack', $config);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
+        $this->assertEquals('', $extension->id);
+        $this->assertEquals('', $extension->slug);
+        $this->assertEquals('1.0.0', $extension->version);
+        $this->assertEquals('general', $extension->category);
+        $this->assertEquals(ExtensionStatus::INACTIVE, $extension->status);
+        $this->assertFalse($extension->is_premium);
+        $this->assertNull($extension->license_key);
+        $this->assertNull($extension->latest_version);
     }
 
-    public function test_install_integration_validation_fails()
+    public function test_installed_extension_has_update_true()
     {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'slug' => 'slack',
-            'config_schema' => json_encode([
-                'webhook_url' => ['type' => 'string', 'required' => true],
-            ]),
+        $extension = new InstalledExtension([
+            'version' => '1.0.0',
+            'latest_version' => '2.0.0'
         ]);
 
-        // Missing required webhook_url
-        $config = [
-            'channel' => '#notifications',
-        ];
-
-        $result = $this->manager->installIntegration('slack', $config);
-
-        $this->assertFalse($result['success']);
+        $this->assertTrue($extension->hasUpdate());
     }
 
-    public function test_uninstall_integration()
+    public function test_installed_extension_has_update_false()
     {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'slug' => 'slack',
-            'is_installed' => 1,
+        $extension = new InstalledExtension([
+            'version' => '2.0.0',
+            'latest_version' => '2.0.0'
         ]);
 
-        $result = $this->manager->uninstallIntegration('slack');
-
-        $this->assertTrue($result);
+        $this->assertFalse($extension->hasUpdate());
     }
 
-    public function test_get_installed_integrations()
+    public function test_installed_extension_has_update_no_latest()
     {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'integration_slug' => 'slack',
-                'config' => json_encode(['webhook_url' => 'https://...']),
-                'enabled' => 1,
-            ],
+        $extension = new InstalledExtension([
+            'version' => '1.0.0',
+            'latest_version' => null
         ]);
 
-        $installed = $this->manager->getInstalledIntegrations();
+        $this->assertFalse($extension->hasUpdate());
+    }
+
+    public function test_installed_extension_is_active()
+    {
+        $active = new InstalledExtension(['status' => ExtensionStatus::ACTIVE]);
+        $inactive = new InstalledExtension(['status' => ExtensionStatus::INACTIVE]);
+
+        $this->assertTrue($active->isActive());
+        $this->assertFalse($inactive->isActive());
+    }
+
+    public function test_installed_extension_is_license_valid_free()
+    {
+        $extension = new InstalledExtension([
+            'is_premium' => false
+        ]);
+
+        $this->assertTrue($extension->isLicenseValid());
+    }
+
+    public function test_installed_extension_is_license_valid_premium_valid()
+    {
+        $extension = new InstalledExtension([
+            'is_premium' => true,
+            'license_key' => 'VALID-KEY',
+            'license_expires' => date('Y-m-d', strtotime('+1 year'))
+        ]);
+
+        $this->assertTrue($extension->isLicenseValid());
+    }
+
+    public function test_installed_extension_is_license_valid_premium_expired()
+    {
+        $extension = new InstalledExtension([
+            'is_premium' => true,
+            'license_key' => 'EXPIRED-KEY',
+            'license_expires' => date('Y-m-d', strtotime('-1 year'))
+        ]);
+
+        $this->assertFalse($extension->isLicenseValid());
+    }
+
+    public function test_installed_extension_is_license_valid_premium_no_key()
+    {
+        $extension = new InstalledExtension([
+            'is_premium' => true,
+            'license_key' => null
+        ]);
+
+        $this->assertFalse($extension->isLicenseValid());
+    }
+
+    public function test_installed_extension_to_array()
+    {
+        $extension = new InstalledExtension([
+            'id' => 'test-ext',
+            'slug' => 'test',
+            'name' => 'Test'
+        ]);
+
+        $array = $extension->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('slug', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('version', $array);
+        $this->assertArrayHasKey('status', $array);
+    }
+
+    // ==========================================================================
+    // MarketplaceExtension Model Tests
+    // ==========================================================================
+
+    public function test_marketplace_extension_constructor()
+    {
+        $extension = new MarketplaceExtension([
+            'id' => 'mkt-1',
+            'slug' => 'marketplace-extension',
+            'name' => 'Marketplace Extension',
+            'version' => '3.0.0',
+            'description' => 'Short description',
+            'long_description' => 'Longer description with more details',
+            'author' => 'Extension Author',
+            'category' => 'analytics',
+            'tags' => ['analytics', 'reporting'],
+            'icon' => 'https://example.com/icon.png',
+            'screenshots' => ['https://example.com/screen1.png'],
+            'download_url' => 'https://example.com/download',
+            'rating' => 4.5,
+            'rating_count' => 100,
+            'active_installs' => 5000,
+            'is_premium' => true,
+            'price' => 49.99,
+            'currency' => 'USD'
+        ]);
+
+        $this->assertEquals('mkt-1', $extension->id);
+        $this->assertEquals('marketplace-extension', $extension->slug);
+        $this->assertEquals('3.0.0', $extension->version);
+        $this->assertEquals('analytics', $extension->category);
+        $this->assertContains('analytics', $extension->tags);
+        $this->assertEquals(4.5, $extension->rating);
+        $this->assertEquals(5000, $extension->active_installs);
+        $this->assertTrue($extension->is_premium);
+        $this->assertEquals(49.99, $extension->price);
+    }
+
+    public function test_marketplace_extension_defaults()
+    {
+        $extension = new MarketplaceExtension([]);
+
+        $this->assertEquals('', $extension->id);
+        $this->assertEquals('1.0.0', $extension->version);
+        $this->assertEquals('general', $extension->category);
+        $this->assertEquals(0.0, $extension->rating);
+        $this->assertEquals(0, $extension->rating_count);
+        $this->assertEquals(0, $extension->active_installs);
+        $this->assertFalse($extension->is_premium);
+        $this->assertEquals(0.0, $extension->price);
+        $this->assertEquals('USD', $extension->currency);
+        $this->assertEquals('8.1', $extension->requires_php);
+        $this->assertEquals('6.0', $extension->requires_wp);
+        $this->assertEquals('2.0.0', $extension->requires_ffp);
+    }
+
+    public function test_marketplace_extension_to_array()
+    {
+        $extension = new MarketplaceExtension([
+            'id' => 'test',
+            'name' => 'Test Extension',
+            'price' => 29.99
+        ]);
+
+        $array = $extension->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('price', $array);
+        $this->assertArrayHasKey('rating', $array);
+        $this->assertArrayHasKey('is_premium', $array);
+    }
+
+    // ==========================================================================
+    // ExtensionManager Basic Methods Tests
+    // ==========================================================================
+
+    public function test_get_categories()
+    {
+        $manager = ExtensionManager::getInstance();
+        $categories = $manager->getCategories();
+
+        $this->assertIsArray($categories);
+        $this->assertArrayHasKey('field-types', $categories);
+        $this->assertArrayHasKey('integrations', $categories);
+        $this->assertArrayHasKey('workflow-actions', $categories);
+        $this->assertArrayHasKey('notifications', $categories);
+        $this->assertArrayHasKey('payments', $categories);
+        $this->assertArrayHasKey('analytics', $categories);
+    }
+
+    public function test_get_installed_extensions_returns_array()
+    {
+        $manager = ExtensionManager::getInstance();
+        $installed = $manager->getInstalledExtensions();
 
         $this->assertIsArray($installed);
     }
 
-    public function test_toggle_integration()
+    public function test_get_active_extensions_returns_array()
     {
-        global $wpdb;
+        $manager = ExtensionManager::getInstance();
+        $active = $manager->getActiveExtensions();
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'integration_slug' => 'slack',
-            'enabled' => 1,
-        ]);
-
-        $result = $this->manager->toggleIntegration('slack', false);
-
-        $this->assertTrue($result['success']);
+        $this->assertIsArray($active);
     }
 
-    public function test_update_integration_config()
+    public function test_is_installed_returns_false_for_unknown()
     {
-        global $wpdb;
+        $manager = ExtensionManager::getInstance();
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'integration_slug' => 'slack',
-            'config' => json_encode(['webhook_url' => 'old-url']),
-        ]);
-
-        $newConfig = [
-            'webhook_url' => 'https://hooks.slack.com/new',
-            'channel' => '#new-channel',
-        ];
-
-        $result = $this->manager->updateIntegrationConfig('slack', $newConfig);
-
-        $this->assertTrue($result['success']);
+        $this->assertFalse($manager->isInstalled('unknown-extension'));
     }
 
-    public function test_get_integration_categories()
+    public function test_is_active_returns_false_for_unknown()
     {
-        $categories = $this->manager->getCategories();
+        $manager = ExtensionManager::getInstance();
 
-        $this->assertIsArray($categories);
-        $this->assertContains('communication', array_keys($categories));
-        $this->assertContains('crm', array_keys($categories));
-        $this->assertContains('storage', array_keys($categories));
-        $this->assertContains('analytics', array_keys($categories));
+        $this->assertFalse($manager->isActive('unknown-extension'));
     }
 
-    public function test_search_integrations()
+    // ==========================================================================
+    // REST API Tests
+    // ==========================================================================
+
+    public function test_rest_permission_check()
     {
-        global $wpdb;
+        $manager = ExtensionManager::getInstance();
 
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Slack Integration',
-                'slug' => 'slack',
-            ],
-        ]);
-
-        $results = $this->manager->searchIntegrations('slack');
-
-        $this->assertIsArray($results);
-    }
-
-    public function test_filter_integrations_by_category()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Salesforce',
-                'category' => 'crm',
-            ],
-            (object)[
-                'id' => '2',
-                'name' => 'HubSpot',
-                'category' => 'crm',
-            ],
-        ]);
-
-        $results = $this->manager->getIntegrationsByCategory('crm');
-
-        $this->assertIsArray($results);
-        $this->assertCount(2, $results);
-    }
-
-    public function test_execute_integration_action()
-    {
-        global $wpdb, $wp_http_mock_response;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'integration_slug' => 'slack',
-            'config' => json_encode(['webhook_url' => 'https://hooks.slack.com/xxx']),
-            'enabled' => 1,
-        ]);
-
-        // Mock successful webhook response
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => 'ok',
-        ];
-
-        $result = $this->manager->executeAction('slack', 'send_message', [
-            'text' => 'Hello from FormFlow!',
-        ]);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_execute_integration_action_disabled()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'integration_slug' => 'slack',
-            'enabled' => 0, // Disabled
-        ]);
-
-        $result = $this->manager->executeAction('slack', 'send_message', []);
-
-        $this->assertFalse($result['success']);
-    }
-
-    public function test_get_integration_logs()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'integration_slug' => 'slack',
-                'action' => 'send_message',
-                'status' => 'success',
-                'created_at' => '2024-01-15 10:00:00',
-            ],
-        ]);
-
-        $logs = $this->manager->getIntegrationLogs('slack', 1, 10);
-
-        $this->assertIsArray($logs);
-    }
-
-    public function test_validate_integration_config()
-    {
-        $schema = [
-            'webhook_url' => ['type' => 'string', 'required' => true],
-            'channel' => ['type' => 'string', 'required' => false],
-            'timeout' => ['type' => 'integer', 'required' => false, 'default' => 30],
-        ];
-
-        $config = [
-            'webhook_url' => 'https://example.com/webhook',
-            'channel' => '#general',
-        ];
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateConfig', [$config, $schema]);
-
-        $this->assertTrue($isValid);
-    }
-
-    public function test_validate_integration_config_missing_required()
-    {
-        $schema = [
-            'api_key' => ['type' => 'string', 'required' => true],
-        ];
-
-        $config = [
-            'other_field' => 'value',
-        ];
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateConfig', [$config, $schema]);
-
-        $this->assertFalse($isValid);
-    }
-
-    public function test_register_custom_integration()
-    {
-        $integrationData = [
-            'name' => 'Custom CRM',
-            'slug' => 'custom-crm',
-            'description' => 'Custom CRM integration',
-            'category' => 'crm',
-            'config_schema' => [
-                'api_url' => ['type' => 'string', 'required' => true],
-                'api_key' => ['type' => 'string', 'required' => true],
-            ],
-            'actions' => [
-                'create_contact' => [
-                    'label' => 'Create Contact',
-                    'fields' => ['name', 'email', 'phone'],
-                ],
-            ],
-        ];
-
-        $result = $this->manager->registerIntegration($integrationData);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_get_integration_webhooks()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'integration_slug' => 'slack',
-                'event' => 'form_submitted',
-                'webhook_url' => 'https://hooks.slack.com/xxx',
-                'enabled' => 1,
-            ],
-        ]);
-
-        $webhooks = $this->manager->getIntegrationWebhooks('slack');
-
-        $this->assertIsArray($webhooks);
-    }
-
-    public function test_create_webhook()
-    {
-        global $wpdb;
-
-        $webhookData = [
-            'integration_slug' => 'slack',
-            'event' => 'form_submitted',
-            'form_id' => 'form-123',
-            'config' => ['channel' => '#notifications'],
-        ];
-
-        $result = $this->manager->createWebhook($webhookData);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_delete_webhook()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'integration_slug' => 'slack',
-        ]);
-
-        $result = $this->manager->deleteWebhook('1');
+        // In test environment, current_user_can returns true
+        $result = $manager->restPermissionCheck();
 
         $this->assertTrue($result);
     }
 
-    public function test_get_api_credentials()
+    public function test_rest_search_extensions_returns_response()
     {
-        global $wpdb;
+        global $wp_http_mock_response;
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'api_key' => 'ffp_live_xxxx',
-            'api_secret' => 'encrypted_secret',
-            'created_at' => '2024-01-01 10:00:00',
-        ]);
+        $wp_http_mock_response = [
+            'response' => ['code' => 200],
+            'body' => json_encode([
+                'extensions' => [],
+                'total' => 0
+            ])
+        ];
 
-        $credentials = $this->manager->getAPICredentials();
+        $manager = ExtensionManager::getInstance();
 
-        $this->assertIsArray($credentials);
-        $this->assertArrayHasKey('api_key', $credentials);
+        $request = new \WP_REST_Request('GET', '/formflow-pro/v1/marketplace/extensions');
+        $response = $manager->restSearchExtensions($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
     }
 
-    public function test_regenerate_api_credentials()
+    public function test_rest_get_installed_extensions_returns_response()
     {
-        $result = $this->manager->regenerateAPICredentials();
+        $manager = ExtensionManager::getInstance();
+
+        $request = new \WP_REST_Request('GET', '/formflow-pro/v1/extensions');
+        $response = $manager->restGetInstalledExtensions($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    // ==========================================================================
+    // Extension Lifecycle Tests
+    // ==========================================================================
+
+    public function test_activate_extension_not_installed()
+    {
+        $manager = ExtensionManager::getInstance();
+
+        $result = $manager->activateExtension('nonexistent-extension');
 
         $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertArrayHasKey('api_key', $result);
-        $this->assertArrayHasKey('api_secret', $result);
+        $this->assertFalse($result['success']);
+        $this->assertArrayHasKey('message', $result);
     }
 
-    public function test_validate_api_request()
+    public function test_deactivate_extension_not_installed()
     {
-        global $wpdb;
+        $manager = ExtensionManager::getInstance();
 
-        // Store API key
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'api_key' => 'ffp_live_test123',
-            'api_secret_hash' => password_hash('secret123', PASSWORD_DEFAULT),
-            'enabled' => 1,
+        $result = $manager->deactivateExtension('nonexistent-extension');
+
+        $this->assertIsArray($result);
+        $this->assertFalse($result['success']);
+    }
+
+    public function test_uninstall_extension_not_installed()
+    {
+        $manager = ExtensionManager::getInstance();
+
+        $result = $manager->uninstallExtension('nonexistent-extension');
+
+        $this->assertIsArray($result);
+        $this->assertFalse($result['success']);
+    }
+
+    public function test_update_extension_not_installed()
+    {
+        $manager = ExtensionManager::getInstance();
+
+        $result = $manager->updateExtension('nonexistent-extension');
+
+        $this->assertIsArray($result);
+        $this->assertFalse($result['success']);
+    }
+
+    // ==========================================================================
+    // Marketplace Search Tests
+    // ==========================================================================
+
+    public function test_search_marketplace_returns_array()
+    {
+        global $wp_http_mock_response;
+
+        $wp_http_mock_response = [
+            'response' => ['code' => 200],
+            'body' => json_encode([
+                'extensions' => [
+                    ['id' => '1', 'name' => 'Test Extension', 'slug' => 'test']
+                ],
+                'total' => 1,
+                'pages' => 1
+            ])
+        ];
+
+        $manager = ExtensionManager::getInstance();
+
+        $result = $manager->searchMarketplace([
+            'query' => 'test',
+            'category' => 'integrations'
         ]);
 
-        $isValid = $this->manager->validateAPIRequest('ffp_live_test123', 'secret123');
-
-        $this->assertTrue($isValid);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('extensions', $result);
+        $this->assertArrayHasKey('total', $result);
     }
 
-    public function test_validate_api_request_invalid()
+    public function test_search_marketplace_handles_error()
     {
-        global $wpdb;
+        global $wp_http_mock_error;
 
-        $wpdb->set_mock_result('get_row', null);
+        $wp_http_mock_error = 'Connection failed';
 
-        $isValid = $this->manager->validateAPIRequest('invalid-key', 'invalid-secret');
+        $manager = ExtensionManager::getInstance();
 
-        $this->assertFalse($isValid);
+        $result = $manager->searchMarketplace(['query' => 'test']);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('extensions', $result);
+        $this->assertEmpty($result['extensions']);
+    }
+
+    public function test_get_featured_extensions_returns_array()
+    {
+        global $wp_http_mock_response;
+
+        $wp_http_mock_response = [
+            'response' => ['code' => 200],
+            'body' => json_encode([])
+        ];
+
+        $manager = ExtensionManager::getInstance();
+
+        $result = $manager->getFeaturedExtensions();
+
+        $this->assertIsArray($result);
+    }
+
+    // ==========================================================================
+    // Event Callbacks Tests
+    // ==========================================================================
+
+    public function test_on_extension_activated()
+    {
+        $manager = ExtensionManager::getInstance();
+
+        // Should not throw
+        $manager->onExtensionActivated('test-extension', ['name' => 'Test']);
+
+        $this->assertTrue(true);
+    }
+
+    public function test_on_extension_deactivated()
+    {
+        $manager = ExtensionManager::getInstance();
+
+        // Should not throw
+        $manager->onExtensionDeactivated('test-extension');
+
+        $this->assertTrue(true);
+    }
+
+    // ==========================================================================
+    // Integration Tests
+    // ==========================================================================
+
+    public function test_installed_extension_workflow()
+    {
+        $extension = new InstalledExtension([
+            'id' => 'workflow-test',
+            'slug' => 'workflow-test',
+            'name' => 'Workflow Test',
+            'version' => '1.0.0',
+            'status' => ExtensionStatus::INACTIVE,
+            'is_premium' => false
+        ]);
+
+        // Initially inactive
+        $this->assertFalse($extension->isActive());
+        $this->assertTrue($extension->isLicenseValid()); // Free extension
+
+        // Convert to array and back
+        $array = $extension->toArray();
+        $restored = new InstalledExtension($array);
+
+        $this->assertEquals($extension->slug, $restored->slug);
+        $this->assertEquals($extension->version, $restored->version);
+    }
+
+    public function test_marketplace_extension_pricing()
+    {
+        $free = new MarketplaceExtension([
+            'name' => 'Free Extension',
+            'is_premium' => false,
+            'price' => 0
+        ]);
+
+        $premium = new MarketplaceExtension([
+            'name' => 'Premium Extension',
+            'is_premium' => true,
+            'price' => 99.99,
+            'currency' => 'USD'
+        ]);
+
+        $this->assertFalse($free->is_premium);
+        $this->assertEquals(0, $free->price);
+
+        $this->assertTrue($premium->is_premium);
+        $this->assertEquals(99.99, $premium->price);
+        $this->assertEquals('USD', $premium->currency);
     }
 }

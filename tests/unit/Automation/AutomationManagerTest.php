@@ -7,16 +7,33 @@ namespace FormFlowPro\Tests\Unit\Automation;
 
 use FormFlowPro\Tests\TestCase;
 use FormFlowPro\Automation\AutomationManager;
+use FormFlowPro\Automation\WorkflowTemplate;
 
 class AutomationManagerTest extends TestCase
 {
-    private $manager;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = AutomationManager::getInstance();
+        // Reset singleton for each test
+        $reflection = new \ReflectionClass(AutomationManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
     }
+
+    protected function tearDown(): void
+    {
+        // Reset singleton
+        $reflection = new \ReflectionClass(AutomationManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
+    }
+
+    // ==========================================================================
+    // Singleton Tests
+    // ==========================================================================
 
     public function test_singleton_instance()
     {
@@ -24,370 +41,410 @@ class AutomationManagerTest extends TestCase
         $instance2 = AutomationManager::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(AutomationManager::class, $instance1);
     }
 
-    public function test_create_workflow()
+    // ==========================================================================
+    // Template Tests
+    // ==========================================================================
+
+    public function test_get_templates_returns_array()
     {
-        global $wpdb;
+        $manager = AutomationManager::getInstance();
+        $templates = $manager->getTemplates();
 
-        $workflowData = [
-            'name' => 'New Submission Workflow',
-            'trigger' => 'form_submitted',
-            'trigger_config' => ['form_id' => 'form-123'],
-            'nodes' => [
-                [
-                    'id' => 'start-1',
-                    'type' => 'start',
-                    'position' => ['x' => 100, 'y' => 100],
-                ],
-                [
-                    'id' => 'email-1',
-                    'type' => 'send_email',
-                    'config' => [
-                        'to' => '{{submission.email}}',
-                        'subject' => 'Thank you!',
-                        'body' => 'We received your submission.',
-                    ],
-                    'position' => ['x' => 100, 'y' => 200],
-                ],
-                [
-                    'id' => 'end-1',
-                    'type' => 'end',
-                    'position' => ['x' => 100, 'y' => 300],
-                ],
-            ],
-            'connections' => [
-                ['from' => 'start-1', 'to' => 'email-1'],
-                ['from' => 'email-1', 'to' => 'end-1'],
-            ],
-        ];
-
-        $result = $this->manager->createWorkflow($workflowData);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertArrayHasKey('workflow_id', $result);
+        $this->assertIsArray($templates);
     }
 
-    public function test_create_workflow_validation_fails_without_name()
+    public function test_register_template()
     {
-        $workflowData = [
-            'trigger' => 'form_submitted',
-            'nodes' => [],
-        ];
+        $manager = AutomationManager::getInstance();
 
-        $result = $this->manager->createWorkflow($workflowData);
-
-        $this->assertFalse($result['success']);
-        $this->assertArrayHasKey('error', $result);
-    }
-
-    public function test_get_workflow()
-    {
-        global $wpdb;
-
-        $mockWorkflow = (object)[
-            'id' => '1',
-            'name' => 'Test Workflow',
-            'trigger' => 'form_submitted',
-            'trigger_config' => json_encode(['form_id' => 'form-123']),
-            'nodes' => json_encode([]),
-            'connections' => json_encode([]),
-            'status' => 'active',
-            'created_at' => '2024-01-01 10:00:00',
-        ];
-
-        $wpdb->set_mock_result('get_row', $mockWorkflow);
-
-        $workflow = $this->manager->getWorkflow('1');
-
-        $this->assertIsObject($workflow);
-        $this->assertEquals('Test Workflow', $workflow->name);
-    }
-
-    public function test_update_workflow()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'name' => 'Old Name',
-            'status' => 'active',
+        $template = new WorkflowTemplate([
+            'id' => 'custom_template',
+            'name' => 'Custom Template',
+            'description' => 'A custom workflow template',
+            'category' => 'testing',
+            'icon' => 'settings',
+            'workflow_data' => [
+                'triggers' => [],
+                'nodes' => [],
+                'connections' => []
+            ]
         ]);
 
-        $updateData = [
-            'name' => 'Updated Workflow',
-            'nodes' => [
-                ['id' => 'start-1', 'type' => 'start'],
+        $manager->registerTemplate($template);
+
+        $templates = $manager->getTemplates();
+        $this->assertArrayHasKey('custom_template', $templates);
+        $this->assertEquals('Custom Template', $templates['custom_template']->name);
+    }
+
+    public function test_get_templates_by_category()
+    {
+        $manager = AutomationManager::getInstance();
+
+        // Register templates in different categories
+        $manager->registerTemplate(new WorkflowTemplate([
+            'id' => 'template_a',
+            'name' => 'Template A',
+            'category' => 'cat_one'
+        ]));
+
+        $manager->registerTemplate(new WorkflowTemplate([
+            'id' => 'template_b',
+            'name' => 'Template B',
+            'category' => 'cat_two'
+        ]));
+
+        $byCategory = $manager->getTemplatesByCategory();
+
+        $this->assertIsArray($byCategory);
+        $this->assertArrayHasKey('cat_one', $byCategory);
+        $this->assertArrayHasKey('cat_two', $byCategory);
+    }
+
+    // ==========================================================================
+    // Workflow CRUD Tests
+    // ==========================================================================
+
+    public function test_get_workflows_returns_array()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_results', [
+            [
+                'id' => 1,
+                'uuid' => 'uuid-123',
+                'name' => 'Test Workflow',
+                'status' => 'active',
+                'triggers' => '[]',
+                'nodes' => '[]',
+                'connections' => '[]'
+            ]
+        ]);
+
+        $manager = AutomationManager::getInstance();
+        $workflows = $manager->getWorkflows();
+
+        $this->assertIsArray($workflows);
+    }
+
+    public function test_get_workflows_with_status_filter()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_results', [
+            [
+                'id' => 1,
+                'name' => 'Active Workflow',
+                'status' => 'active'
+            ]
+        ]);
+
+        $manager = AutomationManager::getInstance();
+        $workflows = $manager->getWorkflows(['status' => 'active']);
+
+        $this->assertIsArray($workflows);
+    }
+
+    public function test_get_workflow_returns_array_on_success()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_row', [
+            'id' => 1,
+            'uuid' => 'uuid-456',
+            'name' => 'Single Workflow',
+            'status' => 'draft',
+            'triggers' => '[]',
+            'nodes' => '[]'
+        ]);
+
+        $manager = AutomationManager::getInstance();
+        $workflow = $manager->getWorkflow(1);
+
+        $this->assertIsArray($workflow);
+        $this->assertEquals('Single Workflow', $workflow['name']);
+    }
+
+    public function test_get_workflow_returns_null_when_not_found()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_row', null);
+
+        $manager = AutomationManager::getInstance();
+        $workflow = $manager->getWorkflow(999);
+
+        $this->assertNull($workflow);
+    }
+
+    public function test_save_workflow_creates_new_workflow()
+    {
+        global $wpdb;
+
+        $wpdb->insert_id = 1;
+
+        $manager = AutomationManager::getInstance();
+
+        $data = [
+            'name' => 'New Workflow',
+            'description' => 'Test workflow description',
+            'status' => 'draft',
+            'triggers' => [
+                ['type' => 'form_submission', 'config' => []]
             ],
+            'nodes' => [
+                ['id' => 'start', 'type' => 'start'],
+                ['id' => 'end', 'type' => 'end']
+            ],
+            'connections' => [
+                ['source' => 'start', 'target' => 'end']
+            ]
         ];
 
-        $result = $this->manager->updateWorkflow('1', $updateData);
+        $id = $manager->saveWorkflow($data);
 
-        $this->assertTrue($result['success']);
+        $this->assertEquals(1, $id);
+    }
+
+    public function test_save_workflow_updates_existing_workflow()
+    {
+        global $wpdb;
+
+        $manager = AutomationManager::getInstance();
+
+        $data = [
+            'id' => 1,
+            'name' => 'Updated Workflow',
+            'description' => 'Updated description',
+            'status' => 'active',
+            'triggers' => [],
+            'nodes' => [],
+            'connections' => [],
+            'version' => 1
+        ];
+
+        $id = $manager->saveWorkflow($data);
+
+        $this->assertEquals(1, $id);
     }
 
     public function test_delete_workflow()
     {
         global $wpdb;
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'name' => 'Test Workflow',
-        ]);
+        $manager = AutomationManager::getInstance();
 
-        $result = $this->manager->deleteWorkflow('1');
+        // Should not throw
+        $manager->deleteWorkflow(1);
 
-        $this->assertTrue($result);
+        $this->assertTrue(true);
     }
 
-    public function test_toggle_workflow_status()
-    {
-        global $wpdb;
+    // ==========================================================================
+    // Execution Tests
+    // ==========================================================================
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'status' => 'active',
-        ]);
-
-        $result = $this->manager->toggleWorkflowStatus('1', 'paused');
-
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_get_all_workflows()
+    public function test_get_executions_returns_array()
     {
         global $wpdb;
 
         $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Workflow 1',
-                'status' => 'active',
-            ],
-            (object)[
-                'id' => '2',
-                'name' => 'Workflow 2',
-                'status' => 'paused',
-            ],
-        ]);
-
-        $workflows = $this->manager->getWorkflows();
-
-        $this->assertIsArray($workflows);
-        $this->assertCount(2, $workflows);
-    }
-
-    public function test_get_available_triggers()
-    {
-        $triggers = $this->manager->getAvailableTriggers();
-
-        $this->assertIsArray($triggers);
-        $this->assertArrayHasKey('form_submitted', $triggers);
-        $this->assertArrayHasKey('signature_completed', $triggers);
-        $this->assertArrayHasKey('payment_received', $triggers);
-    }
-
-    public function test_get_available_actions()
-    {
-        $actions = $this->manager->getAvailableActions();
-
-        $this->assertIsArray($actions);
-        $this->assertArrayHasKey('send_email', $actions);
-        $this->assertArrayHasKey('send_sms', $actions);
-        $this->assertArrayHasKey('http_request', $actions);
-        $this->assertArrayHasKey('create_pdf', $actions);
-        $this->assertArrayHasKey('send_signature', $actions);
-        $this->assertArrayHasKey('database_query', $actions);
-    }
-
-    public function test_execute_workflow()
-    {
-        global $wpdb;
-
-        $mockWorkflow = (object)[
-            'id' => '1',
-            'name' => 'Test Workflow',
-            'status' => 'active',
-            'nodes' => json_encode([
-                ['id' => 'start-1', 'type' => 'start'],
-                ['id' => 'set-var-1', 'type' => 'set_variable', 'config' => ['name' => 'test', 'value' => 'hello']],
-                ['id' => 'end-1', 'type' => 'end'],
-            ]),
-            'connections' => json_encode([
-                ['from' => 'start-1', 'to' => 'set-var-1'],
-                ['from' => 'set-var-1', 'to' => 'end-1'],
-            ]),
-        ];
-
-        $wpdb->set_mock_result('get_row', $mockWorkflow);
-
-        $context = [
-            'submission_id' => '123',
-            'form_id' => 'form-456',
-            'data' => ['name' => 'John', 'email' => 'john@example.com'],
-        ];
-
-        $result = $this->manager->executeWorkflow('1', $context);
-
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('success', $result);
-    }
-
-    public function test_execute_workflow_paused_returns_error()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'status' => 'paused',
-        ]);
-
-        $result = $this->manager->executeWorkflow('1', []);
-
-        $this->assertFalse($result['success']);
-    }
-
-    public function test_validate_workflow_structure()
-    {
-        $validWorkflow = [
-            'nodes' => [
-                ['id' => 'start-1', 'type' => 'start'],
-                ['id' => 'end-1', 'type' => 'end'],
-            ],
-            'connections' => [
-                ['from' => 'start-1', 'to' => 'end-1'],
-            ],
-        ];
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateWorkflowStructure', [$validWorkflow]);
-
-        $this->assertTrue($isValid);
-    }
-
-    public function test_validate_workflow_requires_start_node()
-    {
-        $invalidWorkflow = [
-            'nodes' => [
-                ['id' => 'email-1', 'type' => 'send_email'],
-                ['id' => 'end-1', 'type' => 'end'],
-            ],
-            'connections' => [],
-        ];
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateWorkflowStructure', [$invalidWorkflow]);
-
-        $this->assertFalse($isValid);
-    }
-
-    public function test_validate_workflow_requires_end_node()
-    {
-        $invalidWorkflow = [
-            'nodes' => [
-                ['id' => 'start-1', 'type' => 'start'],
-                ['id' => 'email-1', 'type' => 'send_email'],
-            ],
-            'connections' => [],
-        ];
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateWorkflowStructure', [$invalidWorkflow]);
-
-        $this->assertFalse($isValid);
-    }
-
-    public function test_process_condition_node()
-    {
-        $node = [
-            'id' => 'condition-1',
-            'type' => 'condition',
-            'config' => [
-                'field' => 'status',
-                'operator' => 'equals',
-                'value' => 'approved',
-            ],
-        ];
-
-        $context = [
-            'data' => ['status' => 'approved'],
-        ];
-
-        $result = $this->callPrivateMethod($this->manager, 'processConditionNode', [$node, $context]);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_process_condition_node_not_equals()
-    {
-        $node = [
-            'id' => 'condition-1',
-            'type' => 'condition',
-            'config' => [
-                'field' => 'status',
-                'operator' => 'not_equals',
-                'value' => 'rejected',
-            ],
-        ];
-
-        $context = [
-            'data' => ['status' => 'approved'],
-        ];
-
-        $result = $this->callPrivateMethod($this->manager, 'processConditionNode', [$node, $context]);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_replace_variables_in_string()
-    {
-        $template = 'Hello {{name}}, your email is {{email}}';
-        $context = [
-            'data' => [
-                'name' => 'John Doe',
-                'email' => 'john@example.com',
-            ],
-        ];
-
-        $result = $this->callPrivateMethod($this->manager, 'replaceVariables', [$template, $context]);
-
-        $this->assertEquals('Hello John Doe, your email is john@example.com', $result);
-    }
-
-    public function test_get_workflow_execution_history()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'workflow_id' => '1',
+            [
+                'id' => 1,
+                'execution_id' => 'exec-123',
+                'workflow_id' => 1,
                 'status' => 'completed',
-                'started_at' => '2024-01-15 10:00:00',
-                'completed_at' => '2024-01-15 10:00:05',
-            ],
+                'started_at' => '2024-01-01 10:00:00'
+            ]
         ]);
 
-        $history = $this->manager->getWorkflowExecutionHistory('1');
+        $manager = AutomationManager::getInstance();
+        $executions = $manager->getExecutions(1);
 
-        $this->assertIsArray($history);
+        $this->assertIsArray($executions);
     }
 
-    public function test_duplicate_workflow()
+    public function test_get_executions_with_limit()
     {
         global $wpdb;
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'name' => 'Original Workflow',
-            'trigger' => 'form_submitted',
-            'trigger_config' => json_encode([]),
-            'nodes' => json_encode([]),
-            'connections' => json_encode([]),
-            'status' => 'active',
+        $wpdb->set_mock_result('get_results', []);
+
+        $manager = AutomationManager::getInstance();
+        $executions = $manager->getExecutions(1, 10);
+
+        $this->assertIsArray($executions);
+    }
+
+    // ==========================================================================
+    // REST API Tests
+    // ==========================================================================
+
+    public function test_rest_get_workflows_returns_response()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_results', []);
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('GET', '/formflow/v1/automation/workflows');
+        $response = $manager->restGetWorkflows($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    public function test_rest_get_workflow_returns_response()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_row', [
+            'id' => 1,
+            'name' => 'Test',
+            'status' => 'active'
         ]);
 
-        $result = $this->manager->duplicateWorkflow('1');
+        $manager = AutomationManager::getInstance();
 
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
+        $request = new \WP_REST_Request('GET', '/formflow/v1/automation/workflows/1');
+        $request->set_param('id', 1);
+        $response = $manager->restGetWorkflow($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    public function test_rest_get_workflow_not_found()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_row', null);
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('GET', '/formflow/v1/automation/workflows/999');
+        $request->set_param('id', 999);
+        $response = $manager->restGetWorkflow($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+        $this->assertEquals(404, $response->get_status());
+    }
+
+    public function test_rest_create_workflow_returns_response()
+    {
+        global $wpdb;
+
+        $wpdb->insert_id = 1;
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('POST', '/formflow/v1/automation/workflows');
+        $response = $manager->restCreateWorkflow($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+        $this->assertEquals(201, $response->get_status());
+    }
+
+    public function test_rest_update_workflow_returns_response()
+    {
+        global $wpdb;
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('PUT', '/formflow/v1/automation/workflows/1');
+        $request->set_param('id', 1);
+        $response = $manager->restUpdateWorkflow($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    public function test_rest_delete_workflow_returns_response()
+    {
+        global $wpdb;
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('DELETE', '/formflow/v1/automation/workflows/1');
+        $request->set_param('id', 1);
+        $response = $manager->restDeleteWorkflow($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    public function test_rest_get_executions_returns_response()
+    {
+        global $wpdb;
+
+        $wpdb->set_mock_result('get_results', []);
+
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('GET', '/formflow/v1/automation/workflows/1/executions');
+        $request->set_param('id', 1);
+        $response = $manager->restGetExecutions($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    public function test_rest_get_templates_returns_response()
+    {
+        $manager = AutomationManager::getInstance();
+
+        $request = new \WP_REST_Request('GET', '/formflow/v1/automation/templates');
+        $response = $manager->restGetTemplates($request);
+
+        $this->assertInstanceOf(\WP_REST_Response::class, $response);
+    }
+
+    // ==========================================================================
+    // WorkflowTemplate Model Tests
+    // ==========================================================================
+
+    public function test_workflow_template_constructor()
+    {
+        $template = new WorkflowTemplate([
+            'id' => 'test_template',
+            'name' => 'Test Template',
+            'description' => 'A test template',
+            'category' => 'testing',
+            'icon' => 'gear',
+            'workflow_data' => ['key' => 'value'],
+            'is_premium' => true
+        ]);
+
+        $this->assertEquals('test_template', $template->id);
+        $this->assertEquals('Test Template', $template->name);
+        $this->assertEquals('A test template', $template->description);
+        $this->assertEquals('testing', $template->category);
+        $this->assertEquals('gear', $template->icon);
+        $this->assertTrue($template->is_premium);
+    }
+
+    public function test_workflow_template_defaults()
+    {
+        $template = new WorkflowTemplate([]);
+
+        $this->assertEquals('', $template->id);
+        $this->assertEquals('', $template->name);
+        $this->assertEquals('general', $template->category);
+        $this->assertEquals('workflow', $template->icon);
+        $this->assertFalse($template->is_premium);
+    }
+
+    public function test_workflow_template_to_array()
+    {
+        $template = new WorkflowTemplate([
+            'id' => 'array_test',
+            'name' => 'Array Test'
+        ]);
+
+        $array = $template->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertEquals('array_test', $array['id']);
     }
 }

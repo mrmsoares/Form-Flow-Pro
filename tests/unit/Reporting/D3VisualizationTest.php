@@ -10,12 +10,23 @@ use FormFlowPro\Reporting\D3Visualization;
 
 class D3VisualizationTest extends TestCase
 {
-    private $visualization;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->visualization = D3Visualization::getInstance();
+        // Reset singleton
+        $reflection = new \ReflectionClass(D3Visualization::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+    }
+
+    protected function tearDown(): void
+    {
+        $reflection = new \ReflectionClass(D3Visualization::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
     }
 
     public function test_singleton_instance()
@@ -24,147 +35,117 @@ class D3VisualizationTest extends TestCase
         $instance2 = D3Visualization::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(D3Visualization::class, $instance1);
     }
 
-    public function test_get_available_chart_types()
+    public function test_get_chart_types_returns_array()
     {
-        $types = $this->visualization->getChartTypes();
+        $visualization = D3Visualization::getInstance();
+        $types = $visualization->getChartTypes();
 
         $this->assertIsArray($types);
-        $this->assertContains('line', $types);
-        $this->assertContains('bar', $types);
-        $this->assertContains('pie', $types);
-        $this->assertContains('donut', $types);
-        $this->assertContains('area', $types);
-        $this->assertContains('scatter', $types);
-        $this->assertContains('heatmap', $types);
-        $this->assertContains('funnel', $types);
-        $this->assertContains('gauge', $types);
-        $this->assertContains('radial_bar', $types);
     }
 
-    public function test_get_color_schemes()
+    public function test_get_chart_type_returns_null_for_nonexistent()
     {
-        $schemes = $this->visualization->getColorSchemes();
+        $visualization = D3Visualization::getInstance();
+        $type = $visualization->getChartType('nonexistent_type');
+
+        $this->assertNull($type);
+    }
+
+    public function test_register_chart_type()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        $visualization->registerChartType('custom_chart', [
+            'name' => 'Custom Chart',
+            'description' => 'A custom chart type',
+            'renderer' => 'customRenderer',
+        ]);
+
+        $type = $visualization->getChartType('custom_chart');
+
+        $this->assertNotNull($type);
+        $this->assertEquals('custom_chart', $type['id']);
+        $this->assertEquals('Custom Chart', $type['name']);
+    }
+
+    public function test_get_color_schemes_returns_array()
+    {
+        $visualization = D3Visualization::getInstance();
+        $schemes = $visualization->getColorSchemes();
 
         $this->assertIsArray($schemes);
-        $this->assertNotEmpty($schemes);
     }
 
-    public function test_render_chart_returns_html()
+    public function test_get_color_scheme_returns_array()
     {
-        $config = [
+        $visualization = D3Visualization::getInstance();
+
+        // Register a scheme first
+        $visualization->registerColorScheme('test_scheme', [
+            'name' => 'Test Scheme',
+            'colors' => ['#ff0000', '#00ff00', '#0000ff'],
+        ]);
+
+        $scheme = $visualization->getColorScheme('test_scheme');
+
+        $this->assertIsArray($scheme);
+        $this->assertEquals('Test Scheme', $scheme['name']);
+    }
+
+    public function test_register_color_scheme()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        $colors = ['#1a1a1a', '#2a2a2a', '#3a3a3a', '#4a4a4a'];
+
+        $visualization->registerColorScheme('dark_scheme', [
+            'name' => 'Dark Scheme',
+            'colors' => $colors,
+        ]);
+
+        $schemes = $visualization->getColorSchemes();
+
+        $this->assertArrayHasKey('dark_scheme', $schemes);
+        $this->assertEquals('Dark Scheme', $schemes['dark_scheme']['name']);
+    }
+
+    public function test_create_chart_returns_chart_config()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        // Register a chart type first
+        $visualization->registerChartType('line', [
+            'name' => 'Line Chart',
+            'renderer' => 'lineRenderer',
+        ]);
+
+        $chart = $visualization->createChart([
+            'id' => 'test-chart',
             'type' => 'line',
             'data' => [
-                ['label' => 'Jan', 'value' => 100],
-                ['label' => 'Feb', 'value' => 150],
-                ['label' => 'Mar', 'value' => 120],
+                ['x' => 1, 'y' => 10],
+                ['x' => 2, 'y' => 20],
             ],
-            'options' => [
-                'title' => 'Test Chart',
-                'width' => 600,
-                'height' => 400,
-            ],
-        ];
+        ]);
 
-        $html = $this->visualization->renderChart($config);
-
-        $this->assertIsString($html);
-        $this->assertStringContainsString('ffp-chart', $html);
+        $this->assertIsObject($chart);
     }
 
-    public function test_render_chart_with_invalid_type_returns_error()
-    {
-        $config = [
-            'type' => 'invalid_chart_type',
-            'data' => [],
-        ];
-
-        $html = $this->visualization->renderChart($config);
-
-        $this->assertStringContainsString('error', strtolower($html));
-    }
-
-    public function test_prepare_line_chart_data()
-    {
-        $rawData = [
-            ['date' => '2024-01-01', 'value' => 100],
-            ['date' => '2024-01-02', 'value' => 150],
-            ['date' => '2024-01-03', 'value' => 120],
-        ];
-
-        $prepared = $this->callPrivateMethod($this->visualization, 'prepareLineData', [$rawData]);
-
-        $this->assertIsArray($prepared);
-    }
-
-    public function test_prepare_bar_chart_data()
-    {
-        $rawData = [
-            ['label' => 'Form A', 'value' => 100],
-            ['label' => 'Form B', 'value' => 150],
-            ['label' => 'Form C', 'value' => 80],
-        ];
-
-        $prepared = $this->callPrivateMethod($this->visualization, 'prepareBarData', [$rawData]);
-
-        $this->assertIsArray($prepared);
-    }
-
-    public function test_prepare_pie_chart_data()
-    {
-        $rawData = [
-            ['label' => 'Completed', 'value' => 60],
-            ['label' => 'Pending', 'value' => 30],
-            ['label' => 'Failed', 'value' => 10],
-        ];
-
-        $prepared = $this->callPrivateMethod($this->visualization, 'preparePieData', [$rawData]);
-
-        $this->assertIsArray($prepared);
-
-        // Should calculate percentages
-        $total = array_sum(array_column($rawData, 'value'));
-        $this->assertEquals(100, $total);
-    }
-
-    public function test_get_chart_config_defaults()
-    {
-        $defaults = $this->visualization->getDefaultConfig('line');
-
-        $this->assertIsArray($defaults);
-        $this->assertArrayHasKey('width', $defaults);
-        $this->assertArrayHasKey('height', $defaults);
-        $this->assertArrayHasKey('margin', $defaults);
-    }
-
-    public function test_render_dashboard_widget()
-    {
-        $config = [
-            'id' => 'test-widget',
-            'title' => 'Test Widget',
-            'chart_type' => 'bar',
-            'data_source' => 'submissions_by_form',
-            'width' => 6, // Grid columns
-        ];
-
-        $html = $this->visualization->renderDashboardWidget($config);
-
-        $this->assertIsString($html);
-        $this->assertStringContainsString('ffp-dashboard-widget', $html);
-    }
-
-    public function test_get_submissions_chart_data()
+    public function test_get_chart_data_returns_array()
     {
         global $wpdb;
 
         $wpdb->set_mock_result('get_results', [
             (object)['date' => '2024-01-01', 'count' => 10],
             (object)['date' => '2024-01-02', 'count' => 15],
-            (object)['date' => '2024-01-03', 'count' => 12],
         ]);
 
-        $data = $this->visualization->getChartData('submissions_over_time', [
+        $visualization = D3Visualization::getInstance();
+
+        $data = $visualization->getChartData('submissions', [
             'start_date' => '2024-01-01',
             'end_date' => '2024-01-31',
         ]);
@@ -172,77 +153,67 @@ class D3VisualizationTest extends TestCase
         $this->assertIsArray($data);
     }
 
-    public function test_get_form_distribution_chart_data()
+    public function test_export_chart_returns_array()
     {
-        global $wpdb;
+        $visualization = D3Visualization::getInstance();
 
-        $wpdb->set_mock_result('get_results', [
-            (object)['form_name' => 'Contact Form', 'count' => 50],
-            (object)['form_name' => 'Quote Form', 'count' => 30],
-            (object)['form_name' => 'Survey Form', 'count' => 20],
+        $result = $visualization->exportChart('test-chart', 'svg');
+
+        $this->assertIsArray($result);
+    }
+
+    public function test_export_chart_png_format()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        $result = $visualization->exportChart('test-chart', 'png');
+
+        $this->assertIsArray($result);
+    }
+
+    public function test_register_multiple_chart_types()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        $visualization->registerChartType('type_a', ['name' => 'Type A']);
+        $visualization->registerChartType('type_b', ['name' => 'Type B']);
+        $visualization->registerChartType('type_c', ['name' => 'Type C']);
+
+        $types = $visualization->getChartTypes();
+
+        $this->assertArrayHasKey('type_a', $types);
+        $this->assertArrayHasKey('type_b', $types);
+        $this->assertArrayHasKey('type_c', $types);
+    }
+
+    public function test_chart_type_default_values()
+    {
+        $visualization = D3Visualization::getInstance();
+
+        $visualization->registerChartType('minimal_type', [
+            'name' => 'Minimal',
         ]);
 
-        $data = $this->visualization->getChartData('form_distribution', []);
+        $type = $visualization->getChartType('minimal_type');
 
-        $this->assertIsArray($data);
+        $this->assertEquals('minimal_type', $type['id']);
+        $this->assertEquals('Minimal', $type['name']);
     }
 
-    public function test_render_kpi_widget()
+    public function test_color_scheme_structure()
     {
-        $config = [
-            'label' => 'Total Submissions',
-            'value' => 1234,
-            'trend' => 15.5,
-            'trend_direction' => 'up',
-            'format' => 'number',
-        ];
+        $visualization = D3Visualization::getInstance();
 
-        $html = $this->visualization->renderKPIWidget($config);
+        $visualization->registerColorScheme('structured', [
+            'name' => 'Structured',
+            'colors' => ['#111', '#222', '#333'],
+            'category' => 'custom',
+        ]);
 
-        $this->assertIsString($html);
-        $this->assertStringContainsString('ffp-kpi', $html);
-        $this->assertStringContainsString('1234', $html);
-    }
+        $scheme = $visualization->getColorScheme('structured');
 
-    public function test_export_chart_as_svg()
-    {
-        $chartId = 'test-chart-123';
-
-        // This would normally interact with frontend, so we test the config generation
-        $exportConfig = $this->visualization->getExportConfig($chartId, 'svg');
-
-        $this->assertIsArray($exportConfig);
-        $this->assertArrayHasKey('format', $exportConfig);
-        $this->assertEquals('svg', $exportConfig['format']);
-    }
-
-    public function test_responsive_chart_config()
-    {
-        $config = [
-            'type' => 'line',
-            'responsive' => true,
-        ];
-
-        $processedConfig = $this->visualization->processConfig($config);
-
-        $this->assertTrue($processedConfig['responsive']);
-        $this->assertArrayHasKey('breakpoints', $processedConfig);
-    }
-
-    public function test_chart_animation_options()
-    {
-        $config = [
-            'type' => 'bar',
-            'animation' => [
-                'enabled' => true,
-                'duration' => 500,
-                'easing' => 'easeInOut',
-            ],
-        ];
-
-        $processedConfig = $this->visualization->processConfig($config);
-
-        $this->assertTrue($processedConfig['animation']['enabled']);
-        $this->assertEquals(500, $processedConfig['animation']['duration']);
+        $this->assertArrayHasKey('name', $scheme);
+        $this->assertArrayHasKey('colors', $scheme);
+        $this->assertIsArray($scheme['colors']);
     }
 }

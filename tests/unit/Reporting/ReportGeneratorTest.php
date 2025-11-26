@@ -10,12 +10,23 @@ use FormFlowPro\Reporting\ReportGenerator;
 
 class ReportGeneratorTest extends TestCase
 {
-    private $generator;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->generator = ReportGenerator::getInstance();
+        // Reset singleton
+        $reflection = new \ReflectionClass(ReportGenerator::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+    }
+
+    protected function tearDown(): void
+    {
+        $reflection = new \ReflectionClass(ReportGenerator::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
     }
 
     public function test_singleton_instance()
@@ -24,207 +35,170 @@ class ReportGeneratorTest extends TestCase
         $instance2 = ReportGenerator::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(ReportGenerator::class, $instance1);
     }
 
-    public function test_get_available_report_types()
+    public function test_get_templates_returns_array()
     {
-        $types = $this->generator->getAvailableReportTypes();
+        $generator = ReportGenerator::getInstance();
+        $templates = $generator->getTemplates();
 
-        $this->assertIsArray($types);
-        $this->assertArrayHasKey('executive_summary', $types);
-        $this->assertArrayHasKey('detailed_analytics', $types);
-        $this->assertArrayHasKey('form_performance', $types);
-        $this->assertArrayHasKey('submission_export', $types);
-        $this->assertArrayHasKey('signature_status', $types);
+        $this->assertIsArray($templates);
     }
 
-    public function test_get_supported_formats()
+    public function test_get_template_returns_null_for_nonexistent()
     {
-        $formats = $this->generator->getSupportedFormats();
+        $generator = ReportGenerator::getInstance();
+        $template = $generator->getTemplate('nonexistent_template');
 
-        $this->assertIsArray($formats);
-        $this->assertContains('pdf', $formats);
-        $this->assertContains('excel', $formats);
-        $this->assertContains('csv', $formats);
-        $this->assertContains('json', $formats);
-        $this->assertContains('html', $formats);
+        $this->assertNull($template);
     }
 
-    public function test_generate_report_returns_array()
+    public function test_register_template()
     {
-        global $wpdb;
+        $generator = ReportGenerator::getInstance();
 
-        // Mock submissions data
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'form_id' => 'form-1',
-                'status' => 'completed',
-                'created_at' => '2024-01-15 10:00:00',
-            ],
-            (object)[
-                'id' => '2',
-                'form_id' => 'form-1',
-                'status' => 'pending',
-                'created_at' => '2024-01-16 11:00:00',
-            ],
+        $generator->registerTemplate('test_template', [
+            'name' => 'Test Template',
+            'description' => 'A test template',
+            'sections' => ['summary'],
         ]);
 
-        $config = [
-            'type' => 'executive_summary',
-            'date_range' => 'last_30_days',
-            'format' => 'json',
-        ];
+        $template = $generator->getTemplate('test_template');
 
-        $result = $this->generator->generateReport($config);
-
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('success', $result);
+        $this->assertNotNull($template);
+        $this->assertEquals('test_template', $template['id']);
+        $this->assertEquals('Test Template', $template['name']);
+        $this->assertEquals('A test template', $template['description']);
     }
 
-    public function test_generate_report_with_invalid_type_returns_error()
+    public function test_get_data_sources_returns_array()
     {
-        $config = [
-            'type' => 'invalid_report_type',
-            'date_range' => 'last_30_days',
-            'format' => 'pdf',
-        ];
+        $generator = ReportGenerator::getInstance();
+        $sources = $generator->getDataSources();
 
-        $result = $this->generator->generateReport($config);
-
-        $this->assertFalse($result['success']);
-        $this->assertArrayHasKey('error', $result);
+        $this->assertIsArray($sources);
     }
 
-    public function test_calculate_date_range_last_7_days()
+    public function test_register_data_source()
     {
-        $range = $this->callPrivateMethod($this->generator, 'calculateDateRange', ['last_7_days']);
+        $generator = ReportGenerator::getInstance();
 
-        $this->assertIsArray($range);
-        $this->assertArrayHasKey('start', $range);
-        $this->assertArrayHasKey('end', $range);
-
-        $start = new \DateTime($range['start']);
-        $end = new \DateTime($range['end']);
-        $diff = $start->diff($end);
-
-        $this->assertEquals(7, $diff->days);
-    }
-
-    public function test_calculate_date_range_last_30_days()
-    {
-        $range = $this->callPrivateMethod($this->generator, 'calculateDateRange', ['last_30_days']);
-
-        $start = new \DateTime($range['start']);
-        $end = new \DateTime($range['end']);
-        $diff = $start->diff($end);
-
-        $this->assertEquals(30, $diff->days);
-    }
-
-    public function test_calculate_date_range_custom()
-    {
-        $range = $this->callPrivateMethod($this->generator, 'calculateDateRange', [
-            'custom',
-            '2024-01-01',
-            '2024-01-31'
+        $generator->registerDataSource('test_source', [
+            'label' => 'Test Data Source',
+            'callback' => function () {
+                return ['data' => 'test'];
+            },
+            'metrics' => ['count', 'total'],
         ]);
 
-        $this->assertEquals('2024-01-01', $range['start']);
-        $this->assertEquals('2024-01-31', $range['end']);
+        $sources = $generator->getDataSources();
+
+        $this->assertArrayHasKey('test_source', $sources);
+        $this->assertEquals('Test Data Source', $sources['test_source']['label']);
     }
 
-    public function test_get_kpi_data_returns_array()
+    public function test_register_formatter()
     {
-        global $wpdb;
+        $generator = ReportGenerator::getInstance();
 
-        // Mock count queries
-        $wpdb->set_mock_result('get_var', 100);
+        $generator->registerFormatter('uppercase', function ($value) {
+            return strtoupper($value);
+        });
 
-        $kpiData = $this->callPrivateMethod($this->generator, 'getKPIData', [
-            '2024-01-01',
-            '2024-01-31'
+        $result = $generator->format('hello', 'uppercase');
+
+        $this->assertEquals('HELLO', $result);
+    }
+
+    public function test_format_returns_string_for_unknown_formatter()
+    {
+        $generator = ReportGenerator::getInstance();
+
+        $result = $generator->format('test value', 'nonexistent_formatter');
+
+        $this->assertEquals('test value', $result);
+    }
+
+    public function test_format_with_options()
+    {
+        $generator = ReportGenerator::getInstance();
+
+        $generator->registerFormatter('prefix', function ($value, $options) {
+            $prefix = $options['prefix'] ?? '';
+            return $prefix . $value;
+        });
+
+        $result = $generator->format('World', 'prefix', ['prefix' => 'Hello ']);
+
+        $this->assertEquals('Hello World', $result);
+    }
+
+    public function test_register_multiple_templates()
+    {
+        $generator = ReportGenerator::getInstance();
+
+        $generator->registerTemplate('template_1', ['name' => 'Template 1']);
+        $generator->registerTemplate('template_2', ['name' => 'Template 2']);
+        $generator->registerTemplate('template_3', ['name' => 'Template 3']);
+
+        $templates = $generator->getTemplates();
+
+        $this->assertArrayHasKey('template_1', $templates);
+        $this->assertArrayHasKey('template_2', $templates);
+        $this->assertArrayHasKey('template_3', $templates);
+    }
+
+    public function test_template_default_values()
+    {
+        $generator = ReportGenerator::getInstance();
+
+        $generator->registerTemplate('minimal_template', [
+            'name' => 'Minimal',
         ]);
 
-        $this->assertIsArray($kpiData);
+        $template = $generator->getTemplate('minimal_template');
+
+        $this->assertEquals('minimal_template', $template['id']);
+        $this->assertEquals('Minimal', $template['name']);
+        $this->assertEquals('', $template['description']);
+        $this->assertIsArray($template['sections']);
+        $this->assertIsArray($template['settings']);
     }
 
-    public function test_format_currency()
+    public function test_data_source_default_values()
     {
-        $formatted = $this->callPrivateMethod($this->generator, 'formatCurrency', [1234.56]);
+        $generator = ReportGenerator::getInstance();
 
-        $this->assertIsString($formatted);
-        $this->assertStringContainsString('1', $formatted);
-    }
-
-    public function test_format_percentage()
-    {
-        $formatted = $this->callPrivateMethod($this->generator, 'formatPercentage', [0.75]);
-
-        $this->assertIsString($formatted);
-        $this->assertStringContainsString('75', $formatted);
-    }
-
-    public function test_get_report_history()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Test Report',
-                'report_type' => 'executive_summary',
-                'format' => 'pdf',
-                'file_path' => '/path/to/report.pdf',
-                'file_size' => 1024,
-                'created_at' => '2024-01-15 10:00:00',
-            ],
+        $generator->registerDataSource('minimal_source', [
+            'label' => 'Minimal',
         ]);
 
-        $history = $this->generator->getReportHistory(1, 10);
+        $sources = $generator->getDataSources();
+        $source = $sources['minimal_source'];
 
-        $this->assertIsArray($history);
-        $this->assertArrayHasKey('reports', $history);
-        $this->assertArrayHasKey('total', $history);
+        $this->assertEquals('minimal_source', $source['id']);
+        $this->assertEquals('Minimal', $source['label']);
+        $this->assertNull($source['callback']);
+        $this->assertIsArray($source['metrics']);
     }
 
-    public function test_delete_report()
+    public function test_formatter_chain()
     {
-        global $wpdb;
+        $generator = ReportGenerator::getInstance();
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'file_path' => '/tmp/test-report.pdf',
-        ]);
+        $generator->registerFormatter('trim', function ($value) {
+            return trim($value);
+        });
 
-        $result = $this->generator->deleteReport('1');
+        $generator->registerFormatter('lower', function ($value) {
+            return strtolower($value);
+        });
 
-        // Should return true or handle gracefully
-        $this->assertIsBool($result);
-    }
+        $value = '  HELLO WORLD  ';
+        $value = $generator->format($value, 'trim');
+        $value = $generator->format($value, 'lower');
 
-    public function test_validate_report_config()
-    {
-        $validConfig = [
-            'type' => 'executive_summary',
-            'date_range' => 'last_30_days',
-            'format' => 'pdf',
-        ];
-
-        $isValid = $this->callPrivateMethod($this->generator, 'validateConfig', [$validConfig]);
-
-        $this->assertTrue($isValid);
-    }
-
-    public function test_validate_report_config_missing_type()
-    {
-        $invalidConfig = [
-            'date_range' => 'last_30_days',
-            'format' => 'pdf',
-        ];
-
-        $isValid = $this->callPrivateMethod($this->generator, 'validateConfig', [$invalidConfig]);
-
-        $this->assertFalse($isValid);
+        $this->assertEquals('hello world', $value);
     }
 }

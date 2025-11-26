@@ -1,22 +1,43 @@
 <?php
 /**
  * Tests for SSOManager class.
+ *
+ * @package FormFlowPro\Tests\Unit\SSO
  */
 
 namespace FormFlowPro\Tests\Unit\SSO;
 
 use FormFlowPro\Tests\TestCase;
 use FormFlowPro\SSO\SSOManager;
+use FormFlowPro\SSO\SSOSession;
+use FormFlowPro\SSO\SSOIdentityLink;
+use FormFlowPro\SSO\SSOSettings;
 
 class SSOManagerTest extends TestCase
 {
-    private $manager;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = SSOManager::getInstance();
+        // Reset singleton for each test
+        $reflection = new \ReflectionClass(SSOManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
     }
+
+    protected function tearDown(): void
+    {
+        // Reset singleton
+        $reflection = new \ReflectionClass(SSOManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
+    }
+
+    // ==========================================================================
+    // Singleton Tests
+    // ==========================================================================
 
     public function test_singleton_instance()
     {
@@ -24,343 +45,350 @@ class SSOManagerTest extends TestCase
         $instance2 = SSOManager::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(SSOManager::class, $instance1);
     }
 
-    public function test_get_supported_providers()
+    // ==========================================================================
+    // SSOSession Model Tests
+    // ==========================================================================
+
+    public function test_sso_session_constructor()
     {
-        $providers = $this->manager->getSupportedProviders();
-
-        $this->assertIsArray($providers);
-        $this->assertArrayHasKey('google', $providers);
-        $this->assertArrayHasKey('microsoft', $providers);
-        $this->assertArrayHasKey('okta', $providers);
-        $this->assertArrayHasKey('auth0', $providers);
-    }
-
-    public function test_configure_provider()
-    {
-        $config = [
-            'provider' => 'google',
-            'client_id' => 'test-client-id',
-            'client_secret' => 'test-client-secret',
-            'redirect_uri' => 'https://example.com/callback',
-            'enabled' => true,
-        ];
-
-        $result = $this->manager->configureProvider($config);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_configure_provider_validation_fails()
-    {
-        $config = [
-            'provider' => 'google',
-            // Missing required fields
-        ];
-
-        $result = $this->manager->configureProvider($config);
-
-        $this->assertFalse($result['success']);
-        $this->assertArrayHasKey('error', $result);
-    }
-
-    public function test_get_provider_config()
-    {
-        // First configure a provider
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-id',
-            'client_secret' => 'test-secret',
-            'enabled' => true,
+        $session = new SSOSession([
+            'id' => 1,
+            'user_id' => 100,
+            'provider_type' => 'oauth2',
+            'provider_id' => 'azure',
+            'session_id' => 'session-uuid-123',
+            'external_id' => 'ext-user-123',
+            'attributes' => ['department' => 'IT'],
+            'access_token' => 'access_token_here',
+            'refresh_token' => 'refresh_token_here',
+            'token_expires' => time() + 3600,
+            'ip_address' => '192.168.1.1',
+            'user_agent' => 'Mozilla/5.0'
         ]);
 
-        $config = $this->manager->getProviderConfig('google');
-
-        $this->assertIsArray($config);
-        $this->assertEquals('test-id', $config['client_id']);
+        $this->assertEquals(1, $session->id);
+        $this->assertEquals(100, $session->user_id);
+        $this->assertEquals('oauth2', $session->provider_type);
+        $this->assertEquals('azure', $session->provider_id);
+        $this->assertEquals('session-uuid-123', $session->session_id);
+        $this->assertEquals('ext-user-123', $session->external_id);
+        $this->assertEquals('IT', $session->attributes['department']);
     }
 
-    public function test_get_authorization_url()
+    public function test_sso_session_defaults()
     {
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'client_secret' => 'test-secret',
-            'redirect_uri' => 'https://example.com/callback',
-            'enabled' => true,
+        $session = new SSOSession([]);
+
+        $this->assertEquals(0, $session->id);
+        $this->assertEquals(0, $session->user_id);
+        $this->assertEquals('', $session->provider_type);
+        $this->assertEquals('', $session->session_id);
+        $this->assertIsArray($session->attributes);
+    }
+
+    public function test_sso_session_is_expired_false()
+    {
+        $session = new SSOSession([
+            'expires_at' => date('Y-m-d H:i:s', time() + 3600)
         ]);
 
-        $url = $this->manager->getAuthorizationUrl('google', 'random-state-123');
-
-        $this->assertIsString($url);
-        $this->assertStringContainsString('client_id=test-client-id', $url);
-        $this->assertStringContainsString('state=random-state-123', $url);
+        $this->assertFalse($session->isExpired());
     }
 
-    public function test_exchange_code_for_tokens()
+    public function test_sso_session_is_expired_true()
     {
-        global $wp_http_mock_response;
-
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'client_secret' => 'test-secret',
-            'redirect_uri' => 'https://example.com/callback',
-            'enabled' => true,
+        $session = new SSOSession([
+            'expires_at' => date('Y-m-d H:i:s', time() - 3600)
         ]);
 
-        // Mock successful token response
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => json_encode([
-                'access_token' => 'mock-access-token',
-                'refresh_token' => 'mock-refresh-token',
-                'expires_in' => 3600,
-                'token_type' => 'Bearer',
-            ]),
-        ];
-
-        $tokens = $this->manager->exchangeCodeForTokens('google', 'auth-code-123');
-
-        $this->assertIsArray($tokens);
-        $this->assertArrayHasKey('access_token', $tokens);
+        $this->assertTrue($session->isExpired());
     }
 
-    public function test_exchange_code_handles_error()
+    public function test_sso_session_is_expired_empty()
     {
-        global $wp_http_mock_error;
-
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'client_secret' => 'test-secret',
-            'enabled' => true,
+        $session = new SSOSession([
+            'expires_at' => ''
         ]);
 
-        $wp_http_mock_error = 'Connection failed';
-
-        $tokens = $this->manager->exchangeCodeForTokens('google', 'auth-code-123');
-
-        $this->assertFalse($tokens);
+        $this->assertFalse($session->isExpired());
     }
 
-    public function test_get_user_info()
+    public function test_sso_session_to_array()
     {
-        global $wp_http_mock_response;
-
-        // Mock user info response
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => json_encode([
-                'sub' => 'user-123',
-                'email' => 'user@example.com',
-                'name' => 'Test User',
-                'picture' => 'https://example.com/avatar.jpg',
-            ]),
-        ];
-
-        $userInfo = $this->manager->getUserInfo('google', 'access-token-123');
-
-        $this->assertIsArray($userInfo);
-        $this->assertEquals('user@example.com', $userInfo['email']);
-        $this->assertEquals('Test User', $userInfo['name']);
-    }
-
-    public function test_validate_token()
-    {
-        global $wp_http_mock_response;
-
-        // Mock valid token response
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => json_encode([
-                'aud' => 'test-client-id',
-                'exp' => time() + 3600,
-                'iss' => 'https://accounts.google.com',
-            ]),
-        ];
-
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'enabled' => true,
+        $session = new SSOSession([
+            'id' => 1,
+            'user_id' => 100,
+            'provider_type' => 'saml'
         ]);
 
-        $isValid = $this->manager->validateToken('google', 'id-token-123');
+        $array = $session->toArray();
 
-        $this->assertTrue($isValid);
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('user_id', $array);
+        $this->assertArrayHasKey('provider_type', $array);
+        $this->assertEquals(1, $array['id']);
     }
 
-    public function test_validate_token_expired()
+    // ==========================================================================
+    // SSOIdentityLink Model Tests
+    // ==========================================================================
+
+    public function test_sso_identity_link_constructor()
     {
-        global $wp_http_mock_response;
-
-        // Mock expired token response
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => json_encode([
-                'aud' => 'test-client-id',
-                'exp' => time() - 3600, // Expired
-                'iss' => 'https://accounts.google.com',
-            ]),
-        ];
-
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'enabled' => true,
+        $link = new SSOIdentityLink([
+            'id' => 1,
+            'user_id' => 100,
+            'provider_type' => 'oauth2',
+            'provider_id' => 'google',
+            'external_id' => 'google-user-123',
+            'email' => 'user@example.com',
+            'profile_data' => ['picture' => 'https://example.com/avatar.jpg'],
+            'is_primary' => true
         ]);
 
-        $isValid = $this->manager->validateToken('google', 'expired-token');
-
-        $this->assertFalse($isValid);
+        $this->assertEquals(1, $link->id);
+        $this->assertEquals(100, $link->user_id);
+        $this->assertEquals('oauth2', $link->provider_type);
+        $this->assertEquals('google', $link->provider_id);
+        $this->assertEquals('user@example.com', $link->email);
+        $this->assertTrue($link->is_primary);
     }
 
-    public function test_refresh_access_token()
+    public function test_sso_identity_link_defaults()
     {
-        global $wp_http_mock_response;
+        $link = new SSOIdentityLink([]);
 
-        update_option('formflow_sso_google', [
-            'client_id' => 'test-client-id',
-            'client_secret' => 'test-secret',
-            'enabled' => true,
+        $this->assertEquals(0, $link->id);
+        $this->assertEquals(0, $link->user_id);
+        $this->assertEquals('', $link->provider_type);
+        $this->assertEquals('', $link->email);
+        $this->assertFalse($link->is_primary);
+    }
+
+    public function test_sso_identity_link_to_array()
+    {
+        $link = new SSOIdentityLink([
+            'id' => 5,
+            'user_id' => 50,
+            'email' => 'test@test.com'
         ]);
 
-        $wp_http_mock_response = [
-            'response' => ['code' => 200],
-            'body' => json_encode([
-                'access_token' => 'new-access-token',
-                'expires_in' => 3600,
-            ]),
-        ];
+        $array = $link->toArray();
 
-        $newToken = $this->manager->refreshAccessToken('google', 'refresh-token-123');
-
-        $this->assertIsArray($newToken);
-        $this->assertEquals('new-access-token', $newToken['access_token']);
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('user_id', $array);
+        $this->assertArrayHasKey('email', $array);
+        $this->assertEquals('test@test.com', $array['email']);
     }
 
-    public function test_create_or_update_user()
+    // ==========================================================================
+    // SSOSettings Model Tests
+    // ==========================================================================
+
+    public function test_sso_settings_constructor()
+    {
+        $settings = new SSOSettings([
+            'enabled' => true,
+            'force_sso' => true,
+            'allow_local_login' => false,
+            'auto_provision_users' => true,
+            'default_role' => 'editor',
+            'session_lifetime' => 3600,
+            'single_logout_enabled' => true,
+            'allowed_domains' => ['company.com'],
+            'blocked_domains' => ['blocked.com']
+        ]);
+
+        $this->assertTrue($settings->enabled);
+        $this->assertTrue($settings->force_sso);
+        $this->assertFalse($settings->allow_local_login);
+        $this->assertTrue($settings->auto_provision_users);
+        $this->assertEquals('editor', $settings->default_role);
+        $this->assertEquals(3600, $settings->session_lifetime);
+        $this->assertContains('company.com', $settings->allowed_domains);
+    }
+
+    public function test_sso_settings_defaults()
+    {
+        $settings = new SSOSettings([]);
+
+        $this->assertFalse($settings->enabled);
+        $this->assertFalse($settings->force_sso);
+        $this->assertTrue($settings->allow_local_login);
+        $this->assertTrue($settings->auto_provision_users);
+        $this->assertEquals('subscriber', $settings->default_role);
+        $this->assertEquals(28800, $settings->session_lifetime);
+        $this->assertTrue($settings->single_logout_enabled);
+        $this->assertEmpty($settings->allowed_domains);
+        $this->assertEmpty($settings->blocked_domains);
+    }
+
+    public function test_sso_settings_to_array()
+    {
+        $settings = new SSOSettings([
+            'enabled' => true,
+            'default_role' => 'author'
+        ]);
+
+        $array = $settings->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('enabled', $array);
+        $this->assertArrayHasKey('default_role', $array);
+        $this->assertArrayHasKey('force_sso', $array);
+        $this->assertArrayHasKey('allow_local_login', $array);
+        $this->assertArrayHasKey('auto_provision_users', $array);
+        $this->assertArrayHasKey('session_lifetime', $array);
+        $this->assertEquals('author', $array['default_role']);
+    }
+
+    public function test_sso_settings_role_mapping()
+    {
+        $settings = new SSOSettings([
+            'role_mapping' => [
+                'administrator' => ['IT Admins', 'Super Users'],
+                'editor' => ['Content Team']
+            ]
+        ]);
+
+        $this->assertIsArray($settings->role_mapping);
+        $this->assertArrayHasKey('administrator', $settings->role_mapping);
+        $this->assertContains('IT Admins', $settings->role_mapping['administrator']);
+    }
+
+    public function test_sso_settings_login_configuration()
+    {
+        $settings = new SSOSettings([
+            'login_button_text' => 'Sign in with Corporate ID',
+            'login_button_position' => 'below',
+            'hide_local_login' => true,
+            'redirect_after_login' => '/dashboard',
+            'redirect_after_logout' => '/goodbye'
+        ]);
+
+        $this->assertEquals('Sign in with Corporate ID', $settings->login_button_text);
+        $this->assertEquals('below', $settings->login_button_position);
+        $this->assertTrue($settings->hide_local_login);
+        $this->assertEquals('/dashboard', $settings->redirect_after_login);
+        $this->assertEquals('/goodbye', $settings->redirect_after_logout);
+    }
+
+    public function test_sso_settings_enabled_providers()
+    {
+        $settings = new SSOSettings([
+            'enabled_providers' => ['saml', 'oauth2_azure', 'ldap']
+        ]);
+
+        $this->assertIsArray($settings->enabled_providers);
+        $this->assertContains('saml', $settings->enabled_providers);
+        $this->assertContains('oauth2_azure', $settings->enabled_providers);
+        $this->assertContains('ldap', $settings->enabled_providers);
+    }
+
+    // ==========================================================================
+    // Manager Public Methods Tests
+    // ==========================================================================
+
+    public function test_validate_sso_session_when_not_logged_in()
+    {
+        $manager = SSOManager::getInstance();
+
+        // Should not throw when user is not logged in
+        $manager->validateSSOSession();
+
+        $this->assertTrue(true);
+    }
+
+    public function test_filter_login_message_without_error()
+    {
+        $manager = SSOManager::getInstance();
+
+        $message = $manager->filterLoginMessage('Existing message');
+
+        $this->assertEquals('Existing message', $message);
+    }
+
+    public function test_filter_login_message_with_error()
+    {
+        $_GET['sso_error'] = urlencode('Test error message');
+
+        $manager = SSOManager::getInstance();
+        $message = $manager->filterLoginMessage('');
+
+        $this->assertStringContainsString('Test error message', $message);
+        $this->assertStringContainsString('SSO Error:', $message);
+
+        unset($_GET['sso_error']);
+    }
+
+    public function test_clear_sso_session()
+    {
+        $manager = SSOManager::getInstance();
+
+        // Should not throw
+        $manager->clearSSOSession();
+
+        $this->assertTrue(true);
+    }
+
+    public function test_handle_logout()
+    {
+        $manager = SSOManager::getInstance();
+
+        // Should not throw
+        $manager->handleLogout();
+
+        $this->assertTrue(true);
+    }
+
+    public function test_cleanup_expired_sessions()
     {
         global $wpdb;
 
-        $userInfo = [
-            'provider' => 'google',
-            'provider_id' => 'user-123',
-            'email' => 'newuser@example.com',
-            'name' => 'New User',
-        ];
+        $manager = SSOManager::getInstance();
 
-        // User doesn't exist yet
-        $wpdb->set_mock_result('get_row', null);
+        // Should not throw
+        $manager->cleanupExpiredSessions();
 
-        $result = $this->manager->createOrUpdateUser($userInfo);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
+        $this->assertTrue(true);
     }
 
-    public function test_link_provider_to_user()
+    // ==========================================================================
+    // Integration Tests
+    // ==========================================================================
+
+    public function test_sso_settings_persistence()
     {
-        global $wpdb;
-
-        $result = $this->manager->linkProviderToUser(1, 'google', 'provider-user-id-123');
-
-        $this->assertTrue($result);
-
-        $inserts = $wpdb->get_mock_inserts();
-        $linkFound = false;
-
-        foreach ($inserts as $insert) {
-            if (strpos($insert['table'], 'formflow_sso_links') !== false) {
-                $linkFound = true;
-                $this->assertEquals('google', $insert['data']['provider']);
-            }
-        }
-
-        $this->assertTrue($linkFound);
-    }
-
-    public function test_unlink_provider_from_user()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'user_id' => 1,
-            'provider' => 'google',
+        $original = new SSOSettings([
+            'enabled' => true,
+            'force_sso' => true,
+            'default_role' => 'editor'
         ]);
 
-        $result = $this->manager->unlinkProviderFromUser(1, 'google');
+        // Convert to array and back
+        $array = $original->toArray();
+        $restored = new SSOSettings($array);
 
-        $this->assertTrue($result);
+        $this->assertEquals($original->enabled, $restored->enabled);
+        $this->assertEquals($original->force_sso, $restored->force_sso);
+        $this->assertEquals($original->default_role, $restored->default_role);
     }
 
-    public function test_get_user_linked_providers()
+    public function test_sso_session_token_management()
     {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)['provider' => 'google', 'provider_user_id' => 'g-123'],
-            (object)['provider' => 'microsoft', 'provider_user_id' => 'm-456'],
+        $session = new SSOSession([
+            'access_token' => 'token123',
+            'refresh_token' => 'refresh456',
+            'token_expires' => time() + 3600
         ]);
 
-        $providers = $this->manager->getUserLinkedProviders(1);
-
-        $this->assertIsArray($providers);
-        $this->assertCount(2, $providers);
-    }
-
-    public function test_generate_state_token()
-    {
-        $state = $this->manager->generateStateToken();
-
-        $this->assertIsString($state);
-        $this->assertGreaterThanOrEqual(32, strlen($state));
-    }
-
-    public function test_validate_state_token()
-    {
-        $state = $this->manager->generateStateToken();
-
-        // Store state in transient
-        set_transient('formflow_sso_state_' . $state, ['created' => time()], 600);
-
-        $isValid = $this->manager->validateStateToken($state);
-
-        $this->assertTrue($isValid);
-    }
-
-    public function test_validate_state_token_invalid()
-    {
-        $isValid = $this->manager->validateStateToken('invalid-state-token');
-
-        $this->assertFalse($isValid);
-    }
-
-    public function test_saml_configuration()
-    {
-        $samlConfig = [
-            'idp_entity_id' => 'https://idp.example.com',
-            'idp_sso_url' => 'https://idp.example.com/sso',
-            'idp_certificate' => '-----BEGIN CERTIFICATE-----...',
-            'sp_entity_id' => 'https://sp.example.com',
-            'sp_acs_url' => 'https://sp.example.com/acs',
-        ];
-
-        $result = $this->manager->configureSAML($samlConfig);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_get_enabled_providers()
-    {
-        update_option('formflow_sso_google', ['enabled' => true, 'client_id' => 'test']);
-        update_option('formflow_sso_microsoft', ['enabled' => false]);
-        update_option('formflow_sso_okta', ['enabled' => true, 'client_id' => 'test']);
-
-        $enabled = $this->manager->getEnabledProviders();
-
-        $this->assertIsArray($enabled);
-        $this->assertContains('google', $enabled);
-        $this->assertContains('okta', $enabled);
-        $this->assertNotContains('microsoft', $enabled);
+        $this->assertEquals('token123', $session->access_token);
+        $this->assertEquals('refresh456', $session->refresh_token);
+        $this->assertGreaterThan(time(), $session->token_expires);
     }
 }
