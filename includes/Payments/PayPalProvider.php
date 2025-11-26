@@ -262,7 +262,7 @@ class PayPalProvider implements PaymentProviderInterface
     /**
      * Capture authorized payment
      */
-    public function captureAuthorization(string $authorization_id, float $amount = null, string $currency = 'USD'): array
+    public function captureAuthorization(string $authorization_id, ?float $amount = null, string $currency = 'USD'): array
     {
         $data = [];
 
@@ -293,7 +293,7 @@ class PayPalProvider implements PaymentProviderInterface
     /**
      * Refund payment
      */
-    public function refundPayment(string $payment_id, float $amount = null): array
+    public function refundPayment(string $payment_id, ?float $amount = null): array
     {
         // First get the capture ID
         $payment = $this->getPayment($payment_id);
