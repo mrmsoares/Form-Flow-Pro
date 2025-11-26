@@ -51,6 +51,11 @@ class Services
 
         // Cache Layer
         require_once FORMFLOW_PATH . 'includes/cache/class-cache-manager.php';
+
+        // Advanced Reporting Module (V2.3.0)
+        require_once FORMFLOW_PATH . 'includes/Reporting/ReportGenerator.php';
+        require_once FORMFLOW_PATH . 'includes/Reporting/D3Visualization.php';
+        require_once FORMFLOW_PATH . 'includes/Reporting/ReportingManager.php';
     }
 
     /**
@@ -65,6 +70,11 @@ class Services
 
         // Initialize Cache Manager
         Cache\Cache_Manager::get_instance();
+
+        // Initialize Advanced Reporting Module (V2.3.0)
+        Reporting\ReportGenerator::getInstance();
+        Reporting\D3Visualization::getInstance();
+        Reporting\ReportingManager::getInstance();
 
         // Hook into submission processing
         add_action('formflow_form_submitted', [__CLASS__, 'handle_submission'], 10, 3);
