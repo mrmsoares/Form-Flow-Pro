@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 /**
  * Migration v2.3.0 Class
  */
-class Migration_2_3_0
+class Migration_v2_3_0
 {
     /**
      * Run the migration

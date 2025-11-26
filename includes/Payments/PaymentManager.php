@@ -1309,7 +1309,7 @@ class PaymentManager
     public function renderPaymentsPage(): void
     {
         $payments = $this->getPayments(['limit' => 50]);
-        include JEFORM_PLUGIN_DIR . 'templates/admin/payments.php';
+        include FORMFLOW_PATH . 'includes/admin/views/payments.php';
     }
 
     /**
@@ -1317,7 +1317,7 @@ class PaymentManager
      */
     public function renderSubscriptionsPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/subscriptions.php';
+        include FORMFLOW_PATH . 'includes/admin/views/subscriptions.php';
     }
 
     /**
@@ -1325,7 +1325,7 @@ class PaymentManager
      */
     public function renderInvoicesPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/invoices.php';
+        include FORMFLOW_PATH . 'includes/admin/views/invoices.php';
     }
 
     /**
@@ -1514,7 +1514,7 @@ class PaymentManager
         wp_enqueue_script('ffp-payments');
 
         ob_start();
-        include JEFORM_PLUGIN_DIR . 'templates/frontend/payment-form.php';
+        include FORMFLOW_PATH . 'templates/frontend/payment-form.php';
         return ob_get_clean();
     }
 
@@ -1530,7 +1530,7 @@ class PaymentManager
         $subscriptions = $this->getUserSubscriptions(get_current_user_id(), 'active');
 
         ob_start();
-        include JEFORM_PLUGIN_DIR . 'templates/frontend/subscription-manage.php';
+        include FORMFLOW_PATH . 'templates/frontend/subscription-manage.php';
         return ob_get_clean();
     }
 

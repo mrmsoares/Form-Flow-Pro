@@ -1078,7 +1078,7 @@ class DragDropBuilder
             'draft' => $this->countForms('draft'),
         ];
 
-        include JEFORM_PLUGIN_DIR . 'templates/admin/forms-list.php';
+        include FORMFLOW_PATH . 'includes/admin/views/forms.php';
     }
 
     /**
@@ -1089,7 +1089,7 @@ class DragDropBuilder
         $form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
         $form = $form_id ? $this->getForm($form_id) : null;
 
-        include JEFORM_PLUGIN_DIR . 'templates/admin/form-builder.php';
+        include FORMFLOW_PATH . 'includes/admin/views/form-builder.php';
     }
 
     /**
@@ -1097,7 +1097,7 @@ class DragDropBuilder
      */
     public function renderEntries(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/entries.php';
+        include FORMFLOW_PATH . 'includes/admin/views/submissions.php';
     }
 
     /**

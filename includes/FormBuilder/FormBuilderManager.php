@@ -1093,7 +1093,7 @@ class FormBuilderManager
      */
     public function renderABTestingPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/ab-testing.php';
+        include FORMFLOW_PATH . 'includes/admin/views/ab-testing.php';
     }
 
     /**
@@ -1102,7 +1102,7 @@ class FormBuilderManager
     public function renderTemplatesPage(): void
     {
         $templates = $this->getTemplates();
-        include JEFORM_PLUGIN_DIR . 'templates/admin/templates.php';
+        include FORMFLOW_PATH . 'includes/admin/views/templates.php';
     }
 
     /**
@@ -1110,7 +1110,7 @@ class FormBuilderManager
      */
     public function renderAnalyticsPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/analytics.php';
+        include FORMFLOW_PATH . 'includes/admin/views/analytics.php';
     }
 
     /**
@@ -1118,6 +1118,6 @@ class FormBuilderManager
      */
     public function renderImportExportPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/import-export.php';
+        include FORMFLOW_PATH . 'includes/admin/views/import-export.php';
     }
 }
