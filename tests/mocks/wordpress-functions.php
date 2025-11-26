@@ -57,11 +57,43 @@ if (!class_exists('wpdb')) {
 
             // Check if explicit mock result is set
             if (isset($this->mock_results['get_row'])) {
-                return $this->mock_results['get_row'];
+                $result = $this->mock_results['get_row'];
+                return $this->convert_output($result, $output);
             }
 
             // Try to extract data from storage based on query
-            return $this->query_storage($query, 'row');
+            $result = $this->query_storage($query, 'row');
+            return $this->convert_output($result, $output);
+        }
+
+        /**
+         * Convert result to the appropriate output type
+         */
+        private function convert_output($result, $output = OBJECT)
+        {
+            if ($result === null) {
+                return null;
+            }
+
+            if ($output === ARRAY_A) {
+                if (is_object($result)) {
+                    return get_object_vars($result);
+                }
+                return (array) $result;
+            }
+
+            if ($output === ARRAY_N) {
+                if (is_object($result)) {
+                    return array_values(get_object_vars($result));
+                }
+                return array_values((array) $result);
+            }
+
+            // Default OBJECT output
+            if (is_array($result)) {
+                return (object) $result;
+            }
+            return $result;
         }
 
         public function get_var($query)
@@ -83,11 +115,27 @@ if (!class_exists('wpdb')) {
 
             // Check if explicit mock result is set
             if (isset($this->mock_results['get_results'])) {
-                return $this->mock_results['get_results'];
+                $results = $this->mock_results['get_results'];
+                return $this->convert_results_output($results, $output);
             }
 
             // Try to extract data from storage based on query
-            return $this->query_storage($query, 'results') ?? [];
+            $results = $this->query_storage($query, 'results') ?? [];
+            return $this->convert_results_output($results, $output);
+        }
+
+        /**
+         * Convert array of results to the appropriate output type
+         */
+        private function convert_results_output($results, $output = OBJECT)
+        {
+            if (!is_array($results)) {
+                return [];
+            }
+
+            return array_map(function ($result) use ($output) {
+                return $this->convert_output($result, $output);
+            }, $results);
         }
 
         public function insert($table, $data, $format = null)
@@ -1146,6 +1194,142 @@ if (!function_exists('wp_set_auth_cookie')) {
     }
 }
 
+if (!function_exists('sanitize_textarea_field')) {
+    function sanitize_textarea_field($str)
+    {
+        return strip_tags($str);
+    }
+}
+
+if (!function_exists('sanitize_title')) {
+    function sanitize_title($title, $fallback_title = '', $context = 'save')
+    {
+        $title = preg_replace('/[^a-zA-Z0-9\s\-_]/', '', $title);
+        $title = strtolower(str_replace(' ', '-', $title));
+        return $title ?: $fallback_title;
+    }
+}
+
+if (!function_exists('human_time_diff')) {
+    function human_time_diff($from, $to = 0)
+    {
+        if ($to === 0) {
+            $to = time();
+        }
+        $diff = abs($to - $from);
+        if ($diff < 60) {
+            return $diff . ' seconds';
+        } elseif ($diff < 3600) {
+            return round($diff / 60) . ' minutes';
+        } elseif ($diff < 86400) {
+            return round($diff / 3600) . ' hours';
+        } else {
+            return round($diff / 86400) . ' days';
+        }
+    }
+}
+
+if (!function_exists('size_format')) {
+    function size_format($bytes, $decimals = 0)
+    {
+        if ($bytes === 0) {
+            return '0 B';
+        }
+        $k = 1024;
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $i = floor(log($bytes) / log($k));
+        return round($bytes / pow($k, $i), $decimals) . ' ' . $sizes[$i];
+    }
+}
+
+if (!function_exists('is_email')) {
+    function is_email($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false ? $email : false;
+    }
+}
+
+if (!function_exists('wp_mail')) {
+    function wp_mail($to, $subject, $message, $headers = '', $attachments = [])
+    {
+        return true; // Mock always succeeds
+    }
+}
+
+if (!function_exists('date_i18n')) {
+    function date_i18n($format, $timestamp = false, $gmt = false)
+    {
+        if ($timestamp === false) {
+            $timestamp = time();
+        }
+        return date($format, $timestamp);
+    }
+}
+
+if (!function_exists('wp_delete_file')) {
+    function wp_delete_file($file)
+    {
+        if (file_exists($file)) {
+            return @unlink($file);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('wp_next_scheduled')) {
+    function wp_next_scheduled($hook, $args = [])
+    {
+        return false;
+    }
+}
+
+if (!function_exists('wp_schedule_event')) {
+    function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error = false)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('dbDelta')) {
+    function dbDelta($queries = '', $execute = true)
+    {
+        return []; // Mock returns empty array (no changes)
+    }
+}
+
+if (!function_exists('wp_trim_words')) {
+    function wp_trim_words($text, $num_words = 55, $more = null)
+    {
+        if (null === $more) {
+            $more = '&hellip;';
+        }
+        $words = explode(' ', $text);
+        if (count($words) > $num_words) {
+            array_splice($words, $num_words);
+            $text = implode(' ', $words) . $more;
+        }
+        return $text;
+    }
+}
+
+if (!function_exists('esc_js')) {
+    function esc_js($text)
+    {
+        return addslashes($text);
+    }
+}
+
+if (!function_exists('esc_attr_e')) {
+    function esc_attr_e($text, $domain = 'default')
+    {
+        echo esc_attr($text);
+    }
+}
+
+if (!defined('ABSPATH')) {
+    define('ABSPATH', '/tmp/wordpress/');
+}
+
 function reset_wp_mocks()
 {
     global $wp_options, $wp_transients, $wp_cache, $wpdb;
@@ -1157,6 +1341,14 @@ function reset_wp_mocks()
     $wp_http_mock_response = null;
     $wp_http_mock_error = null;
     $wp_http_download_response = null;
+
+    // Clear $_POST and $_GET to prevent test pollution
+    $_POST = [];
+    $_GET = [];
+    $_REQUEST = [];
+
+    // Reset $_SERVER to minimal values
+    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     if ($wpdb && method_exists($wpdb, 'clear_mock_data')) {
         $wpdb->clear_mock_data();

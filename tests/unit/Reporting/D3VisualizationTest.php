@@ -59,7 +59,7 @@ class D3VisualizationTest extends TestCase
         $visualization = D3Visualization::getInstance();
 
         $visualization->registerChartType('custom_chart', [
-            'name' => 'Custom Chart',
+            'label' => 'Custom Chart',
             'description' => 'A custom chart type',
             'renderer' => 'customRenderer',
         ]);
@@ -67,8 +67,8 @@ class D3VisualizationTest extends TestCase
         $type = $visualization->getChartType('custom_chart');
 
         $this->assertNotNull($type);
-        $this->assertEquals('custom_chart', $type['id']);
-        $this->assertEquals('Custom Chart', $type['name']);
+        $this->assertEquals('custom_chart', $type['type']);
+        $this->assertEquals('Custom Chart', $type['label']);
     }
 
     public function test_get_color_schemes_returns_array()
@@ -89,10 +89,13 @@ class D3VisualizationTest extends TestCase
             'colors' => ['#ff0000', '#00ff00', '#0000ff'],
         ]);
 
-        $scheme = $visualization->getColorScheme('test_scheme');
+        // getColorScheme returns just the colors array
+        $colors = $visualization->getColorScheme('test_scheme');
 
-        $this->assertIsArray($scheme);
-        $this->assertEquals('Test Scheme', $scheme['name']);
+        $this->assertIsArray($colors);
+        $this->assertContains('#ff0000', $colors);
+        $this->assertContains('#00ff00', $colors);
+        $this->assertContains('#0000ff', $colors);
     }
 
     public function test_register_color_scheme()
@@ -175,9 +178,9 @@ class D3VisualizationTest extends TestCase
     {
         $visualization = D3Visualization::getInstance();
 
-        $visualization->registerChartType('type_a', ['name' => 'Type A']);
-        $visualization->registerChartType('type_b', ['name' => 'Type B']);
-        $visualization->registerChartType('type_c', ['name' => 'Type C']);
+        $visualization->registerChartType('type_a', ['label' => 'Type A']);
+        $visualization->registerChartType('type_b', ['label' => 'Type B']);
+        $visualization->registerChartType('type_c', ['label' => 'Type C']);
 
         $types = $visualization->getChartTypes();
 
@@ -191,13 +194,13 @@ class D3VisualizationTest extends TestCase
         $visualization = D3Visualization::getInstance();
 
         $visualization->registerChartType('minimal_type', [
-            'name' => 'Minimal',
+            'label' => 'Minimal',
         ]);
 
         $type = $visualization->getChartType('minimal_type');
 
-        $this->assertEquals('minimal_type', $type['id']);
-        $this->assertEquals('Minimal', $type['name']);
+        $this->assertEquals('minimal_type', $type['type']);
+        $this->assertEquals('Minimal', $type['label']);
     }
 
     public function test_color_scheme_structure()
