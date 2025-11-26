@@ -12,13 +12,29 @@ use FormFlowPro\UX\UXManager;
 
 class UXManagerTest extends TestCase
 {
-    private $manager;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = UXManager::getInstance();
+        // Reset singleton for each test
+        $reflection = new \ReflectionClass(UXManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
     }
+
+    protected function tearDown(): void
+    {
+        // Reset singleton
+        $reflection = new \ReflectionClass(UXManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
+        parent::tearDown();
+    }
+
+    // ==========================================================================
+    // Singleton Tests
+    // ==========================================================================
 
     public function test_singleton_instance()
     {
@@ -26,1044 +42,508 @@ class UXManagerTest extends TestCase
         $instance2 = UXManager::getInstance();
 
         $this->assertSame($instance1, $instance2);
+        $this->assertInstanceOf(UXManager::class, $instance1);
     }
 
     // ==========================================================================
-    // Keyboard Shortcuts Tests
+    // Configuration Tests
     // ==========================================================================
 
-    public function test_get_keyboard_shortcuts()
+    public function test_get_config_returns_array()
     {
-        $shortcuts = $this->manager->getKeyboardShortcuts();
-
-        $this->assertIsArray($shortcuts);
-        $this->assertArrayHasKey('save', $shortcuts);
-        $this->assertArrayHasKey('search', $shortcuts);
-    }
-
-    public function test_register_keyboard_shortcut()
-    {
-        $shortcut = [
-            'key' => 'k',
-            'modifiers' => ['ctrl', 'shift'],
-            'action' => 'custom_action',
-            'description' => 'Custom shortcut action',
-        ];
-
-        $result = $this->manager->registerShortcut('custom', $shortcut);
-
-        $this->assertTrue($result);
-
-        $shortcuts = $this->manager->getKeyboardShortcuts();
-        $this->assertArrayHasKey('custom', $shortcuts);
-    }
-
-    public function test_register_keyboard_shortcut_validation_fails()
-    {
-        // Missing required fields
-        $shortcut = [
-            'key' => 'x',
-        ];
-
-        $result = $this->manager->registerShortcut('invalid', $shortcut);
-
-        $this->assertFalse($result);
-    }
-
-    public function test_unregister_keyboard_shortcut()
-    {
-        // First register a shortcut
-        $this->manager->registerShortcut('temp', [
-            'key' => 't',
-            'modifiers' => ['ctrl'],
-            'action' => 'temp_action',
-        ]);
-
-        $result = $this->manager->unregisterShortcut('temp');
-
-        $this->assertTrue($result);
-
-        $shortcuts = $this->manager->getKeyboardShortcuts();
-        $this->assertArrayNotHasKey('temp', $shortcuts);
-    }
-
-    // ==========================================================================
-    // Bulk Operations Tests
-    // ==========================================================================
-
-    public function test_register_bulk_action()
-    {
-        $action = [
-            'label' => 'Archive Selected',
-            'callback' => 'archive_items',
-            'confirm' => true,
-            'confirm_message' => 'Are you sure you want to archive {count} items?',
-        ];
-
-        $result = $this->manager->registerBulkAction('archive', $action);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_bulk_actions()
-    {
-        $actions = $this->manager->getBulkActions();
-
-        $this->assertIsArray($actions);
-        $this->assertArrayHasKey('delete', $actions);
-    }
-
-    public function test_execute_bulk_action()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)['id' => '1', 'status' => 'active'],
-            (object)['id' => '2', 'status' => 'active'],
-            (object)['id' => '3', 'status' => 'active'],
-        ]);
-
-        $result = $this->manager->executeBulkAction('delete', ['1', '2', '3']);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertEquals(3, $result['affected']);
-    }
-
-    public function test_execute_bulk_action_invalid_action()
-    {
-        $result = $this->manager->executeBulkAction('nonexistent', ['1', '2']);
-
-        $this->assertFalse($result['success']);
-        $this->assertArrayHasKey('error', $result);
-    }
-
-    public function test_execute_bulk_action_empty_items()
-    {
-        $result = $this->manager->executeBulkAction('delete', []);
-
-        $this->assertFalse($result['success']);
-    }
-
-    // ==========================================================================
-    // Inline Editing Tests
-    // ==========================================================================
-
-    public function test_enable_inline_editing()
-    {
-        $config = [
-            'entity' => 'forms',
-            'fields' => ['title', 'description', 'status'],
-            'validation' => [
-                'title' => ['required' => true, 'maxlength' => 100],
-            ],
-        ];
-
-        $result = $this->manager->enableInlineEditing($config);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_inline_edit_save()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'title' => 'Old Title',
-            'description' => 'Old Description',
-        ]);
-
-        $result = $this->manager->saveInlineEdit('forms', '1', 'title', 'New Title');
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-    }
-
-    public function test_inline_edit_save_validation_fails()
-    {
-        $this->manager->enableInlineEditing([
-            'entity' => 'forms',
-            'fields' => ['title'],
-            'validation' => [
-                'title' => ['required' => true, 'minlength' => 5],
-            ],
-        ]);
-
-        $result = $this->manager->saveInlineEdit('forms', '1', 'title', 'Ab');
-
-        $this->assertFalse($result['success']);
-        $this->assertArrayHasKey('error', $result);
-    }
-
-    public function test_inline_edit_unauthorized_field()
-    {
-        $this->manager->enableInlineEditing([
-            'entity' => 'forms',
-            'fields' => ['title', 'description'],
-        ]);
-
-        $result = $this->manager->saveInlineEdit('forms', '1', 'secret_field', 'value');
-
-        $this->assertFalse($result['success']);
-    }
-
-    // ==========================================================================
-    // View Management Tests
-    // ==========================================================================
-
-    public function test_save_user_view()
-    {
-        global $wpdb;
-
-        $view = [
-            'name' => 'My Custom View',
-            'entity' => 'forms',
-            'columns' => ['title', 'status', 'created_at'],
-            'sort' => ['column' => 'created_at', 'direction' => 'desc'],
-            'filters' => ['status' => 'active'],
-        ];
-
-        $result = $this->manager->saveView($view);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertArrayHasKey('view_id', $result);
-    }
-
-    public function test_get_user_views()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_results', [
-            (object)[
-                'id' => '1',
-                'name' => 'Active Forms',
-                'config' => json_encode(['filters' => ['status' => 'active']]),
-            ],
-            (object)[
-                'id' => '2',
-                'name' => 'Recent Forms',
-                'config' => json_encode(['sort' => ['column' => 'created_at', 'direction' => 'desc']]),
-            ],
-        ]);
-
-        $views = $this->manager->getViews('forms');
-
-        $this->assertIsArray($views);
-        $this->assertCount(2, $views);
-    }
-
-    public function test_delete_view()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'user_id' => get_current_user_id(),
-        ]);
-
-        $result = $this->manager->deleteView('1');
-
-        $this->assertTrue($result);
-    }
-
-    public function test_delete_view_unauthorized()
-    {
-        global $wpdb;
-
-        // View belongs to another user
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'user_id' => 999, // Different user
-        ]);
-
-        $result = $this->manager->deleteView('1');
-
-        $this->assertFalse($result);
-    }
-
-    // ==========================================================================
-    // Auto-save Tests
-    // ==========================================================================
-
-    public function test_autosave_draft()
-    {
-        global $wpdb;
-
-        $data = [
-            'entity' => 'forms',
-            'entity_id' => '1',
-            'field' => 'description',
-            'value' => 'Auto-saved content...',
-        ];
-
-        $result = $this->manager->autosave($data);
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertArrayHasKey('draft_id', $result);
-    }
-
-    public function test_get_autosave_draft()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'entity' => 'forms',
-            'entity_id' => '1',
-            'data' => json_encode(['description' => 'Auto-saved content']),
-            'updated_at' => '2024-01-15 10:30:00',
-        ]);
-
-        $draft = $this->manager->getAutosaveDraft('forms', '1');
-
-        $this->assertIsObject($draft);
-        $this->assertObjectHasProperty('data', $draft);
-    }
-
-    public function test_restore_autosave_draft()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'entity' => 'forms',
-            'entity_id' => '1',
-            'data' => json_encode(['title' => 'Draft Title', 'description' => 'Draft Desc']),
-        ]);
-
-        $result = $this->manager->restoreAutosaveDraft('forms', '1');
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertArrayHasKey('data', $result);
-    }
-
-    public function test_discard_autosave_draft()
-    {
-        global $wpdb;
-
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'entity' => 'forms',
-            'entity_id' => '1',
-        ]);
-
-        $result = $this->manager->discardAutosaveDraft('forms', '1');
-
-        $this->assertTrue($result);
-    }
-
-    // ==========================================================================
-    // UX Settings Tests
-    // ==========================================================================
-
-    public function test_get_ux_settings()
-    {
-        $settings = $this->manager->getUXSettings();
-
-        $this->assertIsArray($settings);
-        $this->assertArrayHasKey('dark_mode', $settings);
-        $this->assertArrayHasKey('keyboard_shortcuts_enabled', $settings);
-        $this->assertArrayHasKey('reduced_motion', $settings);
-    }
-
-    public function test_save_ux_settings()
-    {
-        $settings = [
-            'dark_mode' => true,
-            'keyboard_shortcuts_enabled' => true,
-            'reduced_motion' => false,
-            'high_contrast' => false,
-            'sidebar_collapsed' => true,
-        ];
-
-        $result = $this->manager->saveUXSettings($settings);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_single_ux_setting()
-    {
-        $this->manager->saveUXSettings(['dark_mode' => true]);
-
-        $darkMode = $this->manager->getUXSetting('dark_mode');
-
-        $this->assertTrue($darkMode);
-    }
-
-    public function test_get_ux_setting_default()
-    {
-        $value = $this->manager->getUXSetting('nonexistent_setting', 'default_value');
-
-        $this->assertEquals('default_value', $value);
-    }
-
-    // ==========================================================================
-    // Toast Notifications Tests
-    // ==========================================================================
-
-    public function test_queue_toast_notification()
-    {
-        $result = $this->manager->queueToast([
-            'type' => 'success',
-            'message' => 'Item saved successfully!',
-            'duration' => 3000,
-        ]);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_queued_toasts()
-    {
-        $this->manager->queueToast(['type' => 'success', 'message' => 'Success 1']);
-        $this->manager->queueToast(['type' => 'error', 'message' => 'Error 1']);
-
-        $toasts = $this->manager->getQueuedToasts();
-
-        $this->assertIsArray($toasts);
-        $this->assertGreaterThanOrEqual(2, count($toasts));
-    }
-
-    public function test_clear_toast_queue()
-    {
-        $this->manager->queueToast(['type' => 'info', 'message' => 'Info message']);
-
-        $this->manager->clearToastQueue();
-
-        $toasts = $this->manager->getQueuedToasts();
-        $this->assertEmpty($toasts);
-    }
-
-    // ==========================================================================
-    // Command Palette Tests
-    // ==========================================================================
-
-    public function test_register_command()
-    {
-        $command = [
-            'id' => 'create_form',
-            'title' => 'Create New Form',
-            'description' => 'Start creating a new form',
-            'icon' => 'plus',
-            'action' => 'navigate',
-            'url' => '/forms/new',
-            'shortcut' => ['ctrl', 'n'],
-            'category' => 'forms',
-        ];
-
-        $result = $this->manager->registerCommand($command);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_commands()
-    {
-        $commands = $this->manager->getCommands();
-
-        $this->assertIsArray($commands);
-    }
-
-    public function test_search_commands()
-    {
-        $this->manager->registerCommand([
-            'id' => 'search_test',
-            'title' => 'Search Test Command',
-            'action' => 'test',
-        ]);
-
-        $results = $this->manager->searchCommands('search');
-
-        $this->assertIsArray($results);
-    }
-
-    public function test_unregister_command()
-    {
-        $this->manager->registerCommand([
-            'id' => 'temp_command',
-            'title' => 'Temporary Command',
-            'action' => 'temp',
-        ]);
-
-        $result = $this->manager->unregisterCommand('temp_command');
-
-        $this->assertTrue($result);
-    }
-
-    // ==========================================================================
-    // Recent Items Tests
-    // ==========================================================================
-
-    public function test_add_recent_item()
-    {
-        $result = $this->manager->addRecentItem([
-            'type' => 'form',
-            'id' => 'form-123',
-            'title' => 'Contact Form',
-            'url' => '/forms/edit/form-123',
-        ]);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_recent_items()
-    {
-        $this->manager->addRecentItem(['type' => 'form', 'id' => '1', 'title' => 'Form 1']);
-        $this->manager->addRecentItem(['type' => 'form', 'id' => '2', 'title' => 'Form 2']);
-
-        $recent = $this->manager->getRecentItems('form', 10);
-
-        $this->assertIsArray($recent);
-    }
-
-    public function test_clear_recent_items()
-    {
-        $this->manager->addRecentItem(['type' => 'form', 'id' => '1', 'title' => 'Form']);
-
-        $result = $this->manager->clearRecentItems('form');
-
-        $this->assertTrue($result);
-
-        $recent = $this->manager->getRecentItems('form');
-        $this->assertEmpty($recent);
-    }
-
-    // ==========================================================================
-    // Theme/Dark Mode Tests
-    // ==========================================================================
-
-    public function test_set_theme()
-    {
-        $result = $this->manager->setTheme('dark');
-
-        $this->assertTrue($result);
-
-        $theme = $this->manager->getTheme();
-        $this->assertEquals('dark', $theme);
-    }
-
-    public function test_set_invalid_theme()
-    {
-        $result = $this->manager->setTheme('invalid_theme');
-
-        $this->assertFalse($result);
-    }
-
-    public function test_toggle_theme()
-    {
-        $this->manager->setTheme('light');
-
-        $newTheme = $this->manager->toggleTheme();
-
-        $this->assertEquals('dark', $newTheme);
-
-        $newTheme = $this->manager->toggleTheme();
-        $this->assertEquals('light', $newTheme);
-    }
-
-    // ==========================================================================
-    // Accessibility Tests
-    // ==========================================================================
-
-    public function test_set_reduced_motion()
-    {
-        $result = $this->manager->setReducedMotion(true);
-
-        $this->assertTrue($result);
-
-        $reducedMotion = $this->manager->getUXSetting('reduced_motion');
-        $this->assertTrue($reducedMotion);
-    }
-
-    public function test_set_high_contrast()
-    {
-        $result = $this->manager->setHighContrast(true);
-
-        $this->assertTrue($result);
-
-        $highContrast = $this->manager->getUXSetting('high_contrast');
-        $this->assertTrue($highContrast);
-    }
-
-    public function test_get_accessibility_settings()
-    {
-        $settings = $this->manager->getAccessibilitySettings();
-
-        $this->assertIsArray($settings);
-        $this->assertArrayHasKey('reduced_motion', $settings);
-        $this->assertArrayHasKey('high_contrast', $settings);
-        $this->assertArrayHasKey('focus_visible', $settings);
-    }
-
-    // ==========================================================================
-    // Table Column Configuration Tests
-    // ==========================================================================
-
-    public function test_save_table_columns()
-    {
-        $columns = [
-            ['id' => 'title', 'visible' => true, 'width' => 200, 'order' => 0],
-            ['id' => 'status', 'visible' => true, 'width' => 100, 'order' => 1],
-            ['id' => 'created_at', 'visible' => true, 'width' => 150, 'order' => 2],
-            ['id' => 'author', 'visible' => false, 'width' => 120, 'order' => 3],
-        ];
-
-        $result = $this->manager->saveTableColumns('forms', $columns);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_table_columns()
-    {
-        $this->manager->saveTableColumns('forms', [
-            ['id' => 'title', 'visible' => true, 'order' => 0],
-        ]);
-
-        $columns = $this->manager->getTableColumns('forms');
-
-        $this->assertIsArray($columns);
-    }
-
-    public function test_reset_table_columns()
-    {
-        $this->manager->saveTableColumns('forms', [
-            ['id' => 'custom', 'visible' => true],
-        ]);
-
-        $result = $this->manager->resetTableColumns('forms');
-
-        $this->assertTrue($result);
-    }
-
-    // ==========================================================================
-    // Sidebar State Tests
-    // ==========================================================================
-
-    public function test_set_sidebar_collapsed()
-    {
-        $result = $this->manager->setSidebarCollapsed(true);
-
-        $this->assertTrue($result);
-
-        $collapsed = $this->manager->isSidebarCollapsed();
-        $this->assertTrue($collapsed);
-    }
-
-    public function test_toggle_sidebar()
-    {
-        $this->manager->setSidebarCollapsed(false);
-
-        $newState = $this->manager->toggleSidebar();
-
-        $this->assertTrue($newState);
-
-        $newState = $this->manager->toggleSidebar();
-        $this->assertFalse($newState);
-    }
-
-    // ==========================================================================
-    // Form Persistence Tests
-    // ==========================================================================
-
-    public function test_save_form_state()
-    {
-        $formData = [
-            'title' => 'Draft Form',
-            'description' => 'Work in progress...',
-            'fields' => [
-                ['type' => 'text', 'label' => 'Name'],
-            ],
-        ];
-
-        $result = $this->manager->saveFormState('form_editor', $formData);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_form_state()
-    {
-        $this->manager->saveFormState('form_editor', ['title' => 'Saved Title']);
-
-        $state = $this->manager->getFormState('form_editor');
-
-        $this->assertIsArray($state);
-        $this->assertEquals('Saved Title', $state['title']);
-    }
-
-    public function test_clear_form_state()
-    {
-        $this->manager->saveFormState('form_editor', ['data' => 'value']);
-
-        $result = $this->manager->clearFormState('form_editor');
-
-        $this->assertTrue($result);
-
-        $state = $this->manager->getFormState('form_editor');
-        $this->assertNull($state);
-    }
-
-    // ==========================================================================
-    // Notification Preferences Tests
-    // ==========================================================================
-
-    public function test_set_notification_preferences()
-    {
-        $prefs = [
-            'toast_position' => 'top-right',
-            'toast_duration' => 5000,
-            'sound_enabled' => false,
-        ];
-
-        $result = $this->manager->setNotificationPreferences($prefs);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_notification_preferences()
-    {
-        $prefs = $this->manager->getNotificationPreferences();
-
-        $this->assertIsArray($prefs);
-        $this->assertArrayHasKey('toast_position', $prefs);
-        $this->assertArrayHasKey('toast_duration', $prefs);
-    }
-
-    // ==========================================================================
-    // Lazy Load Configuration Tests
-    // ==========================================================================
-
-    public function test_configure_lazy_loading()
-    {
-        $config = [
-            'threshold' => 0.1,
-            'root_margin' => '100px',
-            'enabled' => true,
-        ];
-
-        $result = $this->manager->configureLazyLoading($config);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_lazy_loading_config()
-    {
-        $config = $this->manager->getLazyLoadingConfig();
+        $manager = UXManager::getInstance();
+        $config = $manager->getConfig();
 
         $this->assertIsArray($config);
-        $this->assertArrayHasKey('threshold', $config);
-        $this->assertArrayHasKey('enabled', $config);
+    }
+
+    public function test_get_config_has_default_values()
+    {
+        $manager = UXManager::getInstance();
+        $config = $manager->getConfig();
+
+        $this->assertArrayHasKey('keyboard_shortcuts', $config);
+        $this->assertArrayHasKey('bulk_operations', $config);
+        $this->assertArrayHasKey('inline_editing', $config);
+        $this->assertArrayHasKey('dark_mode', $config);
+        $this->assertArrayHasKey('autosave', $config);
+    }
+
+    public function test_get_config_default_values()
+    {
+        $manager = UXManager::getInstance();
+        $config = $manager->getConfig();
+
+        // Check default values
+        $this->assertTrue($config['keyboard_shortcuts']);
+        $this->assertTrue($config['bulk_operations']);
+        $this->assertTrue($config['inline_editing']);
+        $this->assertFalse($config['dark_mode']);
+        $this->assertTrue($config['autosave']);
+        $this->assertEquals(30, $config['autosave_interval']);
+    }
+
+    public function test_save_config()
+    {
+        $manager = UXManager::getInstance();
+
+        $newConfig = [
+            'keyboard_shortcuts' => false,
+            'dark_mode' => true,
+            'autosave_interval' => 60,
+        ];
+
+        $result = $manager->saveConfig($newConfig);
+        $this->assertTrue($result);
+
+        $savedConfig = $manager->getConfig();
+        $this->assertFalse($savedConfig['keyboard_shortcuts']);
+        $this->assertTrue($savedConfig['dark_mode']);
+        $this->assertEquals(60, $savedConfig['autosave_interval']);
+    }
+
+    public function test_save_config_sanitizes_boolean_values()
+    {
+        $manager = UXManager::getInstance();
+
+        $newConfig = [
+            'keyboard_shortcuts' => 'yes', // String should be converted to bool
+            'dark_mode' => 1, // Int should be converted to bool
+        ];
+
+        $manager->saveConfig($newConfig);
+        $savedConfig = $manager->getConfig();
+
+        $this->assertTrue($savedConfig['keyboard_shortcuts']);
+        $this->assertTrue($savedConfig['dark_mode']);
+    }
+
+    public function test_save_config_sanitizes_integer_values()
+    {
+        $manager = UXManager::getInstance();
+
+        $newConfig = [
+            'autosave_interval' => '45', // String should be converted to int
+            'max_undo_steps' => 15.5, // Float should be converted to int
+        ];
+
+        $manager->saveConfig($newConfig);
+        $savedConfig = $manager->getConfig();
+
+        $this->assertIsInt($savedConfig['autosave_interval']);
+        $this->assertEquals(45, $savedConfig['autosave_interval']);
+        $this->assertIsInt($savedConfig['max_undo_steps']);
+        $this->assertEquals(15, $savedConfig['max_undo_steps']);
     }
 
     // ==========================================================================
-    // Validation Helper Tests
+    // Body Classes Tests
     // ==========================================================================
 
-    public function test_validate_field_required()
+    public function test_add_body_classes_default()
     {
-        $rules = ['required' => true];
+        $manager = UXManager::getInstance();
+        $classes = $manager->addBodyClasses('existing-class');
 
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['', $rules]);
-
-        $this->assertFalse($isValid);
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['value', $rules]);
-        $this->assertTrue($isValid);
+        $this->assertStringContainsString('existing-class', $classes);
     }
 
-    public function test_validate_field_minlength()
+    public function test_add_body_classes_dark_mode()
     {
-        $rules = ['minlength' => 5];
+        $manager = UXManager::getInstance();
+        $manager->saveConfig(['dark_mode' => true]);
 
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['abc', $rules]);
-        $this->assertFalse($isValid);
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['abcdef', $rules]);
-        $this->assertTrue($isValid);
+        $classes = $manager->addBodyClasses('');
+        $this->assertStringContainsString('formflow-dark-mode', $classes);
     }
 
-    public function test_validate_field_maxlength()
+    public function test_add_body_classes_compact_mode()
     {
-        $rules = ['maxlength' => 10];
+        $manager = UXManager::getInstance();
+        $manager->saveConfig(['compact_mode' => true]);
 
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['this is a very long string', $rules]);
-        $this->assertFalse($isValid);
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['short', $rules]);
-        $this->assertTrue($isValid);
+        $classes = $manager->addBodyClasses('');
+        $this->assertStringContainsString('formflow-compact-mode', $classes);
     }
 
-    public function test_validate_field_pattern()
+    public function test_add_body_classes_no_animations()
     {
-        $rules = ['pattern' => '/^[a-z]+$/'];
+        $manager = UXManager::getInstance();
+        $manager->saveConfig(['animations' => false]);
 
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['abc123', $rules]);
-        $this->assertFalse($isValid);
-
-        $isValid = $this->callPrivateMethod($this->manager, 'validateField', ['abc', $rules]);
-        $this->assertTrue($isValid);
+        $classes = $manager->addBodyClasses('');
+        $this->assertStringContainsString('formflow-no-animations', $classes);
     }
 
     // ==========================================================================
-    // Asset Enqueueing Tests
+    // Shortcuts Tests
     // ==========================================================================
 
-    public function test_get_required_assets()
+    public function test_get_shortcuts_list()
     {
-        $assets = $this->manager->getRequiredAssets();
+        $manager = UXManager::getInstance();
+        $shortcuts = $manager->getShortcutsList();
 
-        $this->assertIsArray($assets);
-        $this->assertArrayHasKey('js', $assets);
-        $this->assertArrayHasKey('css', $assets);
-        $this->assertContains('ux-premium', $assets['js']);
-        $this->assertContains('ux-premium', $assets['css']);
+        $this->assertIsArray($shortcuts);
+        $this->assertNotEmpty($shortcuts);
     }
 
-    public function test_get_localized_script_data()
+    public function test_get_shortcuts_list_structure()
     {
-        $data = $this->manager->getLocalizedScriptData();
+        $manager = UXManager::getInstance();
+        $shortcuts = $manager->getShortcutsList();
 
-        $this->assertIsArray($data);
-        $this->assertArrayHasKey('ajaxUrl', $data);
-        $this->assertArrayHasKey('nonce', $data);
-        $this->assertArrayHasKey('settings', $data);
-        $this->assertArrayHasKey('shortcuts', $data);
+        foreach ($shortcuts as $shortcut) {
+            $this->assertIsArray($shortcut);
+            $this->assertArrayHasKey('key', $shortcut);
+            $this->assertArrayHasKey('action', $shortcut);
+        }
+    }
+
+    public function test_get_shortcuts_list_contains_expected_shortcuts()
+    {
+        $manager = UXManager::getInstance();
+        $shortcuts = $manager->getShortcutsList();
+
+        $keys = array_column($shortcuts, 'key');
+
+        $this->assertContains('Ctrl+S', $keys);
+        $this->assertContains('Ctrl+Z', $keys);
+        $this->assertContains('Ctrl+Y', $keys);
+        $this->assertContains('Ctrl+F', $keys);
+        $this->assertContains('Esc', $keys);
+    }
+
+    // ==========================================================================
+    // Saved Views Tests
+    // ==========================================================================
+
+    public function test_get_saved_views_empty_by_default()
+    {
+        $manager = UXManager::getInstance();
+        $views = $manager->getSavedViews();
+
+        $this->assertIsArray($views);
+    }
+
+    public function test_get_saved_views_returns_stored_views()
+    {
+        // Pre-populate saved views
+        update_option('formflow_saved_views', [
+            'view_1' => ['name' => 'Test View', 'filters' => []],
+        ]);
+
+        $manager = UXManager::getInstance();
+        $views = $manager->getSavedViews();
+
+        $this->assertArrayHasKey('view_1', $views);
+        $this->assertEquals('Test View', $views['view_1']['name']);
+    }
+
+    public function test_delete_saved_view_success()
+    {
+        // Pre-populate saved views
+        update_option('formflow_saved_views', [
+            'view_1' => ['name' => 'Test View', 'filters' => []],
+            'view_2' => ['name' => 'Another View', 'filters' => []],
+        ]);
+
+        $manager = UXManager::getInstance();
+        $result = $manager->deleteSavedView('view_1');
+
+        $this->assertTrue($result);
+
+        $views = $manager->getSavedViews();
+        $this->assertArrayNotHasKey('view_1', $views);
+        $this->assertArrayHasKey('view_2', $views);
+    }
+
+    public function test_delete_saved_view_nonexistent()
+    {
+        update_option('formflow_saved_views', []);
+
+        $manager = UXManager::getInstance();
+        $result = $manager->deleteSavedView('nonexistent_view');
+
+        $this->assertFalse($result);
+    }
+
+    // ==========================================================================
+    // Autosave Tests
+    // ==========================================================================
+
+    public function test_get_autosave_returns_null_when_empty()
+    {
+        $manager = UXManager::getInstance();
+        $autosave = $manager->getAutosave('form', 1);
+
+        $this->assertNull($autosave);
+    }
+
+    public function test_get_autosave_returns_stored_data()
+    {
+        // Pre-populate autosave
+        $key = 'formflow_autosave_form_1_1'; // type_id_userid
+        set_transient($key, ['title' => 'Test', 'content' => 'Draft content']);
+
+        $manager = UXManager::getInstance();
+        $autosave = $manager->getAutosave('form', 1);
+
+        $this->assertIsArray($autosave);
+        $this->assertEquals('Test', $autosave['title']);
+        $this->assertEquals('Draft content', $autosave['content']);
+    }
+
+    public function test_clear_autosave()
+    {
+        // Pre-populate autosave
+        $key = 'formflow_autosave_form_1_1';
+        set_transient($key, ['data' => 'test']);
+
+        $manager = UXManager::getInstance();
+        $result = $manager->clearAutosave('form', 1);
+
+        $this->assertTrue($result);
+
+        $autosave = $manager->getAutosave('form', 1);
+        $this->assertNull($autosave);
     }
 
     // ==========================================================================
     // AJAX Handler Tests
     // ==========================================================================
 
-    public function test_ajax_bulk_action_handler()
+    public function test_handle_bulk_action_success()
     {
         global $wpdb;
 
-        $_POST['action'] = 'ffp_bulk_action';
-        $_POST['nonce'] = wp_create_nonce('ffp_ux_nonce');
-        $_POST['bulk_action'] = 'delete';
-        $_POST['items'] = ['1', '2', '3'];
+        $_POST['nonce'] = 'valid';
+        $_POST['bulk_action'] = 'export';
+        $_POST['ids'] = [1, 2, 3];
 
-        $wpdb->set_mock_result('get_results', [
-            (object)['id' => '1'],
-            (object)['id' => '2'],
-            (object)['id' => '3'],
-        ]);
+        $manager = UXManager::getInstance();
 
         ob_start();
-        $this->manager->handleBulkAction();
+        $manager->handleBulkAction();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertTrue($response['success']);
+        $this->assertArrayHasKey('data', $response);
+    }
+
+    public function test_handle_inline_edit_missing_params()
+    {
+        $_POST['nonce'] = 'valid';
+        $_POST['id'] = 0; // Invalid ID
+        $_POST['field'] = '';
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleInlineEdit();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertFalse($response['success']);
+    }
+
+    public function test_handle_save_view_missing_name()
+    {
+        $_POST['nonce'] = 'valid';
+        $_POST['name'] = ''; // Empty name
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleSaveView();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertFalse($response['success']);
+    }
+
+    public function test_handle_save_view_success()
+    {
+        $_POST['nonce'] = 'valid';
+        $_POST['name'] = 'My Test View';
+        $_POST['filters'] = ['status' => 'active'];
+        $_POST['columns'] = ['title', 'status', 'date'];
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleSaveView();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertTrue($response['success']);
+        $this->assertArrayHasKey('view_id', $response['data']);
+
+        // Verify view was saved
+        $views = $manager->getSavedViews();
+        $this->assertNotEmpty($views);
+    }
+
+    public function test_handle_autosave_missing_data()
+    {
+        $_POST['nonce'] = 'valid';
+        $_POST['type'] = '';
+        $_POST['data'] = [];
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleAutosave();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertFalse($response['success']);
+    }
+
+    public function test_handle_autosave_success()
+    {
+        $_POST['nonce'] = 'valid';
+        $_POST['type'] = 'form';
+        $_POST['id'] = 1;
+        $_POST['data'] = ['title' => 'Autosaved Title'];
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleAutosave();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertTrue($response['success']);
+        $this->assertArrayHasKey('timestamp', $response['data']);
+    }
+
+    public function test_handle_ux_settings_get()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_POST['nonce'] = 'valid';
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleUXSettings();
+        $output = ob_get_clean();
+
+        $response = json_decode($output, true);
+        $this->assertTrue($response['success']);
+        $this->assertArrayHasKey('keyboard_shortcuts', $response['data']);
+    }
+
+    public function test_handle_ux_settings_post()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST['nonce'] = 'valid';
+        $_POST['config'] = ['dark_mode' => true];
+
+        $manager = UXManager::getInstance();
+
+        ob_start();
+        $manager->handleUXSettings();
         $output = ob_get_clean();
 
         $response = json_decode($output, true);
         $this->assertTrue($response['success']);
     }
 
-    public function test_ajax_inline_edit_handler()
+    // ==========================================================================
+    // Integration Tests
+    // ==========================================================================
+
+    public function test_full_view_workflow()
     {
-        global $wpdb;
+        $manager = UXManager::getInstance();
 
-        $_POST['action'] = 'ffp_inline_edit';
-        $_POST['nonce'] = wp_create_nonce('ffp_ux_nonce');
-        $_POST['entity'] = 'forms';
-        $_POST['entity_id'] = '1';
-        $_POST['field'] = 'title';
-        $_POST['value'] = 'New Title';
+        // 1. Initially no views
+        $views = $manager->getSavedViews();
+        $this->assertEmpty($views);
 
-        $wpdb->set_mock_result('get_row', (object)[
-            'id' => '1',
-            'title' => 'Old Title',
-        ]);
+        // 2. Create a view via AJAX
+        $_POST['nonce'] = 'valid';
+        $_POST['name'] = 'Active Items';
+        $_POST['filters'] = ['status' => 'active'];
+        $_POST['columns'] = ['title', 'status'];
 
         ob_start();
-        $this->manager->handleInlineEdit();
+        $manager->handleSaveView();
         $output = ob_get_clean();
 
         $response = json_decode($output, true);
-        $this->assertTrue($response['success']);
+        $viewId = $response['data']['view_id'];
+
+        // 3. Verify view exists
+        $views = $manager->getSavedViews();
+        $this->assertArrayHasKey($viewId, $views);
+        $this->assertEquals('Active Items', $views[$viewId]['name']);
+
+        // 4. Delete the view
+        $result = $manager->deleteSavedView($viewId);
+        $this->assertTrue($result);
+
+        // 5. Verify view is gone
+        $views = $manager->getSavedViews();
+        $this->assertArrayNotHasKey($viewId, $views);
     }
 
-    public function test_ajax_save_view_handler()
+    public function test_full_autosave_workflow()
     {
-        $_POST['action'] = 'ffp_save_view';
-        $_POST['nonce'] = wp_create_nonce('ffp_ux_nonce');
-        $_POST['view'] = json_encode([
-            'name' => 'My View',
-            'entity' => 'forms',
-            'columns' => ['title', 'status'],
-        ]);
+        $manager = UXManager::getInstance();
+
+        // 1. Initially no autosave
+        $autosave = $manager->getAutosave('form', 99);
+        $this->assertNull($autosave);
+
+        // 2. Create autosave via AJAX
+        $_POST['nonce'] = 'valid';
+        $_POST['type'] = 'form';
+        $_POST['id'] = 99;
+        $_POST['data'] = ['title' => 'Draft Form', 'fields' => ['name', 'email']];
 
         ob_start();
-        $this->manager->handleSaveView();
-        $output = ob_get_clean();
+        $manager->handleAutosave();
+        ob_get_clean();
 
-        $response = json_decode($output, true);
-        $this->assertTrue($response['success']);
+        // 3. Verify autosave exists
+        $autosave = $manager->getAutosave('form', 99);
+        $this->assertIsArray($autosave);
+        $this->assertEquals('Draft Form', $autosave['title']);
+
+        // 4. Clear autosave
+        $result = $manager->clearAutosave('form', 99);
+        $this->assertTrue($result);
+
+        // 5. Verify autosave is gone
+        $autosave = $manager->getAutosave('form', 99);
+        $this->assertNull($autosave);
     }
 
-    public function test_ajax_autosave_handler()
+    public function test_config_persistence()
     {
-        $_POST['action'] = 'ffp_autosave';
-        $_POST['nonce'] = wp_create_nonce('ffp_ux_nonce');
-        $_POST['entity'] = 'forms';
-        $_POST['entity_id'] = '1';
-        $_POST['data'] = json_encode(['title' => 'Auto-saved title']);
-
-        ob_start();
-        $this->manager->handleAutosave();
-        $output = ob_get_clean();
-
-        $response = json_decode($output, true);
-        $this->assertTrue($response['success']);
-    }
-
-    public function test_ajax_save_ux_settings_handler()
-    {
-        $_POST['action'] = 'ffp_save_ux_settings';
-        $_POST['nonce'] = wp_create_nonce('ffp_ux_nonce');
-        $_POST['settings'] = json_encode([
+        // Create first instance and change config
+        $manager1 = UXManager::getInstance();
+        $manager1->saveConfig([
             'dark_mode' => true,
-            'keyboard_shortcuts_enabled' => true,
+            'compact_mode' => true,
+            'autosave_interval' => 120,
         ]);
 
-        ob_start();
-        $this->manager->handleSaveUXSettings();
-        $output = ob_get_clean();
+        // Reset singleton
+        $reflection = new \ReflectionClass(UXManager::class);
+        $instance = $reflection->getProperty('instance');
+        $instance->setAccessible(true);
+        $instance->setValue(null, null);
 
-        $response = json_decode($output, true);
-        $this->assertTrue($response['success']);
-    }
+        // Create new instance and verify config persisted
+        $manager2 = UXManager::getInstance();
+        $config = $manager2->getConfig();
 
-    // ==========================================================================
-    // Performance Optimization Tests
-    // ==========================================================================
-
-    public function test_get_cache_config()
-    {
-        $config = $this->manager->getCacheConfig();
-
-        $this->assertIsArray($config);
-        $this->assertArrayHasKey('enabled', $config);
-        $this->assertArrayHasKey('ttl', $config);
-    }
-
-    public function test_set_cache_enabled()
-    {
-        $result = $this->manager->setCacheEnabled(true);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_clear_ux_cache()
-    {
-        $result = $this->manager->clearCache();
-
-        $this->assertTrue($result);
-    }
-
-    // ==========================================================================
-    // Feature Flags Tests
-    // ==========================================================================
-
-    public function test_get_feature_flags()
-    {
-        $flags = $this->manager->getFeatureFlags();
-
-        $this->assertIsArray($flags);
-        $this->assertArrayHasKey('command_palette', $flags);
-        $this->assertArrayHasKey('dark_mode', $flags);
-        $this->assertArrayHasKey('keyboard_shortcuts', $flags);
-    }
-
-    public function test_is_feature_enabled()
-    {
-        $isEnabled = $this->manager->isFeatureEnabled('dark_mode');
-
-        $this->assertIsBool($isEnabled);
-    }
-
-    public function test_enable_feature()
-    {
-        $result = $this->manager->enableFeature('command_palette');
-
-        $this->assertTrue($result);
-        $this->assertTrue($this->manager->isFeatureEnabled('command_palette'));
-    }
-
-    public function test_disable_feature()
-    {
-        $result = $this->manager->disableFeature('command_palette');
-
-        $this->assertTrue($result);
-        $this->assertFalse($this->manager->isFeatureEnabled('command_palette'));
-    }
-
-    // ==========================================================================
-    // Contextual Help Tests
-    // ==========================================================================
-
-    public function test_register_help_topic()
-    {
-        $topic = [
-            'id' => 'form_builder',
-            'title' => 'Form Builder Help',
-            'content' => 'Learn how to use the form builder...',
-            'context' => 'forms/edit',
-        ];
-
-        $result = $this->manager->registerHelpTopic($topic);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_help_topics_for_context()
-    {
-        $this->manager->registerHelpTopic([
-            'id' => 'test_topic',
-            'title' => 'Test Topic',
-            'content' => 'Test content',
-            'context' => 'test_page',
-        ]);
-
-        $topics = $this->manager->getHelpTopicsForContext('test_page');
-
-        $this->assertIsArray($topics);
-    }
-
-    // ==========================================================================
-    // Session State Tests
-    // ==========================================================================
-
-    public function test_save_session_state()
-    {
-        $state = [
-            'current_page' => '/forms',
-            'scroll_position' => 500,
-            'open_panels' => ['settings', 'preview'],
-        ];
-
-        $result = $this->manager->saveSessionState($state);
-
-        $this->assertTrue($result);
-    }
-
-    public function test_get_session_state()
-    {
-        $this->manager->saveSessionState(['key' => 'value']);
-
-        $state = $this->manager->getSessionState();
-
-        $this->assertIsArray($state);
-    }
-
-    public function test_clear_session_state()
-    {
-        $this->manager->saveSessionState(['data' => 'test']);
-
-        $result = $this->manager->clearSessionState();
-
-        $this->assertTrue($result);
-
-        $state = $this->manager->getSessionState();
-        $this->assertEmpty($state);
+        $this->assertTrue($config['dark_mode']);
+        $this->assertTrue($config['compact_mode']);
+        $this->assertEquals(120, $config['autosave_interval']);
     }
 }

@@ -541,6 +541,76 @@ if (!function_exists('__')) {
     }
 }
 
+if (!function_exists('get_current_user_id')) {
+    function get_current_user_id()
+    {
+        return 1; // Default mock user ID
+    }
+}
+
+if (!function_exists('wp_parse_args')) {
+    function wp_parse_args($args, $defaults = [])
+    {
+        if (is_object($args)) {
+            $r = get_object_vars($args);
+        } elseif (is_array($args)) {
+            $r = &$args;
+        } else {
+            parse_str($args, $r);
+        }
+        return array_merge($defaults, $r);
+    }
+}
+
+if (!function_exists('check_ajax_referer')) {
+    function check_ajax_referer($action = -1, $query_arg = false, $die = true)
+    {
+        return true; // Mock always passes
+    }
+}
+
+if (!function_exists('current_user_can')) {
+    function current_user_can($capability, ...$args)
+    {
+        return true; // Mock user has all capabilities
+    }
+}
+
+if (!function_exists('wp_send_json_success')) {
+    function wp_send_json_success($data = null, $status_code = null)
+    {
+        echo json_encode(['success' => true, 'data' => $data]);
+    }
+}
+
+if (!function_exists('wp_send_json_error')) {
+    function wp_send_json_error($data = null, $status_code = null)
+    {
+        echo json_encode(['success' => false, 'data' => $data]);
+    }
+}
+
+if (!function_exists('wp_add_inline_script')) {
+    function wp_add_inline_script($handle, $data, $position = 'after')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_add_inline_style')) {
+    function wp_add_inline_style($handle, $data)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_localize_script')) {
+    function wp_localize_script($handle, $object_name, $l10n)
+    {
+        return true;
+    }
+}
+
 // HTTP mocking globals
 global $wp_http_mock_response, $wp_http_mock_error, $wp_http_download_response;
 $wp_http_mock_response = null;
@@ -642,6 +712,21 @@ if (!class_exists('WP_REST_Request')) {
         public function set_json_params($params)
         {
             $this->json_params = $params;
+        }
+
+        public function get_param($key)
+        {
+            return $this->params[$key] ?? null;
+        }
+
+        public function has_param($key)
+        {
+            return array_key_exists($key, $this->params);
+        }
+
+        public function set_param($key, $value)
+        {
+            $this->params[$key] = $value;
         }
     }
 }
