@@ -47,7 +47,16 @@ if (!class_exists('wpdb')) {
 
         public function prepare($query, ...$args)
         {
-            $this->last_query = vsprintf(str_replace('%s', "'%s'", str_replace('%d', '%d', $query)), $args);
+            // Escape % characters that are not WordPress placeholders (%s, %d, %f)
+            // This prevents vsprintf errors from format specifiers like %M in date formats
+            $escaped_query = preg_replace('/%(?![sdf])/', '%%', $query);
+            $escaped_query = str_replace('%s', "'%s'", $escaped_query);
+
+            if (empty($args)) {
+                $this->last_query = $escaped_query;
+            } else {
+                $this->last_query = vsprintf($escaped_query, $args);
+            }
             return $this->last_query;
         }
 
@@ -1303,6 +1312,13 @@ if (!function_exists('wp_schedule_event')) {
     function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error = false)
     {
         return true;
+    }
+}
+
+if (!function_exists('wp_clear_scheduled_hook')) {
+    function wp_clear_scheduled_hook($hook, $args = [])
+    {
+        return 0; // Returns number of unscheduled events (0 for mock)
     }
 }
 
