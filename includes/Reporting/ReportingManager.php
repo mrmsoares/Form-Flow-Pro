@@ -286,7 +286,10 @@ class ReportingManager
             KEY user_id (user_id)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        // Only require the WordPress file if dbDelta is not already defined (allows testing)
+        if (!function_exists('dbDelta')) {
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        }
         dbDelta($sql_scheduled);
         dbDelta($sql_history);
         dbDelta($sql_presets);
