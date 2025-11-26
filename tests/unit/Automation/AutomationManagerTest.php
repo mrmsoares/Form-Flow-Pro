@@ -211,9 +211,10 @@ class AutomationManagerTest extends TestCase
     {
         global $wpdb;
 
-        $wpdb->insert_id = 1;
-
         $manager = AutomationManager::getInstance();
+
+        // Reset insert_id AFTER getInstance() to ensure clean state for this test
+        $wpdb->insert_id = 1;
 
         $data = [
             'name' => 'New Workflow',

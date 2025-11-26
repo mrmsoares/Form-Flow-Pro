@@ -1243,6 +1243,15 @@ if (!function_exists('sanitize_title')) {
     }
 }
 
+if (!function_exists('sanitize_file_name')) {
+    function sanitize_file_name($filename)
+    {
+        // Remove special characters and sanitize
+        $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
+        return $filename ?: 'file';
+    }
+}
+
 if (!function_exists('human_time_diff')) {
     function human_time_diff($from, $to = 0)
     {
