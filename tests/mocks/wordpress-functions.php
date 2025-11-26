@@ -1039,6 +1039,22 @@ if (!function_exists('home_url')) {
     }
 }
 
+if (!function_exists('get_bloginfo')) {
+    function get_bloginfo($show = '', $filter = 'raw')
+    {
+        $info = [
+            'name' => 'Test Site',
+            'description' => 'Just another WordPress site',
+            'url' => 'https://example.com',
+            'admin_email' => 'admin@example.com',
+            'charset' => 'UTF-8',
+            'version' => '6.4.0',
+            'language' => 'en-US',
+        ];
+        return $info[$show] ?? '';
+    }
+}
+
 if (!function_exists('admin_url')) {
     function admin_url($path = '')
     {
