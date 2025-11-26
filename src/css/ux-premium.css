@@ -1,0 +1,2195 @@
+/**
+ * FormFlow Pro - UX Premium Styles
+ * Version: 3.1.0
+ *
+ * Comprehensive CSS for all 54 UX Premium Features:
+ * - Loading States (6)
+ * - Notifications (7)
+ * - Keyboard Navigation (6)
+ * - Accessibility (7)
+ * - Progressive Enhancement (5)
+ * - Data Tables (6)
+ * - Forms & Inputs (7)
+ * - Navigation (5)
+ * - Performance (5)
+ */
+
+/* ==========================================================================
+   CSS Custom Properties (Theme Variables)
+   ========================================================================== */
+
+:root {
+    /* Primary Colors */
+    --ffp-primary: #2563eb;
+    --ffp-primary-hover: #1d4ed8;
+    --ffp-primary-light: #dbeafe;
+    --ffp-primary-dark: #1e40af;
+
+    /* Secondary Colors */
+    --ffp-secondary: #64748b;
+    --ffp-secondary-hover: #475569;
+    --ffp-secondary-light: #f1f5f9;
+
+    /* Status Colors */
+    --ffp-success: #10b981;
+    --ffp-success-light: #d1fae5;
+    --ffp-success-dark: #059669;
+
+    --ffp-warning: #f59e0b;
+    --ffp-warning-light: #fef3c7;
+    --ffp-warning-dark: #d97706;
+
+    --ffp-error: #ef4444;
+    --ffp-error-light: #fee2e2;
+    --ffp-error-dark: #dc2626;
+
+    --ffp-info: #3b82f6;
+    --ffp-info-light: #dbeafe;
+    --ffp-info-dark: #2563eb;
+
+    /* Neutral Colors */
+    --ffp-bg-primary: #ffffff;
+    --ffp-bg-secondary: #f8fafc;
+    --ffp-bg-tertiary: #f1f5f9;
+    --ffp-bg-hover: #e2e8f0;
+
+    --ffp-text-primary: #0f172a;
+    --ffp-text-secondary: #475569;
+    --ffp-text-tertiary: #94a3b8;
+    --ffp-text-inverse: #ffffff;
+
+    --ffp-border-color: #e2e8f0;
+    --ffp-border-dark: #cbd5e1;
+
+    /* Shadows */
+    --ffp-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --ffp-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --ffp-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --ffp-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --ffp-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* Border Radius */
+    --ffp-radius-sm: 4px;
+    --ffp-radius: 6px;
+    --ffp-radius-md: 8px;
+    --ffp-radius-lg: 12px;
+    --ffp-radius-xl: 16px;
+    --ffp-radius-full: 9999px;
+
+    /* Spacing */
+    --ffp-space-xs: 4px;
+    --ffp-space-sm: 8px;
+    --ffp-space-md: 12px;
+    --ffp-space-lg: 16px;
+    --ffp-space-xl: 24px;
+    --ffp-space-2xl: 32px;
+
+    /* Typography */
+    --ffp-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    --ffp-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+    --ffp-text-xs: 0.75rem;
+    --ffp-text-sm: 0.875rem;
+    --ffp-text-base: 1rem;
+    --ffp-text-lg: 1.125rem;
+    --ffp-text-xl: 1.25rem;
+    --ffp-text-2xl: 1.5rem;
+
+    /* Transitions */
+    --ffp-transition-fast: 150ms ease;
+    --ffp-transition: 200ms ease;
+    --ffp-transition-slow: 300ms ease;
+
+    /* Z-Index Scale */
+    --ffp-z-dropdown: 1000;
+    --ffp-z-sticky: 1020;
+    --ffp-z-fixed: 1030;
+    --ffp-z-modal-backdrop: 1040;
+    --ffp-z-modal: 1050;
+    --ffp-z-popover: 1060;
+    --ffp-z-tooltip: 1070;
+    --ffp-z-toast: 1080;
+    --ffp-z-command-palette: 1090;
+}
+
+/* ==========================================================================
+   Dark Mode Theme
+   ========================================================================== */
+
+[data-theme="dark"],
+.ffp-dark-mode {
+    --ffp-primary: #60a5fa;
+    --ffp-primary-hover: #93c5fd;
+    --ffp-primary-light: #1e3a5f;
+    --ffp-primary-dark: #3b82f6;
+
+    --ffp-bg-primary: #0f172a;
+    --ffp-bg-secondary: #1e293b;
+    --ffp-bg-tertiary: #334155;
+    --ffp-bg-hover: #475569;
+
+    --ffp-text-primary: #f1f5f9;
+    --ffp-text-secondary: #cbd5e1;
+    --ffp-text-tertiary: #94a3b8;
+
+    --ffp-border-color: #334155;
+    --ffp-border-dark: #475569;
+
+    --ffp-success-light: #064e3b;
+    --ffp-warning-light: #78350f;
+    --ffp-error-light: #7f1d1d;
+    --ffp-info-light: #1e3a8a;
+
+    --ffp-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --ffp-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4);
+    --ffp-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+    --ffp-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+}
+
+/* ==========================================================================
+   1. Loading States
+   ========================================================================== */
+
+/* 1.1 Skeleton Loaders */
+.ffp-skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--ffp-bg-tertiary);
+    border-radius: var(--ffp-radius);
+}
+
+.ffp-skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: ffp-skeleton-shimmer 1.5s infinite;
+}
+
+[data-theme="dark"] .ffp-skeleton::after {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+}
+
+@keyframes ffp-skeleton-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.ffp-skeleton-text {
+    height: 1em;
+    margin-bottom: 0.5em;
+}
+
+.ffp-skeleton-text:last-child {
+    width: 70%;
+}
+
+.ffp-skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ffp-radius-full);
+}
+
+.ffp-skeleton-button {
+    width: 100px;
+    height: 36px;
+}
+
+.ffp-skeleton-card {
+    padding: var(--ffp-space-lg);
+}
+
+.ffp-skeleton-table-row {
+    display: flex;
+    gap: var(--ffp-space-md);
+    padding: var(--ffp-space-md) 0;
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-skeleton-table-cell {
+    flex: 1;
+    height: 20px;
+}
+
+/* 1.2 Progressive Loading */
+.ffp-loading-container {
+    position: relative;
+    min-height: 100px;
+}
+
+.ffp-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--ffp-transition), visibility var(--ffp-transition);
+}
+
+[data-theme="dark"] .ffp-loading-overlay {
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.ffp-loading-container.is-loading .ffp-loading-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 1.3 Spinner */
+.ffp-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--ffp-border-color);
+    border-top-color: var(--ffp-primary);
+    border-radius: 50%;
+    animation: ffp-spin 0.8s linear infinite;
+}
+
+.ffp-spinner-sm {
+    width: 16px;
+    height: 16px;
+}
+
+.ffp-spinner-lg {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+}
+
+@keyframes ffp-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 1.4 Progress Bar */
+.ffp-progress {
+    height: 4px;
+    background: var(--ffp-bg-tertiary);
+    border-radius: var(--ffp-radius-full);
+    overflow: hidden;
+}
+
+.ffp-progress-bar {
+    height: 100%;
+    background: var(--ffp-primary);
+    border-radius: var(--ffp-radius-full);
+    transition: width var(--ffp-transition);
+}
+
+.ffp-progress-indeterminate .ffp-progress-bar {
+    width: 30%;
+    animation: ffp-progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes ffp-progress-indeterminate {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+/* 1.5 Lazy Load */
+.ffp-lazy-load {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--ffp-transition-slow), transform var(--ffp-transition-slow);
+}
+
+.ffp-lazy-load.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ffp-lazy-image {
+    background: var(--ffp-bg-tertiary);
+    transition: opacity var(--ffp-transition);
+}
+
+.ffp-lazy-image.is-loaded {
+    background: transparent;
+}
+
+/* 1.6 Infinite Scroll */
+.ffp-infinite-scroll-loader {
+    padding: var(--ffp-space-xl);
+    text-align: center;
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-infinite-scroll-end {
+    padding: var(--ffp-space-xl);
+    text-align: center;
+    color: var(--ffp-text-tertiary);
+    font-size: var(--ffp-text-sm);
+}
+
+/* ==========================================================================
+   2. Notifications
+   ========================================================================== */
+
+/* 2.1 Toast Notifications */
+.ffp-toast-container {
+    position: fixed;
+    z-index: var(--ffp-z-toast);
+    pointer-events: none;
+    padding: var(--ffp-space-lg);
+}
+
+.ffp-toast-container.top-right {
+    top: 0;
+    right: 0;
+}
+
+.ffp-toast-container.top-left {
+    top: 0;
+    left: 0;
+}
+
+.ffp-toast-container.top-center {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ffp-toast-container.bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+.ffp-toast-container.bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.ffp-toast-container.bottom-center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ffp-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ffp-space-md);
+    min-width: 300px;
+    max-width: 450px;
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    margin-bottom: var(--ffp-space-sm);
+    background: var(--ffp-bg-primary);
+    border-radius: var(--ffp-radius-md);
+    box-shadow: var(--ffp-shadow-lg);
+    border-left: 4px solid var(--ffp-primary);
+    pointer-events: auto;
+    animation: ffp-toast-enter 0.3s ease;
+}
+
+.ffp-toast.is-exiting {
+    animation: ffp-toast-exit 0.3s ease forwards;
+}
+
+@keyframes ffp-toast-enter {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes ffp-toast-exit {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.ffp-toast-success { border-color: var(--ffp-success); }
+.ffp-toast-warning { border-color: var(--ffp-warning); }
+.ffp-toast-error { border-color: var(--ffp-error); }
+.ffp-toast-info { border-color: var(--ffp-info); }
+
+.ffp-toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.ffp-toast-success .ffp-toast-icon { color: var(--ffp-success); }
+.ffp-toast-warning .ffp-toast-icon { color: var(--ffp-warning); }
+.ffp-toast-error .ffp-toast-icon { color: var(--ffp-error); }
+.ffp-toast-info .ffp-toast-icon { color: var(--ffp-info); }
+
+.ffp-toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ffp-toast-title {
+    font-weight: 600;
+    color: var(--ffp-text-primary);
+    margin-bottom: var(--ffp-space-xs);
+}
+
+.ffp-toast-message {
+    color: var(--ffp-text-secondary);
+    font-size: var(--ffp-text-sm);
+}
+
+.ffp-toast-close {
+    flex-shrink: 0;
+    padding: var(--ffp-space-xs);
+    background: none;
+    border: none;
+    color: var(--ffp-text-tertiary);
+    cursor: pointer;
+    border-radius: var(--ffp-radius);
+    transition: color var(--ffp-transition-fast), background var(--ffp-transition-fast);
+}
+
+.ffp-toast-close:hover {
+    color: var(--ffp-text-primary);
+    background: var(--ffp-bg-tertiary);
+}
+
+.ffp-toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    animation: ffp-toast-progress linear forwards;
+}
+
+@keyframes ffp-toast-progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* 2.2 Inline Validation */
+.ffp-field-wrapper {
+    position: relative;
+    margin-bottom: var(--ffp-space-lg);
+}
+
+.ffp-field-label {
+    display: block;
+    margin-bottom: var(--ffp-space-xs);
+    font-weight: 500;
+    color: var(--ffp-text-primary);
+    font-size: var(--ffp-text-sm);
+}
+
+.ffp-field-label .required {
+    color: var(--ffp-error);
+}
+
+.ffp-field-input {
+    width: 100%;
+    padding: var(--ffp-space-sm) var(--ffp-space-md);
+    background: var(--ffp-bg-primary);
+    border: 1px solid var(--ffp-border-color);
+    border-radius: var(--ffp-radius);
+    color: var(--ffp-text-primary);
+    font-size: var(--ffp-text-base);
+    transition: border-color var(--ffp-transition-fast), box-shadow var(--ffp-transition-fast);
+}
+
+.ffp-field-input:focus {
+    outline: none;
+    border-color: var(--ffp-primary);
+    box-shadow: 0 0 0 3px var(--ffp-primary-light);
+}
+
+.ffp-field-input.is-valid {
+    border-color: var(--ffp-success);
+}
+
+.ffp-field-input.is-valid:focus {
+    box-shadow: 0 0 0 3px var(--ffp-success-light);
+}
+
+.ffp-field-input.is-invalid {
+    border-color: var(--ffp-error);
+}
+
+.ffp-field-input.is-invalid:focus {
+    box-shadow: 0 0 0 3px var(--ffp-error-light);
+}
+
+.ffp-field-message {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+    margin-top: var(--ffp-space-xs);
+    font-size: var(--ffp-text-sm);
+}
+
+.ffp-field-message.is-error {
+    color: var(--ffp-error);
+}
+
+.ffp-field-message.is-success {
+    color: var(--ffp-success);
+}
+
+.ffp-field-message.is-warning {
+    color: var(--ffp-warning);
+}
+
+.ffp-field-hint {
+    margin-top: var(--ffp-space-xs);
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+/* 2.3 Progress Indicators */
+.ffp-step-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+    padding: var(--ffp-space-lg) 0;
+}
+
+.ffp-step {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+}
+
+.ffp-step-indicator {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--ffp-radius-full);
+    background: var(--ffp-bg-tertiary);
+    color: var(--ffp-text-tertiary);
+    font-weight: 600;
+    font-size: var(--ffp-text-sm);
+    transition: all var(--ffp-transition);
+}
+
+.ffp-step.is-active .ffp-step-indicator {
+    background: var(--ffp-primary);
+    color: var(--ffp-text-inverse);
+}
+
+.ffp-step.is-completed .ffp-step-indicator {
+    background: var(--ffp-success);
+    color: var(--ffp-text-inverse);
+}
+
+.ffp-step-label {
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-step.is-active .ffp-step-label {
+    color: var(--ffp-text-primary);
+    font-weight: 500;
+}
+
+.ffp-step-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--ffp-border-color);
+    margin: 0 var(--ffp-space-sm);
+}
+
+.ffp-step.is-completed + .ffp-step-connector {
+    background: var(--ffp-success);
+}
+
+/* 2.4 Success Animations */
+.ffp-success-checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--ffp-radius-full);
+    background: var(--ffp-success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ffp-success-pop 0.4s ease;
+}
+
+@keyframes ffp-success-pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.ffp-success-checkmark svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: ffp-checkmark-draw 0.5s ease 0.2s forwards;
+}
+
+@keyframes ffp-checkmark-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+/* 2.5 Confirmation Dialogs */
+.ffp-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--ffp-z-modal-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--ffp-transition), visibility var(--ffp-transition);
+}
+
+.ffp-dialog-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ffp-dialog {
+    background: var(--ffp-bg-primary);
+    border-radius: var(--ffp-radius-lg);
+    box-shadow: var(--ffp-shadow-xl);
+    max-width: 400px;
+    width: 90%;
+    transform: scale(0.9);
+    transition: transform var(--ffp-transition);
+}
+
+.ffp-dialog-overlay.is-open .ffp-dialog {
+    transform: scale(1);
+}
+
+.ffp-dialog-header {
+    padding: var(--ffp-space-lg);
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-dialog-title {
+    font-size: var(--ffp-text-lg);
+    font-weight: 600;
+    color: var(--ffp-text-primary);
+    margin: 0;
+}
+
+.ffp-dialog-body {
+    padding: var(--ffp-space-lg);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-lg);
+    border-top: 1px solid var(--ffp-border-color);
+}
+
+/* 2.6 Status Badges */
+.ffp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+    padding: var(--ffp-space-xs) var(--ffp-space-sm);
+    font-size: var(--ffp-text-xs);
+    font-weight: 500;
+    border-radius: var(--ffp-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.ffp-badge-success {
+    background: var(--ffp-success-light);
+    color: var(--ffp-success-dark);
+}
+
+.ffp-badge-warning {
+    background: var(--ffp-warning-light);
+    color: var(--ffp-warning-dark);
+}
+
+.ffp-badge-error {
+    background: var(--ffp-error-light);
+    color: var(--ffp-error-dark);
+}
+
+.ffp-badge-info {
+    background: var(--ffp-info-light);
+    color: var(--ffp-info-dark);
+}
+
+.ffp-badge-neutral {
+    background: var(--ffp-bg-tertiary);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--ffp-radius-full);
+    background: currentColor;
+}
+
+/* ==========================================================================
+   3. Keyboard Navigation
+   ========================================================================== */
+
+/* 3.1 Keyboard Shortcut Hints */
+.ffp-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    padding: 2px 6px;
+    font-family: var(--ffp-font-mono);
+    font-size: var(--ffp-text-xs);
+    font-weight: 500;
+    background: var(--ffp-bg-tertiary);
+    border: 1px solid var(--ffp-border-color);
+    border-radius: var(--ffp-radius-sm);
+    box-shadow: 0 1px 0 var(--ffp-border-dark);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.ffp-shortcut-plus {
+    color: var(--ffp-text-tertiary);
+    font-size: var(--ffp-text-xs);
+    margin: 0 2px;
+}
+
+/* 3.2 Command Palette */
+.ffp-command-palette-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: var(--ffp-z-command-palette);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 15vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--ffp-transition-fast), visibility var(--ffp-transition-fast);
+}
+
+.ffp-command-palette-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ffp-command-palette {
+    width: 100%;
+    max-width: 600px;
+    background: var(--ffp-bg-primary);
+    border-radius: var(--ffp-radius-lg);
+    box-shadow: var(--ffp-shadow-xl);
+    overflow: hidden;
+    transform: scale(0.95) translateY(-10px);
+    transition: transform var(--ffp-transition-fast);
+}
+
+.ffp-command-palette-overlay.is-open .ffp-command-palette {
+    transform: scale(1) translateY(0);
+}
+
+.ffp-command-input-wrapper {
+    display: flex;
+    align-items: center;
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-command-input-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--ffp-text-tertiary);
+    margin-right: var(--ffp-space-md);
+}
+
+.ffp-command-input {
+    flex: 1;
+    background: none;
+    border: none;
+    font-size: var(--ffp-text-lg);
+    color: var(--ffp-text-primary);
+    outline: none;
+}
+
+.ffp-command-input::placeholder {
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-command-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ffp-command-group {
+    padding: var(--ffp-space-sm) 0;
+}
+
+.ffp-command-group-title {
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    font-size: var(--ffp-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-command-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-md);
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    cursor: pointer;
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-command-item:hover,
+.ffp-command-item.is-selected {
+    background: var(--ffp-bg-tertiary);
+}
+
+.ffp-command-item-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-command-item-content {
+    flex: 1;
+}
+
+.ffp-command-item-title {
+    color: var(--ffp-text-primary);
+    font-weight: 500;
+}
+
+.ffp-command-item-description {
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-command-item-shortcut {
+    display: flex;
+    gap: var(--ffp-space-xs);
+}
+
+.ffp-command-empty {
+    padding: var(--ffp-space-xl);
+    text-align: center;
+    color: var(--ffp-text-tertiary);
+}
+
+/* 3.3 Focus Management */
+.ffp-focus-visible:focus-visible {
+    outline: 2px solid var(--ffp-primary);
+    outline-offset: 2px;
+}
+
+.ffp-focus-ring {
+    position: relative;
+}
+
+.ffp-focus-ring:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 2px solid var(--ffp-primary);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Skip Links */
+.ffp-skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--ffp-space-lg);
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    background: var(--ffp-primary);
+    color: var(--ffp-text-inverse);
+    font-weight: 500;
+    border-radius: var(--ffp-radius);
+    z-index: 9999;
+    transition: top var(--ffp-transition-fast);
+}
+
+.ffp-skip-link:focus {
+    top: var(--ffp-space-lg);
+}
+
+/* ==========================================================================
+   4. Accessibility
+   ========================================================================== */
+
+/* 4.1 ARIA Live Regions */
+.ffp-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.ffp-live-region {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* 4.2 High Contrast Mode */
+.ffp-high-contrast {
+    --ffp-primary: #0000ee;
+    --ffp-primary-hover: #000099;
+    --ffp-text-primary: #000000;
+    --ffp-text-secondary: #333333;
+    --ffp-bg-primary: #ffffff;
+    --ffp-border-color: #000000;
+}
+
+.ffp-high-contrast .ffp-button,
+.ffp-high-contrast .ffp-field-input {
+    border-width: 2px;
+}
+
+/* 4.3 Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .ffp-skeleton::after {
+        animation: none;
+    }
+}
+
+.ffp-reduce-motion *,
+.ffp-reduce-motion *::before,
+.ffp-reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+/* 4.4 Focus Visible Enhancement */
+.ffp-focus-visible-enhanced :focus:not(:focus-visible) {
+    outline: none;
+}
+
+.ffp-focus-visible-enhanced :focus-visible {
+    outline: 3px solid var(--ffp-primary);
+    outline-offset: 3px;
+}
+
+/* 4.5 Text Scaling Support */
+.ffp-text-scale-support {
+    font-size: clamp(14px, 1rem, 20px);
+}
+
+/* ==========================================================================
+   5. Progressive Enhancement
+   ========================================================================== */
+
+/* 5.1 Dark Mode Toggle */
+.ffp-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-xs) var(--ffp-space-sm);
+    background: var(--ffp-bg-tertiary);
+    border: none;
+    border-radius: var(--ffp-radius-full);
+    cursor: pointer;
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-theme-toggle:hover {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-theme-toggle-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-theme-toggle-icon.sun {
+    display: block;
+}
+
+.ffp-theme-toggle-icon.moon {
+    display: none;
+}
+
+[data-theme="dark"] .ffp-theme-toggle-icon.sun {
+    display: none;
+}
+
+[data-theme="dark"] .ffp-theme-toggle-icon.moon {
+    display: block;
+}
+
+/* 5.2 Offline Indicator */
+.ffp-offline-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    background: var(--ffp-warning);
+    color: var(--ffp-text-primary);
+    text-align: center;
+    font-size: var(--ffp-text-sm);
+    font-weight: 500;
+    z-index: var(--ffp-z-fixed);
+    transform: translateY(-100%);
+    transition: transform var(--ffp-transition);
+}
+
+.ffp-offline-banner.is-visible {
+    transform: translateY(0);
+}
+
+/* 5.3 Auto-save Indicator */
+.ffp-autosave-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-autosave-indicator.is-saving {
+    color: var(--ffp-warning);
+}
+
+.ffp-autosave-indicator.is-saved {
+    color: var(--ffp-success);
+}
+
+.ffp-autosave-indicator.is-error {
+    color: var(--ffp-error);
+}
+
+.ffp-autosave-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--ffp-radius-full);
+    background: currentColor;
+}
+
+.ffp-autosave-indicator.is-saving .ffp-autosave-dot {
+    animation: ffp-pulse 1s ease infinite;
+}
+
+@keyframes ffp-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ==========================================================================
+   6. Data Tables
+   ========================================================================== */
+
+/* 6.1 Enhanced Table */
+.ffp-table-wrapper {
+    position: relative;
+    overflow: auto;
+    border: 1px solid var(--ffp-border-color);
+    border-radius: var(--ffp-radius-md);
+}
+
+.ffp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--ffp-text-sm);
+}
+
+.ffp-table th,
+.ffp-table td {
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    text-align: left;
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-table th {
+    background: var(--ffp-bg-secondary);
+    font-weight: 600;
+    color: var(--ffp-text-primary);
+    white-space: nowrap;
+}
+
+/* 6.2 Sticky Header */
+.ffp-table-sticky th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--ffp-bg-secondary);
+}
+
+/* 6.3 Row Selection */
+.ffp-table-selectable tbody tr {
+    cursor: pointer;
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-table-selectable tbody tr:hover {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-table-selectable tbody tr.is-selected {
+    background: var(--ffp-primary-light);
+}
+
+.ffp-table-checkbox {
+    width: 40px;
+    text-align: center;
+}
+
+.ffp-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--ffp-border-dark);
+    border-radius: var(--ffp-radius-sm);
+    cursor: pointer;
+    transition: all var(--ffp-transition-fast);
+    appearance: none;
+    background: var(--ffp-bg-primary);
+}
+
+.ffp-checkbox:checked {
+    background: var(--ffp-primary);
+    border-color: var(--ffp-primary);
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ffp-checkbox:indeterminate {
+    background: var(--ffp-primary);
+    border-color: var(--ffp-primary);
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M4 8a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7A.5.5 0 014 8z'/%3e%3c/svg%3e");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 6.4 Column Resizing */
+.ffp-table-resizable th {
+    position: relative;
+}
+
+.ffp-column-resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: col-resize;
+    background: transparent;
+}
+
+.ffp-column-resizer:hover,
+.ffp-column-resizer.is-resizing {
+    background: var(--ffp-primary);
+}
+
+/* 6.5 Sortable Columns */
+.ffp-table-sortable th {
+    cursor: pointer;
+    user-select: none;
+}
+
+.ffp-table-sortable th:hover {
+    background: var(--ffp-bg-tertiary);
+}
+
+.ffp-sort-icon {
+    display: inline-flex;
+    margin-left: var(--ffp-space-xs);
+    opacity: 0.3;
+}
+
+.ffp-table-sortable th.is-sorted .ffp-sort-icon {
+    opacity: 1;
+}
+
+.ffp-table-sortable th.is-sorted-desc .ffp-sort-icon {
+    transform: rotate(180deg);
+}
+
+/* 6.6 Inline Editing */
+.ffp-editable-cell {
+    position: relative;
+    cursor: text;
+}
+
+.ffp-editable-cell:hover {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-editable-cell.is-editing {
+    padding: 0;
+}
+
+.ffp-editable-cell input {
+    width: 100%;
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    border: 2px solid var(--ffp-primary);
+    background: var(--ffp-bg-primary);
+    font-size: inherit;
+    font-family: inherit;
+}
+
+/* 6.7 Table Actions */
+.ffp-table-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    background: var(--ffp-bg-secondary);
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-table-actions-selected {
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-table-actions-buttons {
+    display: flex;
+    gap: var(--ffp-space-xs);
+    margin-left: auto;
+}
+
+/* 6.8 Empty State */
+.ffp-table-empty {
+    padding: var(--ffp-space-2xl);
+    text-align: center;
+}
+
+.ffp-table-empty-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--ffp-space-md);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-table-empty-title {
+    font-size: var(--ffp-text-lg);
+    font-weight: 600;
+    color: var(--ffp-text-primary);
+    margin-bottom: var(--ffp-space-xs);
+}
+
+.ffp-table-empty-description {
+    color: var(--ffp-text-secondary);
+}
+
+/* ==========================================================================
+   7. Forms & Inputs
+   ========================================================================== */
+
+/* 7.1 Character Counter */
+.ffp-char-counter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--ffp-space-xs);
+    font-size: var(--ffp-text-xs);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-char-counter.is-warning {
+    color: var(--ffp-warning);
+}
+
+.ffp-char-counter.is-error {
+    color: var(--ffp-error);
+}
+
+/* 7.2 Password Strength */
+.ffp-password-strength {
+    margin-top: var(--ffp-space-sm);
+}
+
+.ffp-password-strength-bar {
+    display: flex;
+    gap: var(--ffp-space-xs);
+    margin-bottom: var(--ffp-space-xs);
+}
+
+.ffp-password-strength-segment {
+    flex: 1;
+    height: 4px;
+    background: var(--ffp-bg-tertiary);
+    border-radius: var(--ffp-radius-full);
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-password-strength[data-strength="weak"] .ffp-password-strength-segment:nth-child(1) {
+    background: var(--ffp-error);
+}
+
+.ffp-password-strength[data-strength="fair"] .ffp-password-strength-segment:nth-child(-n+2) {
+    background: var(--ffp-warning);
+}
+
+.ffp-password-strength[data-strength="good"] .ffp-password-strength-segment:nth-child(-n+3) {
+    background: var(--ffp-info);
+}
+
+.ffp-password-strength[data-strength="strong"] .ffp-password-strength-segment {
+    background: var(--ffp-success);
+}
+
+.ffp-password-strength-text {
+    font-size: var(--ffp-text-xs);
+    color: var(--ffp-text-tertiary);
+}
+
+/* 7.3 Input Masks */
+.ffp-input-mask-wrapper {
+    position: relative;
+}
+
+.ffp-input-mask-placeholder {
+    position: absolute;
+    top: 50%;
+    left: var(--ffp-space-md);
+    transform: translateY(-50%);
+    color: var(--ffp-text-tertiary);
+    pointer-events: none;
+    font-family: var(--ffp-font-mono);
+}
+
+/* 7.4 Autocomplete */
+.ffp-autocomplete-wrapper {
+    position: relative;
+}
+
+.ffp-autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--ffp-bg-primary);
+    border: 1px solid var(--ffp-border-color);
+    border-top: none;
+    border-radius: 0 0 var(--ffp-radius) var(--ffp-radius);
+    box-shadow: var(--ffp-shadow-md);
+    z-index: var(--ffp-z-dropdown);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--ffp-transition-fast);
+}
+
+.ffp-autocomplete-wrapper.is-open .ffp-autocomplete-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ffp-autocomplete-item {
+    padding: var(--ffp-space-sm) var(--ffp-space-md);
+    cursor: pointer;
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-autocomplete-item:hover,
+.ffp-autocomplete-item.is-highlighted {
+    background: var(--ffp-bg-tertiary);
+}
+
+.ffp-autocomplete-item-highlight {
+    font-weight: 600;
+    color: var(--ffp-primary);
+}
+
+/* 7.5 Drag & Drop Upload */
+.ffp-dropzone {
+    position: relative;
+    padding: var(--ffp-space-2xl);
+    border: 2px dashed var(--ffp-border-color);
+    border-radius: var(--ffp-radius-lg);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--ffp-transition);
+}
+
+.ffp-dropzone:hover {
+    border-color: var(--ffp-primary);
+    background: var(--ffp-bg-secondary);
+}
+
+.ffp-dropzone.is-dragover {
+    border-color: var(--ffp-primary);
+    background: var(--ffp-primary-light);
+}
+
+.ffp-dropzone-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--ffp-space-md);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-dropzone-text {
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-dropzone-text strong {
+    color: var(--ffp-primary);
+}
+
+.ffp-dropzone-hint {
+    margin-top: var(--ffp-space-xs);
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-dropzone-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* 7.6 File Preview */
+.ffp-file-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-md);
+    padding: var(--ffp-space-md);
+    background: var(--ffp-bg-secondary);
+    border-radius: var(--ffp-radius);
+    margin-top: var(--ffp-space-sm);
+}
+
+.ffp-file-preview-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ffp-bg-tertiary);
+    border-radius: var(--ffp-radius);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-file-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ffp-file-preview-name {
+    font-weight: 500;
+    color: var(--ffp-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ffp-file-preview-size {
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-file-preview-remove {
+    padding: var(--ffp-space-xs);
+    background: none;
+    border: none;
+    color: var(--ffp-text-tertiary);
+    cursor: pointer;
+    border-radius: var(--ffp-radius);
+    transition: all var(--ffp-transition-fast);
+}
+
+.ffp-file-preview-remove:hover {
+    color: var(--ffp-error);
+    background: var(--ffp-error-light);
+}
+
+/* 7.7 Toggle Switch */
+.ffp-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ffp-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.ffp-toggle-track {
+    width: 44px;
+    height: 24px;
+    background: var(--ffp-bg-tertiary);
+    border-radius: var(--ffp-radius-full);
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-toggle-input:checked + .ffp-toggle-track {
+    background: var(--ffp-primary);
+}
+
+.ffp-toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: var(--ffp-radius-full);
+    box-shadow: var(--ffp-shadow-sm);
+    transition: transform var(--ffp-transition-fast);
+}
+
+.ffp-toggle-input:checked ~ .ffp-toggle-thumb {
+    transform: translateX(20px);
+}
+
+.ffp-toggle-label {
+    margin-left: var(--ffp-space-sm);
+    color: var(--ffp-text-primary);
+}
+
+/* ==========================================================================
+   8. Navigation
+   ========================================================================== */
+
+/* 8.1 Breadcrumbs */
+.ffp-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+    font-size: var(--ffp-text-sm);
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-xs);
+}
+
+.ffp-breadcrumb-link {
+    color: var(--ffp-text-secondary);
+    text-decoration: none;
+    transition: color var(--ffp-transition-fast);
+}
+
+.ffp-breadcrumb-link:hover {
+    color: var(--ffp-primary);
+}
+
+.ffp-breadcrumb-separator {
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-breadcrumb-current {
+    color: var(--ffp-text-primary);
+    font-weight: 500;
+}
+
+/* 8.2 Collapsible Sidebar */
+.ffp-sidebar {
+    width: 260px;
+    background: var(--ffp-bg-secondary);
+    border-right: 1px solid var(--ffp-border-color);
+    transition: width var(--ffp-transition);
+    overflow: hidden;
+}
+
+.ffp-sidebar.is-collapsed {
+    width: 60px;
+}
+
+.ffp-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--ffp-space-lg);
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-sidebar-toggle {
+    padding: var(--ffp-space-xs);
+    background: none;
+    border: none;
+    color: var(--ffp-text-secondary);
+    cursor: pointer;
+    border-radius: var(--ffp-radius);
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-sidebar-toggle:hover {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-sidebar-nav {
+    padding: var(--ffp-space-md);
+}
+
+.ffp-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-md);
+    padding: var(--ffp-space-sm) var(--ffp-space-md);
+    color: var(--ffp-text-secondary);
+    text-decoration: none;
+    border-radius: var(--ffp-radius);
+    transition: all var(--ffp-transition-fast);
+    white-space: nowrap;
+}
+
+.ffp-sidebar-item:hover {
+    background: var(--ffp-bg-hover);
+    color: var(--ffp-text-primary);
+}
+
+.ffp-sidebar-item.is-active {
+    background: var(--ffp-primary-light);
+    color: var(--ffp-primary);
+}
+
+.ffp-sidebar-item-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.ffp-sidebar.is-collapsed .ffp-sidebar-item-text {
+    opacity: 0;
+}
+
+/* 8.3 Quick Actions FAB */
+.ffp-fab {
+    position: fixed;
+    bottom: var(--ffp-space-xl);
+    right: var(--ffp-space-xl);
+    z-index: var(--ffp-z-fixed);
+}
+
+.ffp-fab-button {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ffp-primary);
+    color: var(--ffp-text-inverse);
+    border: none;
+    border-radius: var(--ffp-radius-full);
+    box-shadow: var(--ffp-shadow-lg);
+    cursor: pointer;
+    transition: all var(--ffp-transition);
+}
+
+.ffp-fab-button:hover {
+    background: var(--ffp-primary-hover);
+    transform: scale(1.05);
+}
+
+.ffp-fab-button.is-open {
+    transform: rotate(45deg);
+}
+
+.ffp-fab-menu {
+    position: absolute;
+    bottom: calc(100% + var(--ffp-space-md));
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ffp-space-sm);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all var(--ffp-transition);
+}
+
+.ffp-fab.is-open .ffp-fab-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ffp-fab-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-sm) var(--ffp-space-md);
+    background: var(--ffp-bg-primary);
+    color: var(--ffp-text-primary);
+    border: none;
+    border-radius: var(--ffp-radius-full);
+    box-shadow: var(--ffp-shadow-md);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--ffp-transition-fast);
+}
+
+.ffp-fab-menu-item:hover {
+    background: var(--ffp-bg-secondary);
+}
+
+/* 8.4 Recent Items */
+.ffp-recent-items {
+    padding: var(--ffp-space-md);
+}
+
+.ffp-recent-items-title {
+    font-size: var(--ffp-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ffp-text-tertiary);
+    margin-bottom: var(--ffp-space-sm);
+}
+
+.ffp-recent-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-sm);
+    color: var(--ffp-text-secondary);
+    text-decoration: none;
+    border-radius: var(--ffp-radius);
+    transition: background var(--ffp-transition-fast);
+}
+
+.ffp-recent-item:hover {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-recent-item-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--ffp-text-tertiary);
+}
+
+.ffp-recent-item-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--ffp-text-sm);
+}
+
+/* 8.5 Contextual Help */
+.ffp-help-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: var(--ffp-space-xs);
+    color: var(--ffp-text-tertiary);
+    cursor: help;
+}
+
+.ffp-help-tooltip-content {
+    position: absolute;
+    bottom: calc(100% + var(--ffp-space-sm));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    padding: var(--ffp-space-sm) var(--ffp-space-md);
+    background: var(--ffp-text-primary);
+    color: var(--ffp-text-inverse);
+    font-size: var(--ffp-text-sm);
+    border-radius: var(--ffp-radius);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--ffp-transition-fast);
+    z-index: var(--ffp-z-tooltip);
+}
+
+.ffp-help-tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--ffp-text-primary);
+}
+
+.ffp-help-tooltip:hover .ffp-help-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==========================================================================
+   9. Buttons
+   ========================================================================== */
+
+.ffp-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    font-size: var(--ffp-text-sm);
+    font-weight: 500;
+    border-radius: var(--ffp-radius);
+    cursor: pointer;
+    transition: all var(--ffp-transition-fast);
+    border: 1px solid transparent;
+}
+
+.ffp-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ffp-button-primary {
+    background: var(--ffp-primary);
+    color: var(--ffp-text-inverse);
+}
+
+.ffp-button-primary:hover:not(:disabled) {
+    background: var(--ffp-primary-hover);
+}
+
+.ffp-button-secondary {
+    background: var(--ffp-bg-tertiary);
+    color: var(--ffp-text-primary);
+    border-color: var(--ffp-border-color);
+}
+
+.ffp-button-secondary:hover:not(:disabled) {
+    background: var(--ffp-bg-hover);
+}
+
+.ffp-button-danger {
+    background: var(--ffp-error);
+    color: var(--ffp-text-inverse);
+}
+
+.ffp-button-danger:hover:not(:disabled) {
+    background: var(--ffp-error-dark);
+}
+
+.ffp-button-ghost {
+    background: transparent;
+    color: var(--ffp-text-secondary);
+}
+
+.ffp-button-ghost:hover:not(:disabled) {
+    background: var(--ffp-bg-tertiary);
+    color: var(--ffp-text-primary);
+}
+
+.ffp-button-sm {
+    padding: var(--ffp-space-xs) var(--ffp-space-md);
+    font-size: var(--ffp-text-xs);
+}
+
+.ffp-button-lg {
+    padding: var(--ffp-space-md) var(--ffp-space-xl);
+    font-size: var(--ffp-text-base);
+}
+
+.ffp-button-icon {
+    padding: var(--ffp-space-sm);
+}
+
+.ffp-button-loading .ffp-button-text {
+    opacity: 0;
+}
+
+.ffp-button-loading .ffp-spinner {
+    position: absolute;
+}
+
+/* ==========================================================================
+   10. Cards
+   ========================================================================== */
+
+.ffp-card {
+    background: var(--ffp-bg-primary);
+    border: 1px solid var(--ffp-border-color);
+    border-radius: var(--ffp-radius-lg);
+    overflow: hidden;
+}
+
+.ffp-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--ffp-space-lg);
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-card-title {
+    font-size: var(--ffp-text-lg);
+    font-weight: 600;
+    color: var(--ffp-text-primary);
+    margin: 0;
+}
+
+.ffp-card-body {
+    padding: var(--ffp-space-lg);
+}
+
+.ffp-card-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--ffp-space-sm);
+    padding: var(--ffp-space-md) var(--ffp-space-lg);
+    background: var(--ffp-bg-secondary);
+    border-top: 1px solid var(--ffp-border-color);
+}
+
+/* ==========================================================================
+   11. Tabs
+   ========================================================================== */
+
+.ffp-tabs {
+    border-bottom: 1px solid var(--ffp-border-color);
+}
+
+.ffp-tabs-list {
+    display: flex;
+    gap: var(--ffp-space-xs);
+}
+
+.ffp-tab {
+    padding: var(--ffp-space-sm) var(--ffp-space-lg);
+    background: none;
+    border: none;
+    color: var(--ffp-text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--ffp-transition-fast);
+}
+
+.ffp-tab:hover {
+    color: var(--ffp-text-primary);
+}
+
+.ffp-tab.is-active {
+    color: var(--ffp-primary);
+}
+
+.ffp-tab.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--ffp-primary);
+}
+
+.ffp-tab-panel {
+    padding: var(--ffp-space-lg) 0;
+}
+
+/* ==========================================================================
+   12. Utility Classes
+   ========================================================================== */
+
+.ffp-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.ffp-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ffp-flex {
+    display: flex;
+}
+
+.ffp-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ffp-gap-xs { gap: var(--ffp-space-xs); }
+.ffp-gap-sm { gap: var(--ffp-space-sm); }
+.ffp-gap-md { gap: var(--ffp-space-md); }
+.ffp-gap-lg { gap: var(--ffp-space-lg); }
+
+.ffp-mt-sm { margin-top: var(--ffp-space-sm); }
+.ffp-mt-md { margin-top: var(--ffp-space-md); }
+.ffp-mt-lg { margin-top: var(--ffp-space-lg); }
+
+.ffp-mb-sm { margin-bottom: var(--ffp-space-sm); }
+.ffp-mb-md { margin-bottom: var(--ffp-space-md); }
+.ffp-mb-lg { margin-bottom: var(--ffp-space-lg); }
+
+.ffp-text-center { text-align: center; }
+.ffp-text-right { text-align: right; }
+
+.ffp-text-primary { color: var(--ffp-text-primary); }
+.ffp-text-secondary { color: var(--ffp-text-secondary); }
+.ffp-text-tertiary { color: var(--ffp-text-tertiary); }
+
+.ffp-text-success { color: var(--ffp-success); }
+.ffp-text-warning { color: var(--ffp-warning); }
+.ffp-text-error { color: var(--ffp-error); }
+.ffp-text-info { color: var(--ffp-info); }
+
+.ffp-bg-success { background-color: var(--ffp-success-light); }
+.ffp-bg-warning { background-color: var(--ffp-warning-light); }
+.ffp-bg-error { background-color: var(--ffp-error-light); }
+.ffp-bg-info { background-color: var(--ffp-info-light); }
+
+/* ==========================================================================
+   13. Animations
+   ========================================================================== */
+
+@keyframes ffp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes ffp-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ffp-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ffp-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ffp-animate-fade-in {
+    animation: ffp-fade-in var(--ffp-transition);
+}
+
+.ffp-animate-slide-up {
+    animation: ffp-slide-up var(--ffp-transition);
+}
+
+.ffp-animate-slide-down {
+    animation: ffp-slide-down var(--ffp-transition);
+}
+
+.ffp-animate-scale-in {
+    animation: ffp-scale-in var(--ffp-transition);
+}
+
+/* ==========================================================================
+   14. Print Styles
+   ========================================================================== */
+
+@media print {
+    .ffp-toast-container,
+    .ffp-command-palette-overlay,
+    .ffp-dialog-overlay,
+    .ffp-fab,
+    .ffp-offline-banner,
+    .ffp-skip-link {
+        display: none !important;
+    }
+
+    .ffp-sidebar {
+        display: none;
+    }
+
+    .ffp-card {
+        break-inside: avoid;
+    }
+
+    .ffp-table {
+        break-inside: auto;
+    }
+
+    .ffp-table tr {
+        break-inside: avoid;
+    }
+}
