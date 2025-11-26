@@ -541,10 +541,17 @@ class AccessControl
     }
 
     /**
-     * Check if IP is allowed
+     * Check if IP is allowed (with caching)
      */
     public function isIPAllowed(string $ip, string $scope = 'all'): bool
     {
+        $cacheKey = 'ffp_ip_allowed_' . md5($ip . '_' . $scope);
+        $cached = wp_cache_get($cacheKey, 'formflow_security');
+
+        if ($cached !== false) {
+            return (bool) $cached;
+        }
+
         global $wpdb;
 
         // Check for active whitelist rules
@@ -559,20 +566,25 @@ class AccessControl
             )
         );
 
+        $isAllowed = true;
+
         if ($hasWhitelist) {
             // If whitelist exists, IP must be in it
             $inWhitelist = $this->isIPInRules($ip, 'whitelist', $scope);
             if (!$inWhitelist) {
-                return false;
+                $isAllowed = false;
             }
         }
 
         // Check blacklist
-        if ($this->isIPInRules($ip, 'blacklist', $scope)) {
-            return false;
+        if ($isAllowed && $this->isIPInRules($ip, 'blacklist', $scope)) {
+            $isAllowed = false;
         }
 
-        return true;
+        // Cache for 5 minutes
+        wp_cache_set($cacheKey, $isAllowed ? 1 : 0, 'formflow_security', 300);
+
+        return $isAllowed;
     }
 
     /**
@@ -631,7 +643,7 @@ class AccessControl
     /**
      * Block IP temporarily
      */
-    public function blockIP(string $ip, string $reason, int $duration = null): bool
+    public function blockIP(string $ip, string $reason, ?int $duration = null): bool
     {
         global $wpdb;
 
@@ -856,7 +868,7 @@ class AccessControl
         global $wpdb;
 
         if ($exceptToken) {
-            return $wpdb->query(
+            $result = $wpdb->query(
                 $wpdb->prepare(
                     "DELETE FROM {$this->tableSessions}
                     WHERE user_id = %d AND session_token != %s",
@@ -864,13 +876,15 @@ class AccessControl
                     $exceptToken
                 )
             );
+            return is_int($result) ? $result : 0;
         }
 
-        return $wpdb->delete(
+        $result = $wpdb->delete(
             $this->tableSessions,
             ['user_id' => $userId],
             ['%d']
         );
+        return is_int($result) ? $result : 0;
     }
 
     /**
@@ -1022,7 +1036,7 @@ class AccessControl
     /**
      * Get IP rules
      */
-    public function getIPRules(string $ruleType = null): array
+    public function getIPRules(?string $ruleType = null): array
     {
         global $wpdb;
 

@@ -449,7 +449,7 @@ class ABTesting
     /**
      * Complete a test
      */
-    public function completeTest(int $test_id, string $winner_variant_id = null): bool
+    public function completeTest(int $test_id, ?string $winner_variant_id = null): bool
     {
         global $wpdb;
 
@@ -516,7 +516,7 @@ class ABTesting
     /**
      * Assign variant to visitor
      */
-    public function assignVariant(int $test_id, string $visitor_id = null): ?TestVariant
+    public function assignVariant(int $test_id, ?string $visitor_id = null): ?TestVariant
     {
         $test = $this->getTest($test_id);
 
@@ -1175,7 +1175,7 @@ class ABTesting
     /**
      * Get time series data for reporting
      */
-    public function getTimeSeriesData(int $test_id, string $start_date = null, string $end_date = null): array
+    public function getTimeSeriesData(int $test_id, ?string $start_date = null, ?string $end_date = null): array
     {
         global $wpdb;
 

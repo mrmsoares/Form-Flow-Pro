@@ -680,12 +680,24 @@ class SelectField extends AbstractFieldType
 
     protected function getPostOptions(array $config): array
     {
+        $postType = $config['post_type'] ?? 'post';
+        $limit = $config['limit'] ?? 100;
+        $orderby = $config['orderby'] ?? 'title';
+        $order = $config['order'] ?? 'ASC';
+
+        $cacheKey = 'ffp_posts_' . md5("{$postType}_{$limit}_{$orderby}_{$order}");
+        $cached = get_transient($cacheKey);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
         $args = [
-            'post_type' => $config['post_type'] ?? 'post',
-            'posts_per_page' => $config['limit'] ?? 100,
+            'post_type' => $postType,
+            'posts_per_page' => $limit,
             'post_status' => 'publish',
-            'orderby' => $config['orderby'] ?? 'title',
-            'order' => $config['order'] ?? 'ASC',
+            'orderby' => $orderby,
+            'order' => $order,
         ];
 
         $posts = get_posts($args);
@@ -698,15 +710,29 @@ class SelectField extends AbstractFieldType
             ];
         }
 
+        // Cache for 1 hour
+        set_transient($cacheKey, $options, HOUR_IN_SECONDS);
+
         return $options;
     }
 
     protected function getTermOptions(array $config): array
     {
+        $taxonomy = $config['taxonomy'] ?? 'category';
+        $hideEmpty = $config['hide_empty'] ?? false;
+        $limit = $config['limit'] ?? 100;
+
+        $cacheKey = 'ffp_terms_' . md5("{$taxonomy}_{$hideEmpty}_{$limit}");
+        $cached = get_transient($cacheKey);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
         $args = [
-            'taxonomy' => $config['taxonomy'] ?? 'category',
-            'hide_empty' => $config['hide_empty'] ?? false,
-            'number' => $config['limit'] ?? 100,
+            'taxonomy' => $taxonomy,
+            'hide_empty' => $hideEmpty,
+            'number' => $limit,
         ];
 
         $terms = get_terms($args);
@@ -721,14 +747,27 @@ class SelectField extends AbstractFieldType
             }
         }
 
+        // Cache for 1 hour
+        set_transient($cacheKey, $options, HOUR_IN_SECONDS);
+
         return $options;
     }
 
     protected function getUserOptions(array $config): array
     {
+        $roles = $config['roles'] ?? [];
+        $limit = $config['limit'] ?? 100;
+
+        $cacheKey = 'ffp_users_' . md5(serialize($roles) . "_{$limit}");
+        $cached = get_transient($cacheKey);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
         $args = [
-            'role__in' => $config['roles'] ?? [],
-            'number' => $config['limit'] ?? 100,
+            'role__in' => $roles,
+            'number' => $limit,
             'orderby' => 'display_name',
         ];
 
@@ -741,6 +780,9 @@ class SelectField extends AbstractFieldType
                 'label' => $user->display_name,
             ];
         }
+
+        // Cache for 30 minutes
+        set_transient($cacheKey, $options, 30 * MINUTE_IN_SECONDS);
 
         return $options;
     }
