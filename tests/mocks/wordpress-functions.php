@@ -44,6 +44,7 @@ if (!class_exists('wpdb')) {
         private $mock_results = [];
         private $mock_inserts = [];
         private $storage = []; // In-memory data storage
+        private $next_insert_id = 1; // Internal counter for auto-increment
 
         public function prepare($query, ...$args)
         {
@@ -156,13 +157,19 @@ if (!class_exists('wpdb')) {
                 $this->storage[$table] = [];
             }
 
+            // Use internal counter for auto-increment, update insert_id to reflect this insert
+            $this->insert_id = $this->next_insert_id;
+
             // Auto-increment ID if not provided
             if (!isset($data['id'])) {
                 $data['id'] = (string) $this->insert_id;
             }
 
             $this->storage[$table][] = (object) $data;
-            $this->insert_id++; // Increment for next insert
+
+            // Increment internal counter for next insert
+            // insert_id stays at current value until next insert (WordPress behavior)
+            $this->next_insert_id++;
 
             return 1; // Return number of rows inserted (WordPress behavior)
         }
@@ -372,6 +379,7 @@ if (!class_exists('wpdb')) {
             $this->mock_inserts = [];
             $this->storage = [];
             $this->insert_id = 1;
+            $this->next_insert_id = 1;
         }
     }
 }
