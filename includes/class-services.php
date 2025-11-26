@@ -5,10 +5,11 @@ declare(strict_types=1);
 /**
  * Services Loader
  *
- * Loads and initializes all FormFlow Pro services.
+ * Loads and initializes all FormFlow Pro services including Enterprise modules.
  *
  * @package FormFlowPro
  * @since 2.0.0
+ * @since 2.4.0 Added Enterprise modules (SSO, Payments, PWA, Marketplace, Security, etc.)
  */
 
 namespace FormFlowPro;
@@ -19,9 +20,25 @@ if (!defined('ABSPATH')) {
 
 /**
  * Services Class
+ *
+ * Central service locator and initializer for all FormFlow Pro modules.
  */
 class Services
 {
+    /**
+     * Module instances cache
+     *
+     * @var array<string, object>
+     */
+    private static array $instances = [];
+
+    /**
+     * Enterprise modules enabled flag
+     *
+     * @var bool
+     */
+    private static bool $enterprise_enabled = true;
+
     /**
      * Initialize all services
      *
@@ -31,10 +48,16 @@ class Services
     {
         self::load_services();
         self::initialize_services();
+
+        // Load enterprise modules if enabled
+        if (self::$enterprise_enabled) {
+            self::load_enterprise_modules();
+            self::initialize_enterprise_modules();
+        }
     }
 
     /**
-     * Load service classes
+     * Load core service classes
      *
      * @return void
      */
@@ -52,14 +75,90 @@ class Services
         // Cache Layer
         require_once FORMFLOW_PATH . 'includes/cache/class-cache-manager.php';
 
-        // Advanced Reporting Module (V2.3.0)
+        // Advanced Reporting Module
         require_once FORMFLOW_PATH . 'includes/Reporting/ReportGenerator.php';
         require_once FORMFLOW_PATH . 'includes/Reporting/D3Visualization.php';
         require_once FORMFLOW_PATH . 'includes/Reporting/ReportingManager.php';
     }
 
     /**
-     * Initialize services
+     * Load enterprise module classes
+     *
+     * @return void
+     */
+    private static function load_enterprise_modules(): void
+    {
+        // Automation Module
+        require_once FORMFLOW_PATH . 'includes/Automation/ConditionEvaluator.php';
+        require_once FORMFLOW_PATH . 'includes/Automation/ActionLibrary.php';
+        require_once FORMFLOW_PATH . 'includes/Automation/TriggerManager.php';
+        require_once FORMFLOW_PATH . 'includes/Automation/WorkflowEngine.php';
+        require_once FORMFLOW_PATH . 'includes/Automation/AutomationManager.php';
+
+        // UX Premium Module
+        require_once FORMFLOW_PATH . 'includes/UX/UXManager.php';
+
+        // SSO Enterprise Module
+        require_once FORMFLOW_PATH . 'includes/SSO/SSOManager.php';
+
+        // Payment Processing Module
+        require_once FORMFLOW_PATH . 'includes/Payments/PaymentManager.php';
+        require_once FORMFLOW_PATH . 'includes/Payments/StripeProvider.php';
+        require_once FORMFLOW_PATH . 'includes/Payments/PayPalProvider.php';
+        require_once FORMFLOW_PATH . 'includes/Payments/WooCommerceIntegration.php';
+
+        // PWA Module
+        require_once FORMFLOW_PATH . 'includes/PWA/PWAManager.php';
+        require_once FORMFLOW_PATH . 'includes/PWA/ServiceWorkerManager.php';
+        require_once FORMFLOW_PATH . 'includes/PWA/MobilePreview.php';
+
+        // Marketplace & Extensions Module
+        require_once FORMFLOW_PATH . 'includes/Marketplace/ExtensionManager.php';
+        require_once FORMFLOW_PATH . 'includes/Marketplace/DeveloperSDK.php';
+
+        // Security Module
+        require_once FORMFLOW_PATH . 'includes/Security/SecurityManager.php';
+        require_once FORMFLOW_PATH . 'includes/Security/TwoFactorAuth.php';
+        require_once FORMFLOW_PATH . 'includes/Security/AuditLogger.php';
+        require_once FORMFLOW_PATH . 'includes/Security/GDPRCompliance.php';
+        require_once FORMFLOW_PATH . 'includes/Security/AccessControl.php';
+
+        // AI Module
+        require_once FORMFLOW_PATH . 'includes/AI/AIProviderInterface.php';
+        require_once FORMFLOW_PATH . 'includes/AI/OpenAIProvider.php';
+        require_once FORMFLOW_PATH . 'includes/AI/LocalAIProvider.php';
+        require_once FORMFLOW_PATH . 'includes/AI/AIService.php';
+
+        // Integrations Module
+        require_once FORMFLOW_PATH . 'includes/Integrations/IntegrationInterface.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/AbstractIntegration.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/IntegrationManager.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/SalesforceIntegration.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/HubSpotIntegration.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/GoogleSheetsIntegration.php';
+        require_once FORMFLOW_PATH . 'includes/Integrations/ZapierIntegration.php';
+
+        // Notifications Module
+        require_once FORMFLOW_PATH . 'includes/Notifications/NotificationManager.php';
+        require_once FORMFLOW_PATH . 'includes/Notifications/EmailBuilder.php';
+        require_once FORMFLOW_PATH . 'includes/Notifications/SMSProvider.php';
+        require_once FORMFLOW_PATH . 'includes/Notifications/PushNotifications.php';
+        require_once FORMFLOW_PATH . 'includes/Notifications/ChatIntegrations.php';
+
+        // Multi-Site Module
+        require_once FORMFLOW_PATH . 'includes/MultiSite/MultiSiteManager.php';
+        require_once FORMFLOW_PATH . 'includes/MultiSite/DataPartitioner.php';
+
+        // Form Builder Module
+        require_once FORMFLOW_PATH . 'includes/FormBuilder/FormBuilderManager.php';
+        require_once FORMFLOW_PATH . 'includes/FormBuilder/FieldTypes.php';
+        require_once FORMFLOW_PATH . 'includes/FormBuilder/DragDropBuilder.php';
+        require_once FORMFLOW_PATH . 'includes/FormBuilder/FormVersioning.php';
+        require_once FORMFLOW_PATH . 'includes/FormBuilder/ABTesting.php';
+    }
+
+    /**
+     * Initialize core services
      *
      * @return void
      */
@@ -71,13 +170,303 @@ class Services
         // Initialize Cache Manager
         Cache\Cache_Manager::get_instance();
 
-        // Initialize Advanced Reporting Module (V2.3.0)
+        // Initialize Advanced Reporting Module
         Reporting\ReportGenerator::getInstance();
         Reporting\D3Visualization::getInstance();
         Reporting\ReportingManager::getInstance();
 
         // Hook into submission processing
         add_action('formflow_form_submitted', [__CLASS__, 'handle_submission'], 10, 3);
+    }
+
+    /**
+     * Initialize enterprise modules
+     *
+     * @return void
+     */
+    private static function initialize_enterprise_modules(): void
+    {
+        // Initialize Automation Module
+        self::$instances['automation'] = Automation\AutomationManager::getInstance();
+
+        // Initialize UX Premium Module
+        self::$instances['ux'] = UX\UXManager::getInstance();
+
+        // Initialize SSO Enterprise Module (if settings exist)
+        if (get_option('formflow_sso_enabled', false)) {
+            self::$instances['sso'] = SSO\SSOManager::getInstance();
+        }
+
+        // Initialize Payment Processing Module (if configured)
+        if (get_option('formflow_payments_enabled', false)) {
+            self::$instances['payments'] = Payments\PaymentManager::getInstance();
+        }
+
+        // Initialize PWA Module (if enabled)
+        if (get_option('formflow_pwa_enabled', false)) {
+            self::$instances['pwa'] = PWA\PWAManager::getInstance();
+        }
+
+        // Initialize Marketplace Module
+        self::$instances['marketplace'] = Marketplace\ExtensionManager::getInstance();
+
+        // Initialize Security Module
+        self::$instances['security'] = Security\SecurityManager::getInstance();
+
+        // Initialize AI Module (if API key configured)
+        if (get_option('formflow_ai_enabled', false)) {
+            self::$instances['ai'] = AI\AIService::getInstance();
+        }
+
+        // Initialize Integrations Module
+        self::$instances['integrations'] = Integrations\IntegrationManager::getInstance();
+
+        // Initialize Notifications Module
+        self::$instances['notifications'] = Notifications\NotificationManager::getInstance();
+
+        // Initialize Multi-Site Module (if multisite)
+        if (is_multisite()) {
+            self::$instances['multisite'] = MultiSite\MultiSiteManager::getInstance();
+        }
+
+        // Initialize Form Builder Module
+        self::$instances['formbuilder'] = FormBuilder\FormBuilderManager::getInstance();
+
+        // Register enterprise admin menu items
+        add_action('admin_menu', [__CLASS__, 'register_enterprise_menus'], 20);
+
+        // Register REST API routes for enterprise modules
+        add_action('rest_api_init', [__CLASS__, 'register_enterprise_rest_routes']);
+
+        // Fire action for extensions to hook into
+        do_action('formflow_enterprise_modules_loaded', self::$instances);
+    }
+
+    /**
+     * Register enterprise admin menu items
+     *
+     * @return void
+     */
+    public static function register_enterprise_menus(): void
+    {
+        // Automation submenu
+        add_submenu_page(
+            'formflow-pro',
+            __('Automação', 'formflow-pro'),
+            __('Automação', 'formflow-pro'),
+            'manage_options',
+            'formflow-automation',
+            [__CLASS__, 'render_automation_page']
+        );
+
+        // SSO submenu (if enabled)
+        if (get_option('formflow_sso_enabled', false) || current_user_can('manage_options')) {
+            add_submenu_page(
+                'formflow-pro',
+                __('SSO Enterprise', 'formflow-pro'),
+                __('SSO', 'formflow-pro'),
+                'manage_options',
+                'formflow-sso',
+                [__CLASS__, 'render_sso_page']
+            );
+        }
+
+        // Payments submenu (if enabled)
+        if (get_option('formflow_payments_enabled', false) || current_user_can('manage_options')) {
+            add_submenu_page(
+                'formflow-pro',
+                __('Pagamentos', 'formflow-pro'),
+                __('Pagamentos', 'formflow-pro'),
+                'manage_options',
+                'formflow-payments',
+                [__CLASS__, 'render_payments_page']
+            );
+        }
+
+        // Marketplace submenu
+        add_submenu_page(
+            'formflow-pro',
+            __('Marketplace', 'formflow-pro'),
+            __('Marketplace', 'formflow-pro'),
+            'manage_options',
+            'formflow-marketplace',
+            [__CLASS__, 'render_marketplace_page']
+        );
+
+        // Security submenu
+        add_submenu_page(
+            'formflow-pro',
+            __('Segurança', 'formflow-pro'),
+            __('Segurança', 'formflow-pro'),
+            'manage_options',
+            'formflow-security',
+            [__CLASS__, 'render_security_page']
+        );
+
+        // Integrations submenu
+        add_submenu_page(
+            'formflow-pro',
+            __('Integrações', 'formflow-pro'),
+            __('Integrações', 'formflow-pro'),
+            'manage_options',
+            'formflow-integrations',
+            [__CLASS__, 'render_integrations_page']
+        );
+    }
+
+    /**
+     * Register REST API routes for enterprise modules
+     *
+     * @return void
+     */
+    public static function register_enterprise_rest_routes(): void
+    {
+        // Automation routes
+        if (isset(self::$instances['automation'])) {
+            self::$instances['automation']->registerRestRoutes();
+        }
+
+        // SSO routes
+        if (isset(self::$instances['sso'])) {
+            self::$instances['sso']->registerRestRoutes();
+        }
+
+        // Payments routes
+        if (isset(self::$instances['payments'])) {
+            self::$instances['payments']->registerRestRoutes();
+        }
+
+        // Marketplace routes
+        if (isset(self::$instances['marketplace'])) {
+            self::$instances['marketplace']->registerRestRoutes();
+        }
+
+        // Security routes
+        if (isset(self::$instances['security'])) {
+            self::$instances['security']->registerRestRoutes();
+        }
+    }
+
+    /**
+     * Render automation admin page
+     *
+     * @return void
+     */
+    public static function render_automation_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/automation.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/automation.php';
+        } else {
+            self::render_coming_soon_page(__('Automação', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render SSO admin page
+     *
+     * @return void
+     */
+    public static function render_sso_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/sso.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/sso.php';
+        } else {
+            self::render_coming_soon_page(__('SSO Enterprise', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render payments admin page
+     *
+     * @return void
+     */
+    public static function render_payments_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/payments.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/payments.php';
+        } else {
+            self::render_coming_soon_page(__('Pagamentos', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render marketplace admin page
+     *
+     * @return void
+     */
+    public static function render_marketplace_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/marketplace.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/marketplace.php';
+        } else {
+            self::render_coming_soon_page(__('Marketplace', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render security admin page
+     *
+     * @return void
+     */
+    public static function render_security_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/security.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/security.php';
+        } else {
+            self::render_coming_soon_page(__('Segurança', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render integrations admin page
+     *
+     * @return void
+     */
+    public static function render_integrations_page(): void
+    {
+        if (file_exists(FORMFLOW_PATH . 'includes/admin/views/integrations.php')) {
+            include FORMFLOW_PATH . 'includes/admin/views/integrations.php';
+        } else {
+            self::render_coming_soon_page(__('Integrações', 'formflow-pro'));
+        }
+    }
+
+    /**
+     * Render coming soon placeholder page
+     *
+     * @param string $title Page title.
+     * @return void
+     */
+    private static function render_coming_soon_page(string $title): void
+    {
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html($title); ?></h1>
+            <div class="notice notice-info">
+                <p>
+                    <strong><?php esc_html_e('Módulo Enterprise', 'formflow-pro'); ?></strong><br>
+                    <?php esc_html_e('Este módulo está ativo. A interface administrativa completa estará disponível em breve.', 'formflow-pro'); ?>
+                </p>
+            </div>
+            <div class="card" style="max-width: 600px; padding: 20px;">
+                <h2><?php esc_html_e('Status do Módulo', 'formflow-pro'); ?></h2>
+                <p><span class="dashicons dashicons-yes-alt" style="color: green;"></span> <?php esc_html_e('Módulo carregado e inicializado', 'formflow-pro'); ?></p>
+                <p><span class="dashicons dashicons-yes-alt" style="color: green;"></span> <?php esc_html_e('API REST disponível', 'formflow-pro'); ?></p>
+                <p><span class="dashicons dashicons-clock" style="color: orange;"></span> <?php esc_html_e('Interface administrativa em desenvolvimento', 'formflow-pro'); ?></p>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * Get module instance
+     *
+     * @param string $module Module name.
+     * @return object|null
+     */
+    public static function get(string $module): ?object
+    {
+        return self::$instances[$module] ?? null;
     }
 
     /**
