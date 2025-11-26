@@ -359,7 +359,7 @@ class DragDropBuilder
             'ffp-builder',
             plugins_url('assets/css/builder.css', dirname(__DIR__)),
             [],
-            JEFORM_VERSION
+            FORMFLOW_VERSION
         );
 
         // Enqueue builder JS
@@ -367,7 +367,7 @@ class DragDropBuilder
             'ffp-builder',
             plugins_url('assets/js/builder.js', dirname(__DIR__)),
             ['jquery', 'wp-element', 'wp-components', 'wp-i18n'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 
@@ -1049,14 +1049,14 @@ class DragDropBuilder
             'ffp-frontend',
             plugins_url('assets/css/frontend.css', dirname(__DIR__)),
             [],
-            JEFORM_VERSION
+            FORMFLOW_VERSION
         );
 
         wp_enqueue_script(
             'ffp-frontend',
             plugins_url('assets/js/frontend.js', dirname(__DIR__)),
             ['jquery'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 

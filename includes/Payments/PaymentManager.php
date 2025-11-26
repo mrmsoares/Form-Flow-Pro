@@ -1253,7 +1253,7 @@ class PaymentManager
             'ffp-payments',
             plugins_url('assets/js/payments.js', dirname(__DIR__)),
             ['jquery'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 

@@ -651,14 +651,14 @@ class PWAManager
             'ffp-pwa-admin',
             plugins_url('assets/css/pwa-admin.css', dirname(__DIR__)),
             [],
-            JEFORM_VERSION
+            FORMFLOW_VERSION
         );
 
         wp_enqueue_script(
             'ffp-pwa-admin',
             plugins_url('assets/js/pwa-admin.js', dirname(__DIR__)),
             ['jquery', 'wp-color-picker'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 
@@ -693,7 +693,7 @@ class PWAManager
             'ffp-pwa-frontend',
             plugins_url('assets/js/pwa-frontend.js', dirname(__DIR__)),
             ['jquery'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 

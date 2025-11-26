@@ -31,7 +31,7 @@ class ServiceWorkerManager
 
     protected function init(): void
     {
-        $this->sw_version = JEFORM_VERSION . '.' . get_option('ffp_sw_version', '1');
+        $this->sw_version = FORMFLOW_VERSION . '.' . get_option('ffp_sw_version', '1');
 
         $this->registerHooks();
         $this->defineCacheStrategies();

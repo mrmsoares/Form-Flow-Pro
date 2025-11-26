@@ -173,7 +173,7 @@ class FormBuilderManager
             'ffp-builder-main',
             plugins_url('assets/css/builder-main.css', dirname(__DIR__)),
             [],
-            JEFORM_VERSION
+            FORMFLOW_VERSION
         );
 
         // Analytics charts
