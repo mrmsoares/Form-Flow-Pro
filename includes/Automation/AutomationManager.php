@@ -167,7 +167,10 @@ class AutomationManager
             KEY workflow_id_version (workflow_id, version)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        // Only require the WordPress file if dbDelta is not already defined (allows testing)
+        if (!function_exists('dbDelta')) {
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        }
         dbDelta($sql_workflows);
         dbDelta($sql_executions);
         dbDelta($sql_versions);

@@ -44,10 +44,20 @@ if (!class_exists('wpdb')) {
         private $mock_results = [];
         private $mock_inserts = [];
         private $storage = []; // In-memory data storage
+        private $next_insert_id = 1; // Internal counter for auto-increment
 
         public function prepare($query, ...$args)
         {
-            $this->last_query = vsprintf(str_replace('%s', "'%s'", str_replace('%d', '%d', $query)), $args);
+            // Escape % characters that are not WordPress placeholders (%s, %d, %f)
+            // This prevents vsprintf errors from format specifiers like %M in date formats
+            $escaped_query = preg_replace('/%(?![sdf])/', '%%', $query);
+            $escaped_query = str_replace('%s', "'%s'", $escaped_query);
+
+            if (empty($args)) {
+                $this->last_query = $escaped_query;
+            } else {
+                $this->last_query = vsprintf($escaped_query, $args);
+            }
             return $this->last_query;
         }
 
@@ -57,11 +67,43 @@ if (!class_exists('wpdb')) {
 
             // Check if explicit mock result is set
             if (isset($this->mock_results['get_row'])) {
-                return $this->mock_results['get_row'];
+                $result = $this->mock_results['get_row'];
+                return $this->convert_output($result, $output);
             }
 
             // Try to extract data from storage based on query
-            return $this->query_storage($query, 'row');
+            $result = $this->query_storage($query, 'row');
+            return $this->convert_output($result, $output);
+        }
+
+        /**
+         * Convert result to the appropriate output type
+         */
+        private function convert_output($result, $output = OBJECT)
+        {
+            if ($result === null) {
+                return null;
+            }
+
+            if ($output === ARRAY_A) {
+                if (is_object($result)) {
+                    return get_object_vars($result);
+                }
+                return (array) $result;
+            }
+
+            if ($output === ARRAY_N) {
+                if (is_object($result)) {
+                    return array_values(get_object_vars($result));
+                }
+                return array_values((array) $result);
+            }
+
+            // Default OBJECT output
+            if (is_array($result)) {
+                return (object) $result;
+            }
+            return $result;
         }
 
         public function get_var($query)
@@ -83,11 +125,27 @@ if (!class_exists('wpdb')) {
 
             // Check if explicit mock result is set
             if (isset($this->mock_results['get_results'])) {
-                return $this->mock_results['get_results'];
+                $results = $this->mock_results['get_results'];
+                return $this->convert_results_output($results, $output);
             }
 
             // Try to extract data from storage based on query
-            return $this->query_storage($query, 'results') ?? [];
+            $results = $this->query_storage($query, 'results') ?? [];
+            return $this->convert_results_output($results, $output);
+        }
+
+        /**
+         * Convert array of results to the appropriate output type
+         */
+        private function convert_results_output($results, $output = OBJECT)
+        {
+            if (!is_array($results)) {
+                return [];
+            }
+
+            return array_map(function ($result) use ($output) {
+                return $this->convert_output($result, $output);
+            }, $results);
         }
 
         public function insert($table, $data, $format = null)
@@ -99,13 +157,19 @@ if (!class_exists('wpdb')) {
                 $this->storage[$table] = [];
             }
 
+            // Use internal counter for auto-increment, update insert_id to reflect this insert
+            $this->insert_id = $this->next_insert_id;
+
             // Auto-increment ID if not provided
             if (!isset($data['id'])) {
                 $data['id'] = (string) $this->insert_id;
             }
 
             $this->storage[$table][] = (object) $data;
-            $this->insert_id++; // Increment for next insert
+
+            // Increment internal counter for next insert
+            // insert_id stays at current value until next insert (WordPress behavior)
+            $this->next_insert_id++;
 
             return 1; // Return number of rows inserted (WordPress behavior)
         }
@@ -315,6 +379,7 @@ if (!class_exists('wpdb')) {
             $this->mock_inserts = [];
             $this->storage = [];
             $this->insert_id = 1;
+            $this->next_insert_id = 1;
         }
     }
 }
@@ -541,6 +606,92 @@ if (!function_exists('__')) {
     }
 }
 
+if (!function_exists('get_current_user_id')) {
+    function get_current_user_id()
+    {
+        return 1; // Default mock user ID
+    }
+}
+
+if (!function_exists('wp_parse_args')) {
+    function wp_parse_args($args, $defaults = [])
+    {
+        if (is_object($args)) {
+            $r = get_object_vars($args);
+        } elseif (is_array($args)) {
+            $r = &$args;
+        } else {
+            parse_str($args, $r);
+        }
+        return array_merge($defaults, $r);
+    }
+}
+
+if (!function_exists('check_ajax_referer')) {
+    function check_ajax_referer($action = -1, $query_arg = false, $die = true)
+    {
+        return true; // Mock always passes
+    }
+}
+
+if (!function_exists('current_user_can')) {
+    function current_user_can($capability, ...$args)
+    {
+        return true; // Mock user has all capabilities
+    }
+}
+
+// Custom exception for AJAX response termination (simulates wp_die)
+class WPAjaxDieException extends \Exception
+{
+    public string $response;
+
+    public function __construct(string $response)
+    {
+        $this->response = $response;
+        parent::__construct('AJAX response sent');
+    }
+}
+
+if (!function_exists('wp_send_json_success')) {
+    function wp_send_json_success($data = null, $status_code = null)
+    {
+        $response = json_encode(['success' => true, 'data' => $data]);
+        echo $response;
+        throw new WPAjaxDieException($response);
+    }
+}
+
+if (!function_exists('wp_send_json_error')) {
+    function wp_send_json_error($data = null, $status_code = null)
+    {
+        $response = json_encode(['success' => false, 'data' => $data]);
+        echo $response;
+        throw new WPAjaxDieException($response);
+    }
+}
+
+if (!function_exists('wp_add_inline_script')) {
+    function wp_add_inline_script($handle, $data, $position = 'after')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_add_inline_style')) {
+    function wp_add_inline_style($handle, $data)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_localize_script')) {
+    function wp_localize_script($handle, $object_name, $l10n)
+    {
+        return true;
+    }
+}
+
 // HTTP mocking globals
 global $wp_http_mock_response, $wp_http_mock_error, $wp_http_download_response;
 $wp_http_mock_response = null;
@@ -642,6 +793,21 @@ if (!class_exists('WP_REST_Request')) {
         public function set_json_params($params)
         {
             $this->json_params = $params;
+        }
+
+        public function get_param($key)
+        {
+            return $this->params[$key] ?? null;
+        }
+
+        public function has_param($key)
+        {
+            return array_key_exists($key, $this->params);
+        }
+
+        public function set_param($key, $value)
+        {
+            $this->params[$key] = $value;
         }
     }
 }
@@ -829,6 +995,14 @@ if (!function_exists('esc_html')) {
     }
 }
 
+if (!function_exists('wp_kses_post')) {
+    function wp_kses_post($data)
+    {
+        // Simplified mock - allows basic HTML tags commonly used in posts
+        return strip_tags($data, '<a><b><strong><i><em><p><br><ul><ol><li><h1><h2><h3><h4><h5><h6><blockquote><span><div><table><tr><td><th><thead><tbody>');
+    }
+}
+
 if (!function_exists('__return_true')) {
     function __return_true()
     {
@@ -851,6 +1025,384 @@ if (!function_exists('wp_verify_nonce')) {
     }
 }
 
+if (!function_exists('wp_remote_post')) {
+    function wp_remote_post($url, $args = [])
+    {
+        return wp_remote_request($url, array_merge($args, ['method' => 'POST']));
+    }
+}
+
+if (!function_exists('home_url')) {
+    function home_url($path = '')
+    {
+        return 'https://example.com' . $path;
+    }
+}
+
+if (!function_exists('get_bloginfo')) {
+    function get_bloginfo($show = '', $filter = 'raw')
+    {
+        $info = [
+            'name' => 'Test Site',
+            'description' => 'Just another WordPress site',
+            'url' => 'https://example.com',
+            'admin_email' => 'admin@example.com',
+            'charset' => 'UTF-8',
+            'version' => '6.4.0',
+            'language' => 'en-US',
+        ];
+        return $info[$show] ?? '';
+    }
+}
+
+if (!function_exists('admin_url')) {
+    function admin_url($path = '')
+    {
+        return 'https://example.com/wp-admin/' . $path;
+    }
+}
+
+if (!function_exists('plugins_url')) {
+    function plugins_url($path = '', $file = '')
+    {
+        return 'https://example.com/wp-content/plugins/' . $path;
+    }
+}
+
+if (!function_exists('wp_enqueue_style')) {
+    function wp_enqueue_style($handle, $src = '', $deps = [], $ver = false, $media = 'all')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_enqueue_script')) {
+    function wp_enqueue_script($handle, $src = '', $deps = [], $ver = false, $in_footer = false)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('esc_url')) {
+    function esc_url($url)
+    {
+        return filter_var($url, FILTER_SANITIZE_URL);
+    }
+}
+
+if (!function_exists('esc_attr')) {
+    function esc_attr($text)
+    {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+if (!function_exists('esc_html__')) {
+    function esc_html__($text, $domain = 'default')
+    {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+if (!function_exists('esc_html_e')) {
+    function esc_html_e($text, $domain = 'default')
+    {
+        echo esc_html($text);
+    }
+}
+
+if (!function_exists('esc_attr_e')) {
+    function esc_attr_e($text, $domain = 'default')
+    {
+        echo esc_attr($text);
+    }
+}
+
+if (!function_exists('_n')) {
+    function _n($single, $plural, $number, $domain = 'default')
+    {
+        return $number === 1 ? $single : $plural;
+    }
+}
+
+if (!function_exists('wp_tempnam')) {
+    function wp_tempnam($filename = '', $dir = '')
+    {
+        if (empty($dir)) {
+            $dir = sys_get_temp_dir();
+        }
+        return tempnam($dir, 'wp_' . $filename);
+    }
+}
+
+if (!function_exists('WP_Filesystem')) {
+    function WP_Filesystem($args = false, $context = false)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('unzip_file')) {
+    function unzip_file($file, $to)
+    {
+        return true; // Mock always succeeds
+    }
+}
+
+if (!function_exists('wp_nonce_field')) {
+    function wp_nonce_field($action = -1, $name = '_wpnonce', $referer = true, $echo = true)
+    {
+        $nonce = wp_create_nonce($action);
+        $field = '<input type="hidden" name="' . $name . '" value="' . $nonce . '" />';
+        if ($echo) {
+            echo $field;
+        }
+        return $field;
+    }
+}
+
+if (!function_exists('check_admin_referer')) {
+    function check_admin_referer($action = -1, $query_arg = '_wpnonce')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('absint')) {
+    function absint($value)
+    {
+        return abs(intval($value));
+    }
+}
+
+if (!function_exists('checked')) {
+    function checked($checked, $current = true, $echo = true)
+    {
+        $result = $checked == $current ? " checked='checked'" : '';
+        if ($echo) {
+            echo $result;
+        }
+        return $result;
+    }
+}
+
+if (!function_exists('selected')) {
+    function selected($selected, $current = true, $echo = true)
+    {
+        $result = $selected == $current ? " selected='selected'" : '';
+        if ($echo) {
+            echo $result;
+        }
+        return $result;
+    }
+}
+
+if (!function_exists('add_submenu_page')) {
+    function add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '')
+    {
+        return $menu_slug;
+    }
+}
+
+if (!function_exists('number_format_i18n')) {
+    function number_format_i18n($number, $decimals = 0)
+    {
+        return number_format($number, $decimals);
+    }
+}
+
+if (!function_exists('get_userdata')) {
+    function get_userdata($user_id)
+    {
+        return (object)[
+            'ID' => $user_id,
+            'user_login' => 'testuser',
+            'user_email' => 'test@example.com',
+            'display_name' => 'Test User'
+        ];
+    }
+}
+
+if (!function_exists('wp_get_current_user')) {
+    function wp_get_current_user()
+    {
+        return get_userdata(1);
+    }
+}
+
+if (!function_exists('is_user_logged_in')) {
+    function is_user_logged_in()
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_logout')) {
+    function wp_logout()
+    {
+        // No-op
+    }
+}
+
+if (!function_exists('wp_set_auth_cookie')) {
+    function wp_set_auth_cookie($user_id, $remember = false, $secure = '', $token = '')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('sanitize_textarea_field')) {
+    function sanitize_textarea_field($str)
+    {
+        return strip_tags($str);
+    }
+}
+
+if (!function_exists('sanitize_title')) {
+    function sanitize_title($title, $fallback_title = '', $context = 'save')
+    {
+        $title = preg_replace('/[^a-zA-Z0-9\s\-_]/', '', $title);
+        $title = strtolower(str_replace(' ', '-', $title));
+        return $title ?: $fallback_title;
+    }
+}
+
+if (!function_exists('sanitize_file_name')) {
+    function sanitize_file_name($filename)
+    {
+        // Remove special characters and sanitize
+        $filename = preg_replace('/[^a-zA-Z0-9._-]/', '', $filename);
+        return $filename ?: 'file';
+    }
+}
+
+if (!function_exists('human_time_diff')) {
+    function human_time_diff($from, $to = 0)
+    {
+        if ($to === 0) {
+            $to = time();
+        }
+        $diff = abs($to - $from);
+        if ($diff < 60) {
+            return $diff . ' seconds';
+        } elseif ($diff < 3600) {
+            return round($diff / 60) . ' minutes';
+        } elseif ($diff < 86400) {
+            return round($diff / 3600) . ' hours';
+        } else {
+            return round($diff / 86400) . ' days';
+        }
+    }
+}
+
+if (!function_exists('size_format')) {
+    function size_format($bytes, $decimals = 0)
+    {
+        if ($bytes === 0) {
+            return '0 B';
+        }
+        $k = 1024;
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $i = floor(log($bytes) / log($k));
+        return round($bytes / pow($k, $i), $decimals) . ' ' . $sizes[$i];
+    }
+}
+
+if (!function_exists('is_email')) {
+    function is_email($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false ? $email : false;
+    }
+}
+
+if (!function_exists('wp_mail')) {
+    function wp_mail($to, $subject, $message, $headers = '', $attachments = [])
+    {
+        return true; // Mock always succeeds
+    }
+}
+
+if (!function_exists('date_i18n')) {
+    function date_i18n($format, $timestamp = false, $gmt = false)
+    {
+        if ($timestamp === false) {
+            $timestamp = time();
+        }
+        return date($format, $timestamp);
+    }
+}
+
+if (!function_exists('wp_delete_file')) {
+    function wp_delete_file($file)
+    {
+        if (file_exists($file)) {
+            return @unlink($file);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('wp_next_scheduled')) {
+    function wp_next_scheduled($hook, $args = [])
+    {
+        return false;
+    }
+}
+
+if (!function_exists('wp_schedule_event')) {
+    function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error = false)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_clear_scheduled_hook')) {
+    function wp_clear_scheduled_hook($hook, $args = [])
+    {
+        return 0; // Returns number of unscheduled events (0 for mock)
+    }
+}
+
+if (!function_exists('dbDelta')) {
+    function dbDelta($queries = '', $execute = true)
+    {
+        return []; // Mock returns empty array (no changes)
+    }
+}
+
+if (!function_exists('wp_trim_words')) {
+    function wp_trim_words($text, $num_words = 55, $more = null)
+    {
+        if (null === $more) {
+            $more = '&hellip;';
+        }
+        $words = explode(' ', $text);
+        if (count($words) > $num_words) {
+            array_splice($words, $num_words);
+            $text = implode(' ', $words) . $more;
+        }
+        return $text;
+    }
+}
+
+if (!function_exists('esc_js')) {
+    function esc_js($text)
+    {
+        return addslashes($text);
+    }
+}
+
+if (!function_exists('esc_attr_e')) {
+    function esc_attr_e($text, $domain = 'default')
+    {
+        echo esc_attr($text);
+    }
+}
+
+if (!defined('ABSPATH')) {
+    define('ABSPATH', '/tmp/wordpress/');
+}
+
 function reset_wp_mocks()
 {
     global $wp_options, $wp_transients, $wp_cache, $wpdb;
@@ -862,6 +1414,14 @@ function reset_wp_mocks()
     $wp_http_mock_response = null;
     $wp_http_mock_error = null;
     $wp_http_download_response = null;
+
+    // Clear $_POST and $_GET to prevent test pollution
+    $_POST = [];
+    $_GET = [];
+    $_REQUEST = [];
+
+    // Reset $_SERVER to minimal values
+    $_SERVER['REQUEST_METHOD'] = 'GET';
 
     if ($wpdb && method_exists($wpdb, 'clear_mock_data')) {
         $wpdb->clear_mock_data();
