@@ -313,6 +313,24 @@ class UXManagerTest extends TestCase
     // AJAX Handler Tests
     // ==========================================================================
 
+    /**
+     * Helper method to call AJAX handlers and capture JSON response
+     * Handles the WPAjaxDieException thrown by wp_send_json_* mocks
+     */
+    private function callAjaxHandler(callable $handler): array
+    {
+        ob_start();
+        try {
+            $handler();
+            $output = ob_get_clean();
+        } catch (\WPAjaxDieException $e) {
+            ob_end_clean();
+            return json_decode($e->response, true);
+        }
+        // Fallback if no exception was thrown
+        return json_decode($output, true) ?? [];
+    }
+
     public function test_handle_bulk_action_success()
     {
         global $wpdb;
@@ -323,11 +341,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleBulkAction();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleBulkAction']);
 
-        $response = json_decode($output, true);
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('data', $response);
     }
@@ -340,11 +355,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleInlineEdit();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleInlineEdit']);
 
-        $response = json_decode($output, true);
         $this->assertFalse($response['success']);
     }
 
@@ -355,11 +367,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleSaveView();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleSaveView']);
 
-        $response = json_decode($output, true);
         $this->assertFalse($response['success']);
     }
 
@@ -372,11 +381,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleSaveView();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleSaveView']);
 
-        $response = json_decode($output, true);
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('view_id', $response['data']);
 
@@ -393,11 +399,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleAutosave();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleAutosave']);
 
-        $response = json_decode($output, true);
         $this->assertFalse($response['success']);
     }
 
@@ -410,11 +413,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleAutosave();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleAutosave']);
 
-        $response = json_decode($output, true);
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('timestamp', $response['data']);
     }
@@ -426,11 +426,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleUXSettings();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleUXSettings']);
 
-        $response = json_decode($output, true);
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('keyboard_shortcuts', $response['data']);
     }
@@ -443,11 +440,8 @@ class UXManagerTest extends TestCase
 
         $manager = UXManager::getInstance();
 
-        ob_start();
-        $manager->handleUXSettings();
-        $output = ob_get_clean();
+        $response = $this->callAjaxHandler([$manager, 'handleUXSettings']);
 
-        $response = json_decode($output, true);
         $this->assertTrue($response['success']);
     }
 
@@ -469,11 +463,7 @@ class UXManagerTest extends TestCase
         $_POST['filters'] = ['status' => 'active'];
         $_POST['columns'] = ['title', 'status'];
 
-        ob_start();
-        $manager->handleSaveView();
-        $output = ob_get_clean();
-
-        $response = json_decode($output, true);
+        $response = $this->callAjaxHandler([$manager, 'handleSaveView']);
         $viewId = $response['data']['view_id'];
 
         // 3. Verify view exists
@@ -504,9 +494,7 @@ class UXManagerTest extends TestCase
         $_POST['id'] = 99;
         $_POST['data'] = ['title' => 'Draft Form', 'fields' => ['name', 'email']];
 
-        ob_start();
-        $manager->handleAutosave();
-        ob_get_clean();
+        $this->callAjaxHandler([$manager, 'handleAutosave']);
 
         // 3. Verify autosave exists
         $autosave = $manager->getAutosave('form', 99);

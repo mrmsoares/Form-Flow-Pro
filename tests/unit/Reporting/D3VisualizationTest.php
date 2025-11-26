@@ -213,10 +213,12 @@ class D3VisualizationTest extends TestCase
             'category' => 'custom',
         ]);
 
-        $scheme = $visualization->getColorScheme('structured');
+        // getColorScheme returns just the colors array, not full scheme
+        $colors = $visualization->getColorScheme('structured');
 
-        $this->assertArrayHasKey('name', $scheme);
-        $this->assertArrayHasKey('colors', $scheme);
-        $this->assertIsArray($scheme['colors']);
+        $this->assertIsArray($colors);
+        $this->assertContains('#111', $colors);
+        $this->assertContains('#222', $colors);
+        $this->assertContains('#333', $colors);
     }
 }

@@ -624,17 +624,33 @@ if (!function_exists('current_user_can')) {
     }
 }
 
+// Custom exception for AJAX response termination (simulates wp_die)
+class WPAjaxDieException extends \Exception
+{
+    public string $response;
+
+    public function __construct(string $response)
+    {
+        $this->response = $response;
+        parent::__construct('AJAX response sent');
+    }
+}
+
 if (!function_exists('wp_send_json_success')) {
     function wp_send_json_success($data = null, $status_code = null)
     {
-        echo json_encode(['success' => true, 'data' => $data]);
+        $response = json_encode(['success' => true, 'data' => $data]);
+        echo $response;
+        throw new WPAjaxDieException($response);
     }
 }
 
 if (!function_exists('wp_send_json_error')) {
     function wp_send_json_error($data = null, $status_code = null)
     {
-        echo json_encode(['success' => false, 'data' => $data]);
+        $response = json_encode(['success' => false, 'data' => $data]);
+        echo $response;
+        throw new WPAjaxDieException($response);
     }
 }
 
