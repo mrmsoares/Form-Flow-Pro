@@ -1,84 +1,1332 @@
-# Translation of FormFlow Pro Enterprise in Portuguese (Brazil)
+# Portuguese (Brazil) translation for FormFlow Pro Enterprise
+# Copyright (C) 2025 FormFlow Pro Team
 # This file is distributed under the same license as the FormFlow Pro Enterprise package.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: FormFlow Pro Enterprise 2.0.0\n"
 "Report-Msgid-Bugs-To: https://formflowpro.com/support\n"
-"POT-Creation-Date: 2025-11-19 00:00+0000\n"
-"PO-Revision-Date: 2025-11-19 00:00+0000\n"
-"Last-Translator: FormFlow Pro Team\n"
-"Language-Team: Portuguese (Brazil)\n"
+"POT-Creation-Date: " . date('Y-m-d H:i+0000') . "\n"
+"PO-Revision-Date: " . date('Y-m-d H:i+0000') . "\n"
+"Last-Translator: FormFlow Pro Team <support@formflowpro.com>\n"
+"Language-Team: Portuguese (Brazil) <support@formflowpro.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: WordPress\n"
+"X-Generator: FormFlow Pro Translation Generator\n"
 
-# Admin Menu
-msgid "FormFlow Pro"
-msgstr "FormFlow Pro"
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+msgstr "\"%1$s\" requer que \"%2$s\" esteja instalado e ativado."
 
-msgid "Dashboard"
-msgstr "Painel"
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
+msgstr "\"%1$s\" requer \"%2$s\" versão %3$s ou superior."
 
-msgid "Forms"
-msgstr "Formulários"
+msgid "%d FormFlow Pro extension has an update available."
+msgstr ""
 
-msgid "Submissions"
-msgstr "Envios"
+msgid "%d FormFlow Pro extensions have updates available."
+msgstr ""
 
-msgid "Analytics"
-msgstr "Análises"
+msgid "%d day"
+msgstr "%d dia"
 
-msgid "Autentique Documents"
-msgstr "Documentos Autentique"
+msgid "%d days"
+msgstr "%d dias"
 
-msgid "Autentique"
-msgstr "Autentique"
+msgid "%d field added"
+msgstr ""
 
-msgid "Settings"
-msgstr "Configurações"
+msgid "%d field deleted"
+msgstr ""
 
-# Autentique Page
-msgid "Autentique not configured!"
-msgstr "Autentique não configurado!"
+msgid "%d field modified"
+msgstr ""
 
-msgid "Please configure your Autentique API key in settings to start using digital signatures."
-msgstr "Por favor, configure sua chave de API do Autentique nas configurações para começar a usar assinaturas digitais."
+msgid "%d fields added"
+msgstr ""
 
-msgid "Go to Settings"
-msgstr "Ir para Configurações"
+msgid "%d fields deleted"
+msgstr ""
 
-msgid "Total Documents"
-msgstr "Total de Documentos"
+msgid "%d fields modified"
+msgstr ""
 
-msgid "Pending Signature"
-msgstr "Aguardando Assinatura"
+msgid "%d hour"
+msgstr "%d hora"
 
-msgid "Signed"
-msgstr "Assinado"
+msgid "%d hours"
+msgstr "%d horas"
 
-msgid "Refused"
-msgstr "Recusado"
+msgid "%d minute"
+msgstr "%d minuto"
+
+msgid "%d minutes"
+msgstr "%d minutos"
+
+msgid "%d month"
+msgstr "%d mês"
+
+msgid "%d months"
+msgstr "%d meses"
+
+msgid "%d second"
+msgstr "%d segundo"
+
+msgid "%d seconds"
+msgstr "%d segundos"
+
+msgid "%d sessions terminated"
+msgstr ""
+
+msgid "%d submission(s) deleted successfully."
+msgstr ""
+
+msgid "%d submissions deleted successfully."
+msgstr "%d envios excluídos com sucesso."
+
+msgid "%d week"
+msgstr "%d semana"
+
+msgid "%d weeks"
+msgstr "%d semanas"
+
+msgid "%d year"
+msgstr "%d ano"
+
+msgid "%d years"
+msgstr "%d anos"
+
+msgid "%s cache is always available."
+msgstr ""
+
+msgid "%s created successfully."
+msgstr ""
+
+msgid "%s integration is enabled but not properly configured."
+msgstr "A integração %s está habilitada mas não está configurada corretamente."
+
+msgid "%s out of 5 stars"
+msgstr ""
+
+msgid "%s updated successfully."
+msgstr ""
+
+msgid "%s+ active installs"
+msgstr ""
+
+msgid "0 = Unlimited sites"
+msgstr ""
+
+msgid "2FA"
+msgstr "2FA"
+
+msgid "A document signature was refused: %s"
+msgstr ""
+
+msgid "A new form submission has been received via Elementor Pro."
+msgstr ""
+
+msgid "A new form submission was received from %s"
+msgstr ""
+
+msgid "A similar request is already pending"
+msgstr ""
+
+msgid "ACS URL:"
+msgstr ""
+
+msgid "AI Features"
+msgstr "Recursos de IA"
+
+msgid "AI Provider"
+msgstr "Provedor de IA"
+
+msgid "AI Settings"
+msgstr "Configurações de IA"
+
+msgid "AI connection successful!"
+msgstr ""
+
+msgid "AI rate limit exceeded. Please try again later."
+msgstr ""
+
+msgid "AI settings saved successfully."
+msgstr ""
+
+msgid "AJAX Submission"
+msgstr ""
+
+msgid "APCu is installed and available."
+msgstr ""
+
+msgid "APCu is not installed."
+msgstr ""
+
+msgid "API Configuration"
+msgstr ""
+
+msgid "API Configured"
+msgstr "API Configurada"
+
+msgid "API Key"
+msgstr "Chave API"
+
+msgid "API Key (Legacy)"
+msgstr ""
+
+msgid "API Not Configured"
+msgstr "API Não Configurada"
+
+msgid "API Only"
+msgstr ""
+
+msgid "API Secret"
+msgstr "Segredo API"
+
+msgid "API connection successful! Your API key is valid."
+msgstr ""
+
+msgid "API key is required"
+msgstr ""
+
+msgid "API key is required."
+msgstr ""
+
+msgid "API keys and sensitive credentials are not included in exports for security. You will need to reconfigure these after import."
+msgstr ""
+
+msgid "API returned error code %d: %s"
+msgstr ""
+
+msgid "AWS S3"
+msgstr "AWS S3"
+
+msgid "Access Control"
+msgstr "Controle de Acesso"
+
+msgid "Access Denied"
+msgstr ""
+
+msgid "Access Token"
+msgstr ""
+
+msgid "Access denied from your IP address."
+msgstr ""
+
+msgid "Access denied."
+msgstr "Acesso negado."
+
+msgid "Access is not available in your region."
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Action"
+msgstr "Ação"
+
+msgid "Action Hooks"
+msgstr ""
+
+msgid "Action completed on %d items."
+msgstr ""
+
+msgid "Action completed successfully"
+msgstr ""
+
+msgid "Action is required."
+msgstr ""
+
+msgid "Action when duplicate is found."
+msgstr ""
+
+msgid "Actions"
+msgstr "Ações"
+
+msgid "Activate"
+msgstr "Ativar"
+
+msgid "Activate All"
+msgstr ""
+
+msgid "Activating..."
+msgstr ""
+
+msgid "Active"
+msgstr "Ativo"
+
+msgid "Active Consents"
+msgstr ""
+
+msgid "Active Forms"
+msgstr ""
+
+msgid "Active Sessions"
+msgstr ""
+
+msgid "Active Sites"
+msgstr ""
+
+msgid "Active Theme"
+msgstr ""
+
+msgid "Add"
+msgstr "Adicionar"
+
+msgid "Add Action"
+msgstr "Adicionar Ação"
+
+msgid "Add Condition"
+msgstr "Adicionar Condição"
+
+msgid "Add Field"
+msgstr ""
+
+msgid "Add IP Rule"
+msgstr ""
+
+msgid "Add New"
+msgstr "Adicionar Novo"
+
+msgid "Add New Template"
+msgstr ""
+
+msgid "Add Option"
+msgstr "Adicionar Opção"
+
+msgid "Add Rule"
+msgstr ""
+
+msgid "Add Trigger"
+msgstr "Adicionar Gatilho"
+
+msgid "Add custom metadata (one per line, format: key=value)"
+msgstr ""
+
+msgid "Add submission ID column."
+msgstr ""
+
+msgid "Add submission timestamp as first column."
+msgstr ""
+
+msgid "Additional Tools"
+msgstr ""
+
+msgid "Address"
+msgstr "Endereço"
+
+msgid "Admin Email Subject"
+msgstr ""
+
+msgid "Admin Only"
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Administrator"
+msgstr "Administrador"
+
+msgid "Advanced"
+msgstr "Avançado"
+
+msgid "Aggregate analytics from all sites"
+msgstr ""
+
+msgid "All"
+msgstr "Todos"
+
+msgid "All Categories"
+msgstr ""
+
+msgid "All Extensions"
+msgstr ""
+
+msgid "All Forms"
+msgstr ""
+
+msgid "All Severities"
+msgstr ""
+
+msgid "All Sites"
+msgstr "Todos os Sites"
 
 msgid "All Statuses"
 msgstr "Todos os Status"
 
-msgid "Pending"
-msgstr "Pendente"
+msgid "All Time"
+msgstr ""
 
-msgid "From date"
-msgstr "Data inicial"
+msgid "Allow Local Login"
+msgstr ""
 
-msgid "To date"
-msgstr "Data final"
+msgid "Allow username/password login alongside SSO"
+msgstr ""
+
+msgid "Allowed Domains"
+msgstr ""
+
+msgid "Allowed file types: %s"
+msgstr "Tipos de arquivo permitidos: %s"
+
+msgid "Alphabetical"
+msgstr ""
+
+msgid "Already exists."
+msgstr "Já existe."
+
+msgid "Amount"
+msgstr "Valor"
+
+msgid "An error occurred"
+msgstr ""
+
+msgid "An error occurred. Please try again."
+msgstr "Ocorreu um erro. Por favor, tente novamente."
+
+msgid "Analytics"
+msgstr "Análises"
+
+msgid "Analytics & Reporting"
+msgstr ""
+
+msgid "Analytics Dashboard"
+msgstr ""
+
+msgid "And"
+msgstr "E"
+
+msgid "Any"
+msgstr "Qualquer"
+
+msgid "App Icon"
+msgstr "Ícone do Aplicativo"
+
+msgid "App Name"
+msgstr "Nome do Aplicativo"
+
+msgid "Appearance"
+msgstr "Aparência"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Apply Coupon"
+msgstr "Aplicar Cupom"
 
 msgid "Apply Filters"
 msgstr "Aplicar Filtros"
 
-msgid "Reset"
+msgid "Approve"
+msgstr ""
+
+msgid "Archive"
+msgstr "Arquivar"
+
+msgid "Archived"
+msgstr "Arquivado"
+
+msgid "Are you sure you want to clear all cache?"
+msgstr ""
+
+msgid "Are you sure you want to delete this form?"
+msgstr ""
+
+msgid "Are you sure you want to delete this provider?"
+msgstr ""
+
+msgid "Are you sure you want to delete this submission?"
+msgstr ""
+
+msgid "Are you sure you want to delete this template?"
+msgstr ""
+
+msgid "Are you sure you want to delete this?"
+msgstr "Tem certeza que deseja excluir isso?"
+
+msgid "Are you sure you want to disable 2FA?"
+msgstr ""
+
+msgid "Are you sure you want to import this configuration?"
+msgstr ""
+
+msgid "Are you sure you want to perform this action on %d items?"
+msgstr ""
+
+msgid "Are you sure you want to reset all white label settings to defaults?"
+msgstr ""
+
+msgid "Are you sure you want to uninstall this extension? This cannot be undone."
+msgstr ""
+
+msgid "Artificial Intelligence"
+msgstr "Inteligência Artificial"
+
+msgid "Attempted to Contact"
+msgstr ""
+
+msgid "Attempts"
+msgstr ""
+
+msgid "Attributes"
+msgstr "Atributos"
+
+msgid "Audit Log"
+msgstr "Log de Auditoria"
+
+msgid "Audit Log Retention"
+msgstr ""
+
+msgid "Audit Logging Active"
+msgstr ""
+
+msgid "Audit Logs"
+msgstr "Logs de Auditoria"
+
+msgid "Autentique"
+msgstr "Autentique"
+
+msgid "Autentique API"
+msgstr ""
+
+msgid "Autentique Digital Signature"
+msgstr ""
+
+msgid "Autentique Documents"
+msgstr "Documentos Autentique"
+
+msgid "Autentique Webhook Settings"
+msgstr ""
+
+msgid "Autentique not configured!"
+msgstr "Autentique não configurado!"
+
+msgid "Auth0"
+msgstr "Auth0"
+
+msgid "Authentication"
+msgstr ""
+
+msgid "Authentication Type"
+msgstr ""
+
+msgid "Authentication successful! Configure a spreadsheet ID to complete setup."
+msgstr ""
+
+msgid "Authenticator"
+msgstr ""
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Author Name"
+msgstr ""
+
+msgid "Author URL"
+msgstr ""
+
+msgid "Authorization URL"
+msgstr ""
+
+msgid "Auto"
+msgstr "Automático"
+
+msgid "Auto Send Documents"
+msgstr ""
+
+msgid "Auto-Provision Users"
+msgstr ""
+
+msgid "Auto-Suggestions"
+msgstr "Sugestões Automáticas"
+
+msgid "Auto-activate plugin on all new sites"
+msgstr ""
+
+msgid "Auto-create Headers"
+msgstr ""
+
+msgid "Automatically create WordPress users on first SSO login"
+msgstr ""
+
+msgid "Automatically create column headers from form fields."
+msgstr ""
+
+msgid "Automatically export form submissions to Google Sheets."
+msgstr ""
+
+msgid "Automatically retry failed webhook deliveries."
+msgstr ""
+
+msgid "Automatically send documents to signers after creation"
+msgstr ""
+
+msgid "Automatically send reminder emails to signers who have not signed their documents."
+msgstr ""
+
+msgid "Automation"
+msgstr "Automação"
+
+msgid "Automations"
+msgstr "Automações"
+
+msgid "Autosave"
+msgstr "Salvamento Automático"
+
+msgid "Autosave enabled"
+msgstr "Salvamento automático habilitado"
+
+msgid "Autosaved."
+msgstr ""
+
+msgid "Available Action Hooks"
+msgstr ""
+
+msgid "Available Filters"
+msgstr ""
+
+msgid "Available tags: {form_name}, {submission_id}, {date}"
+msgstr ""
+
+msgid "Average Processing Time"
+msgstr ""
+
+msgid "Average Time"
+msgstr "Tempo Médio"
+
+msgid "Avg Processing Time"
+msgstr ""
+
+msgid "Background Color"
+msgstr "Cor de Fundo"
+
+msgid "Backup Code"
+msgstr ""
+
+msgid "Backup Codes"
+msgstr "Códigos de Backup"
+
+msgid "Bar Chart"
+msgstr "Gráfico de Barras"
+
+msgid "Base DN"
+msgstr ""
+
+msgid "Base URL"
+msgstr ""
+
+msgid "Basic"
+msgstr "Básico"
+
+msgid "Basic Extension"
+msgstr ""
+
+msgid "Basic Information"
+msgstr ""
+
+msgid "Batch Size"
+msgstr ""
+
+msgid "Behavior"
+msgstr "Comportamento"
+
+msgid "Bind Credentials"
+msgstr ""
+
+msgid "Bind DN"
+msgstr ""
+
+msgid "Bind Password"
+msgstr ""
+
+msgid "Blacklist (Block)"
+msgstr ""
+
+msgid "Block this IP address?"
+msgstr ""
+
+msgid "Blocked At"
+msgstr ""
+
+msgid "Blocked Domains"
+msgstr ""
+
+msgid "Border Radius"
+msgstr ""
+
+msgid "Branding"
+msgstr ""
+
+msgid "Browse Extensions"
+msgstr "Explorar Extensões"
+
+msgid "Browse Files"
+msgstr ""
+
+msgid "Browse Marketplace"
+msgstr ""
+
+msgid "Browser"
+msgstr "Navegador"
+
+msgid "Build powerful extensions and integrations for FormFlow Pro."
+msgstr ""
+
+msgid "Bulk Actions"
+msgstr "Ações em Massa"
+
+msgid "Button"
+msgstr ""
+
+msgid "Button Text"
+msgstr ""
+
+msgid "By %s"
+msgstr ""
+
+msgid "By Status"
+msgstr ""
+
+msgid "CAPTCHA"
+msgstr "CAPTCHA"
+
+msgid "CSS"
+msgstr "CSS"
+
+msgid "CSS Classes"
+msgstr "Classes CSS"
+
+msgid "CSV Export"
+msgstr "Exportar CSV"
+
+msgid "Cache"
+msgstr ""
+
+msgid "Cache Configuration"
+msgstr ""
+
+msgid "Cache Driver"
+msgstr ""
+
+msgid "Cache First"
+msgstr "Cache Primeiro"
+
+msgid "Cache Strategy"
+msgstr "Estratégia de Cache"
+
+msgid "Cache TTL (seconds)"
+msgstr ""
+
+msgid "Cache cleared successfully!"
+msgstr ""
+
+msgid "Cache cleared successfully."
+msgstr ""
+
+msgid "Calculate value"
+msgstr ""
+
+msgid "Callback URL:"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Case"
+msgstr ""
+
+msgid "Categories"
+msgstr "Categorias"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Centralized Analytics"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Changes saved"
+msgstr "Alterações salvas"
+
+msgid "Chart"
+msgstr "Gráfico"
+
+msgid "Chat"
+msgstr ""
+
+msgid "Check for Duplicates"
+msgstr ""
+
+msgid "Check for existing records by email before creating."
+msgstr ""
+
+msgid "Check if using a sandbox environment."
+msgstr ""
+
+msgid "Checkbox"
+msgstr "Caixa de Seleção"
+
+msgid "Checking..."
+msgstr ""
+
+msgid "Choose how to authenticate with Google."
+msgstr ""
+
+msgid "Choose how to authenticate with HubSpot."
+msgstr ""
+
+msgid "Choose the form you want to display"
+msgstr ""
+
+msgid "City"
+msgstr "Cidade"
+
+msgid "Classification failed."
+msgstr ""
+
+msgid "Clear"
 msgstr "Limpar"
+
+msgid "Clear All Cache"
+msgstr ""
+
+msgid "Clear Cache"
+msgstr ""
+
+msgid "Clear Logs"
+msgstr ""
+
+msgid "Clear all FormFlow Pro cached data."
+msgstr ""
+
+msgid "Clear value"
+msgstr ""
+
+msgid "Client ID"
+msgstr "ID do Cliente"
+
+msgid "Client Secret"
+msgstr "Segredo do Cliente"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "Close/Cancel"
+msgstr ""
+
+msgid "Code"
+msgstr "Código"
+
+msgid "Color"
+msgstr "Cor"
+
+msgid "Colors"
+msgstr ""
+
+msgid "Columns"
+msgstr ""
+
+msgid "Command Palette"
+msgstr "Paleta de Comandos"
+
+msgid "Compact Mode"
+msgstr "Modo Compacto"
+
+msgid "Company"
+msgstr ""
+
+msgid "Company Email"
+msgstr ""
+
+msgid "Company Name"
+msgstr ""
+
+msgid "Compare"
+msgstr ""
+
+msgid "Compare metrics between two time periods"
+msgstr ""
+
+msgid "Comparison value is required."
+msgstr ""
+
+msgid "Completed"
+msgstr "Concluído"
+
+msgid "Completed Today"
+msgstr ""
+
+msgid "Compliance"
+msgstr ""
+
+msgid "Condition"
+msgstr "Condição"
+
+msgid "Conditions"
+msgstr "Condições"
+
+msgid "Configuration imported successfully."
+msgstr ""
+
+msgid "Configuration saved successfully."
+msgstr ""
+
+msgid "Configure"
+msgstr "Configurar"
+
+msgid "Configure the webhook URL in your Autentique dashboard"
+msgstr ""
+
+msgid "Configure webhooks to receive real-time notifications when documents are signed or refused."
+msgstr ""
+
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgid "Connect"
+msgstr "Conectar"
+
+msgid "Connect FormFlow Pro to 5,000+ apps via Zapier webhooks."
+msgstr ""
+
+msgid "Connected"
+msgstr "Conectado"
+
+msgid "Connected successfully as %s"
+msgstr ""
+
+msgid "Connected successfully. Portal ID: %s"
+msgstr ""
+
+msgid "Connected to spreadsheet: %s"
+msgstr ""
+
+msgid "Connection Test"
+msgstr ""
+
+msgid "Connection error: %s"
+msgstr ""
+
+msgid "Connection failed."
+msgstr "Conexão falhou."
+
+msgid "Connection failed: %s"
+msgstr ""
+
+msgid "Connection successful."
+msgstr "Conexão bem-sucedida."
+
+msgid "Connection test failed:"
+msgstr ""
+
+msgid "Connection test successful!"
+msgstr ""
+
+msgid "Consent"
+msgstr "Consentimento"
+
+msgid "Consent History"
+msgstr ""
+
+msgid "Consent Records"
+msgstr ""
+
+msgid "Consent updated"
+msgstr ""
+
+msgid "Consider regenerating your backup codes."
+msgstr ""
+
+msgid "Consumer Key"
+msgstr ""
+
+msgid "Consumer Secret"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Contact updated successfully."
+msgstr ""
+
+msgid "Contains"
+msgstr "Contém"
+
+msgid "Contributor"
+msgstr "Contribuidor"
+
+msgid "Conversion Rate"
+msgstr "Taxa de Conversão"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Copy Shortcode"
+msgstr "Copiar Shortcode"
+
+msgid "Copy this URL and configure it in your"
+msgstr ""
+
+msgid "Corporate Login"
+msgstr ""
+
+msgid "Country"
+msgstr "País"
+
+msgid "Coupon"
+msgstr "Cupom"
+
+msgid "Create Document"
+msgstr "Criar Documento"
+
+msgid "Create Form"
+msgstr "Criar Formulário"
+
+msgid "Create Timeline Event"
+msgstr ""
+
+msgid "Create Workflow"
+msgstr "Criar Fluxo de Trabalho"
+
+msgid "Create Your First Form"
+msgstr ""
+
+msgid "Create an account at"
+msgstr ""
+
+msgid "Create anyway"
+msgstr ""
+
+msgid "Create timeline event for form submission."
+msgstr ""
+
+msgid "Created"
+msgstr "Criado"
+
+msgid "Credit Card"
+msgstr "Cartão de Crédito"
+
+msgid "Critical"
+msgstr ""
+
+msgid "Cross-Site Reporting"
+msgstr ""
+
+msgid "Currency"
+msgstr "Moeda"
+
+msgid "Current"
+msgstr ""
+
+msgid "Current Period"
+msgstr ""
+
+msgid "Current Rules"
+msgstr ""
+
+msgid "Currently blocked IPs"
+msgstr ""
+
+msgid "Custom"
+msgstr "Personalizado"
+
+msgid "Custom Action"
+msgstr ""
+
+msgid "Custom CSS"
+msgstr "CSS Personalizado"
+
+msgid "Custom Documentation URL"
+msgstr ""
+
+msgid "Custom Field"
+msgstr ""
+
+msgid "Custom Field 1"
+msgstr ""
+
+msgid "Custom Field 2"
+msgstr ""
+
+msgid "Custom Field 3"
+msgstr ""
+
+msgid "Custom Field Type"
+msgstr ""
+
+msgid "Custom Footer Text"
+msgstr ""
+
+msgid "Custom JavaScript"
+msgstr "JavaScript Personalizado"
+
+msgid "Custom Logo URL"
+msgstr ""
+
+msgid "Custom Metadata"
+msgstr ""
+
+msgid "Custom Range"
+msgstr "Período Personalizado"
+
+msgid "Custom Support URL"
+msgstr ""
+
+msgid "Custom URLs"
+msgstr ""
+
+msgid "Custom plugin name shown in admin"
+msgstr ""
+
+msgid "Custom text for admin footer (on plugin pages)"
+msgstr ""
+
+msgid "Customer"
+msgstr ""
+
+msgid "Customize the plugin branding for your agency or client projects."
+msgstr ""
+
+msgid "DB Version"
+msgstr ""
+
+msgid "Daily"
+msgstr "Diário"
+
+msgid "Daily submission volume over selected period"
+msgstr ""
+
+msgid "Dark Mode"
+msgstr "Modo Escuro"
+
+msgid "Dashboard"
+msgstr "Painel"
+
+msgid "Data Access"
+msgstr ""
+
+msgid "Data Attributes"
+msgstr "Atributos de Dados"
+
+msgid "Data Deletion"
+msgstr "Exclusão de Dados"
+
+msgid "Data Export"
+msgstr "Exportação de Dados"
+
+msgid "Data Management"
+msgstr ""
+
+msgid "Data Retention"
+msgstr ""
+
+msgid "Data Subject"
+msgstr ""
+
+msgid "Data exported to Google Sheets successfully."
+msgstr ""
+
+msgid "Data sent to Zapier successfully."
+msgstr ""
+
+msgid "Database Optimization"
+msgstr ""
+
+msgid "Database Tables"
+msgstr ""
+
+msgid "Database Version"
+msgstr ""
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Date & Time"
+msgstr "Data e Hora"
+
+msgid "Date Format"
+msgstr ""
+
+msgid "Date Range"
+msgstr ""
+
+msgid "Deactivate"
+msgstr "Desativar"
+
+msgid "Deactivate License"
+msgstr ""
+
+msgid "Deactivating..."
+msgstr ""
+
+msgid "Deal"
+msgstr ""
+
+msgid "Debit Card"
+msgstr "Cartão de Débito"
+
+msgid "Debug"
+msgstr ""
+
+msgid "Default"
+msgstr "Padrão"
+
+msgid "Default HubSpot object to create."
+msgstr ""
+
+msgid "Default Message"
+msgstr ""
+
+msgid "Default Object"
+msgstr ""
+
+msgid "Default Role"
+msgstr ""
+
+msgid "Default Salesforce object to create."
+msgstr ""
+
+msgid "Default Sheet Name"
+msgstr ""
+
+msgid "Default Spreadsheet ID"
+msgstr ""
+
+msgid "Default Value"
+msgstr "Valor Padrão"
+
+msgid "Default Webhook URL"
+msgstr ""
+
+msgid "Default Zapier webhook URL for all forms."
+msgstr ""
+
+msgid "Default email for notifications"
+msgstr ""
+
+msgid "Default lead status for new contacts."
+msgstr ""
+
+msgid "Default lifecycle stage for new contacts."
+msgstr ""
+
+msgid "Default message included in signature request emails. Leave empty to use Autentique default."
+msgstr ""
+
+msgid "Default role for new SSO users"
+msgstr ""
+
+msgid "Default sheet/tab name within the spreadsheet."
+msgstr ""
+
+msgid "Default: 389 (LDAP) or 636 (LDAPS)"
+msgstr ""
+
+msgid "Delay"
+msgstr "Atraso"
+
+msgid "Delay between retry attempts"
+msgstr ""
+
+msgid "Delete"
+msgstr "Excluir"
+
+msgid "Delete Form"
+msgstr "Excluir Formulário"
+
+msgid "Delete Submission"
+msgstr "Excluir Envio"
+
+msgid "Delete all data on plugin uninstall"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Description"
+msgstr "Descrição"
+
+msgid "Deselect All"
+msgstr "Desmarcar Todos"
+
+msgid "Details"
+msgstr ""
+
+msgid "Developer Community"
+msgstr ""
+
+msgid "Developer Docs"
+msgstr ""
+
+msgid "Developer Documentation"
+msgstr ""
+
+msgid "Developers"
+msgstr ""
+
+msgid "Device"
+msgstr ""
+
+msgid "Device removed."
+msgstr ""
+
+msgid "Did you mean @%s?"
+msgstr ""
+
+msgid "Digital Signature"
+msgstr "Assinatura Digital"
+
+msgid "Digital Signatures"
+msgstr "Assinaturas Digitais"
+
+msgid "Disable 2FA"
+msgstr "Desabilitar 2FA"
+
+msgid "Disable Animations"
+msgstr "Desativar Animações"
+
+msgid "Disable Two-Factor Authentication"
+msgstr ""
+
+msgid "Disable field"
+msgstr ""
+
+msgid "Disabled"
+msgstr "Desabilitado"
+
+msgid "Disconnect"
+msgstr "Desconectar"
+
+msgid "Disconnected"
+msgstr "Desconectado"
+
+msgid "Discount"
+msgstr "Desconto"
+
+msgid "Dismiss"
+msgstr ""
+
+msgid "Display Mode"
+msgstr "Modo de Exibição"
+
+msgid "Display Options"
+msgstr ""
+
+msgid "Distribution by status"
+msgstr ""
+
+msgid "Divider"
+msgstr "Divisor"
+
+msgid "Document Classification"
+msgstr "Classificação de Documentos"
+
+msgid "Document Details"
+msgstr "Detalhes do Documento"
 
 msgid "Document ID"
 msgstr "ID do Documento"
@@ -86,155 +1334,636 @@ msgstr "ID do Documento"
 msgid "Document Name"
 msgstr "Nome do Documento"
 
-msgid "Submission"
-msgstr "Envio"
+msgid "Document Settings"
+msgstr ""
 
-msgid "Signer"
-msgstr "Signatário"
+msgid "Document Signature Refused"
+msgstr ""
 
-msgid "Status"
-msgstr "Status"
+msgid "Document Template"
+msgstr ""
 
-msgid "Created"
-msgstr "Criado"
-
-msgid "Signed At"
-msgstr "Assinado em"
-
-msgid "Actions"
-msgstr "Ações"
-
-msgid "Document Details"
-msgstr "Detalhes do Documento"
-
-msgid "Loading..."
-msgstr "Carregando..."
-
-msgid "Close"
-msgstr "Fechar"
-
-msgid "Open in Autentique"
-msgstr "Abrir no Autentique"
-
-msgid "Signature link resent successfully."
-msgstr "Link de assinatura reenviado com sucesso."
-
-msgid "Failed to resend signature link."
-msgstr "Falha ao reenviar link de assinatura."
+msgid "Document created successfully."
+msgstr "Documento criado com sucesso."
 
 msgid "Document deleted successfully."
 msgstr "Documento excluído com sucesso."
 
-msgid "Reminder: Please sign the document \"%s\""
-msgstr "Lembrete: Por favor assine o documento \"%s\""
+msgid "Documentation"
+msgstr "Documentação"
 
-msgid "Hello,\\n\\nThis is a friendly reminder to sign the document:\\n\\n%s\\n\\nPlease click the link below to sign:\\n%s\\n\\nThank you!"
-msgstr "Olá,\\n\\nEste é um lembrete amigável para assinar o documento:\\n\\n%s\\n\\nPor favor, clique no link abaixo para assinar:\\n%s\\n\\nObrigado!"
+msgid "Domain Restrictions"
+msgstr ""
 
-# Submissions Page
-msgid "%d submissions deleted successfully."
-msgstr "%d envios excluídos com sucesso."
+msgid "Download"
+msgstr "Baixar"
 
-msgid "Submission deleted successfully."
-msgstr "Envio excluído com sucesso."
+msgid "Download Codes"
+msgstr ""
 
-msgid "All Forms"
-msgstr "Todos os Formulários"
+msgid "Draft"
+msgstr "Rascunho"
+
+msgid "Draft saved"
+msgstr "Rascunho salvo"
+
+msgid "Drag and drop your JSON file here"
+msgstr ""
+
+msgid "Driver is required."
+msgstr ""
+
+msgid "Dropbox"
+msgstr "Dropbox"
+
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgid "Duplicate Action"
+msgstr ""
+
+msgid "Duplicate Form"
+msgstr "Duplicar Formulário"
+
+msgid "Duplicate entry."
+msgstr "Entrada duplicada."
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Edit Form"
+msgstr "Editar Formulário"
+
+msgid "Edit Workflow"
+msgstr "Editar Fluxo de Trabalho"
+
+msgid "Edit selected"
+msgstr ""
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "Elementor"
+msgstr "Elementor"
+
+msgid "Else"
+msgstr "Senão"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Email Builder"
+msgstr ""
+
+msgid "Email Notifications"
+msgstr "Notificações por E-mail"
+
+msgid "Email Settings"
+msgstr ""
+
+msgid "Email Template"
+msgstr "Modelo de E-mail"
+
+msgid "Email Template Builder"
+msgstr ""
+
+msgid "Email address for critical security alerts."
+msgstr ""
+
+msgid "Email address to receive notifications (leave empty to use form default)"
+msgstr ""
+
+msgid "Embed"
+msgstr "Incorporar"
+
+msgid "Embed Code"
+msgstr "Código de Incorporação"
+
+msgid "Enable 2FA"
+msgstr "Habilitar 2FA"
+
+msgid "Enable Cache"
+msgstr ""
+
+msgid "Enable Digital Signature"
+msgstr ""
+
+msgid "Enable PKCE (recommended)"
+msgstr ""
+
+msgid "Enable Queue"
+msgstr ""
+
+msgid "Enable SSO"
+msgstr ""
+
+msgid "Enable Sandbox Mode"
+msgstr ""
+
+msgid "Enable Single Logout (logout from IdP when logging out of WordPress)"
+msgstr ""
+
+msgid "Enable Single Sign-On"
+msgstr ""
+
+msgid "Enable Two-Factor Authentication"
+msgstr ""
+
+msgid "Enable White Label"
+msgstr ""
+
+msgid "Enable background queue processing"
+msgstr ""
+
+msgid "Enable caching system"
+msgstr ""
+
+msgid "Enable country-based access restrictions"
+msgstr ""
+
+msgid "Enable cross-site comparison reports"
+msgstr ""
+
+msgid "Enable digital signature for this form"
+msgstr ""
+
+msgid "Enable field"
+msgstr ""
+
+msgid "Enable security headers (X-Frame-Options, CSP, etc.)"
+msgstr ""
+
+msgid "Enable this for maximum security, but may cause issues with mobile users."
+msgstr ""
+
+msgid "Enable white label mode to customize plugin branding"
+msgstr ""
+
+msgid "Enabled"
+msgstr "Habilitado"
+
+msgid "Encryption"
+msgstr ""
+
+msgid "Endpoint"
+msgstr ""
+
+msgid "Enforce 2FA for Roles"
+msgstr ""
+
+msgid "Enter form name"
+msgstr ""
+
+msgid "Enter the 6-digit code from your authenticator app:"
+msgstr ""
+
+msgid "Enter verification code"
+msgstr "Digite o código de verificação"
+
+msgid "Enter your API key below to enable digital signatures."
+msgstr "Digite sua chave API abaixo para habilitar assinaturas digitais."
+
+msgid "Enter your Autentique API key"
+msgstr ""
+
+msgid "Enter your FormFlow Pro network license key."
+msgstr ""
+
+msgid "Enter your error message"
+msgstr ""
+
+msgid "Enter your success message"
+msgstr ""
+
+msgid "Enterprise"
+msgstr "Enterprise"
+
+msgid "Enterprise SSO Settings"
+msgstr ""
+
+msgid "Entity ID:"
+msgstr ""
+
+msgid "Environment"
+msgstr ""
+
+msgid "Equals"
+msgstr "Igual a"
+
+msgid "Error"
+msgstr "Erro"
+
+msgid "Error Message"
+msgstr ""
+
+msgid "Error saving settings"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Events today"
+msgstr ""
+
+msgid "Every 5 minutes"
+msgstr ""
+
+msgid "Every Minute"
+msgstr ""
+
+msgid "Example Extensions"
+msgstr ""
+
+msgid "Example:"
+msgstr ""
+
+msgid "Excel Report"
+msgstr "Relatório em Excel"
+
+msgid "Expired"
+msgstr "Expirado"
+
+msgid "Expires"
+msgstr ""
+
+msgid "Expires: %s"
+msgstr ""
 
 msgid "Export"
 msgstr "Exportar"
 
-msgid "IP Address"
-msgstr "Endereço IP"
+msgid "Export CSV"
+msgstr ""
 
-msgid "Signature Status"
-msgstr "Status da Assinatura"
+msgid "Export Configuration"
+msgstr ""
 
-msgid "Bulk Actions"
-msgstr "Ações em Massa"
-
-msgid "Delete"
-msgstr "Excluir"
-
-msgid "Export Selected"
-msgstr "Exportar Selecionados"
-
-msgid "Apply"
-msgstr "Aplicar"
-
-msgid "Submission Details"
-msgstr "Detalhes do Envio"
+msgid "Export Options"
+msgstr ""
 
 msgid "Export PDF"
-msgstr "Exportar PDF"
+msgstr ""
 
-# Common
-msgid "Are you sure you want to delete this submission?"
-msgstr "Tem certeza que deseja excluir este envio?"
+msgid "Export Report"
+msgstr "Exportar Relatório"
 
-msgid "Processing..."
-msgstr "Processando..."
+msgid "Export Selected"
+msgstr ""
 
-msgid "An error occurred. Please try again."
-msgstr "Ocorreu um erro. Por favor, tente novamente."
+msgid "Export Submissions"
+msgstr "Exportar Envios"
 
-msgid "Search:"
-msgstr "Buscar:"
+msgid "Export date:"
+msgstr ""
 
-msgid "Show _MENU_ documents"
-msgstr "Mostrar _MENU_ documentos"
+msgid "Export failed."
+msgstr ""
 
-msgid "Showing _START_ to _END_ of _TOTAL_ documents"
-msgstr "Mostrando _START_ a _END_ de _TOTAL_ documentos"
+msgid "Export file not found"
+msgstr ""
 
-msgid "No documents found"
-msgstr "Nenhum documento encontrado"
+msgid "Export generated on %s"
+msgstr ""
 
-msgid "No matching documents found"
-msgstr "Nenhum documento correspondente encontrado"
+msgid "Export not found or expired"
+msgstr ""
+
+msgid "Export request failed."
+msgstr ""
+
+msgid "Export your FormFlow Pro configuration to a JSON file. This includes forms, templates, settings, and webhooks."
+msgstr ""
+
+msgid "Exported from:"
+msgstr ""
+
+msgid "Exporting..."
+msgstr ""
+
+msgid "Extension"
+msgstr "Extensão"
+
+msgid "Extension Name"
+msgstr ""
+
+msgid "Extension Points"
+msgstr ""
+
+msgid "Extension Scaffold Generator"
+msgstr ""
+
+msgid "Extension Type"
+msgstr ""
+
+msgid "Extension extraction failed"
+msgstr ""
+
+msgid "Extension name is required"
+msgstr ""
+
+msgid "Extension not found"
+msgstr ""
+
+msgid "Extension not found in marketplace"
+msgstr ""
+
+msgid "Extension not installed"
+msgstr ""
+
+msgid "Extension settings page."
+msgstr "Página de configurações da extensão."
+
+msgid "Extension slug must contain only lowercase letters, numbers, and hyphens"
+msgstr ""
+
+msgid "Extensions"
+msgstr "Extensões"
+
+msgid "External ID"
+msgstr ""
+
+msgid "Failed"
+msgstr "Falhou"
+
+msgid "Failed Jobs"
+msgstr ""
+
+msgid "Failed Submissions"
+msgstr ""
+
+msgid "Failed to access spreadsheet: %s"
+msgstr ""
+
+msgid "Failed to add IP rule"
+msgstr ""
+
+msgid "Failed to authenticate user"
+msgstr ""
+
+msgid "Failed to authenticate with Google."
+msgstr ""
+
+msgid "Failed to authenticate with Salesforce."
+msgstr ""
+
+msgid "Failed to authenticate with Salesforce. Please check your credentials."
+msgstr ""
+
+msgid "Failed to block IP"
+msgstr ""
+
+msgid "Failed to clear cache."
+msgstr ""
+
+msgid "Failed to create document."
+msgstr "Falha ao criar documento."
+
+msgid "Failed to create form."
+msgstr ""
+
+msgid "Failed to create request"
+msgstr ""
+
+msgid "Failed to create sheet."
+msgstr ""
+
+msgid "Failed to delete form."
+msgstr ""
+
+msgid "Failed to delete submission."
+msgstr ""
+
+msgid "Failed to delete submissions."
+msgstr ""
+
+msgid "Failed to download extension"
+msgstr ""
+
+msgid "Failed to duplicate form."
+msgstr ""
+
+msgid "Failed to export to Google Sheets."
+msgstr ""
+
+msgid "Failed to get access token. Please re-authorize."
+msgstr ""
+
+msgid "Failed to remove IP rule"
+msgstr ""
+
+msgid "Failed to remove device."
+msgstr ""
+
+msgid "Failed to resend signature link."
+msgstr "Falha ao reenviar link de assinatura."
+
+msgid "Failed to save configuration."
+msgstr ""
+
+msgid "Failed to save mapping."
+msgstr ""
+
+msgid "Failed to save settings."
+msgstr ""
+
+msgid "Failed to save settings. Please try again."
+msgstr ""
+
+msgid "Failed to save submission."
+msgstr ""
+
+msgid "Failed to save submission. Please try again."
+msgstr ""
+
+msgid "Failed to send data to Zapier."
+msgstr ""
+
+msgid "Failed to send test email. Please check your email configuration."
+msgstr ""
+
+msgid "Failed to terminate session"
+msgstr ""
+
+msgid "Failed to unblock IP"
+msgstr ""
+
+msgid "Failed to update consent"
+msgstr ""
+
+msgid "Failed to update form status."
+msgstr ""
+
+msgid "Failed to update form."
+msgstr ""
+
+msgid "Fast and cost-effective for most tasks."
+msgstr ""
+
+msgid "Featured"
+msgstr "Em Destaque"
+
+msgid "Featured Extensions"
+msgstr ""
+
+msgid "Field Types"
+msgstr ""
+
+msgid "Field name required."
+msgstr ""
+
+msgid "File Upload"
+msgstr "Upload de Arquivo"
+
+msgid "File size must not exceed %s."
+msgstr "O tamanho do arquivo não deve exceder %s."
+
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "Filter Name"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
 
 msgid "First"
 msgstr "Primeiro"
 
-msgid "Last"
-msgstr "Último"
+msgid "First Name"
+msgstr ""
 
-msgid "Next"
-msgstr "Próximo"
+msgid "First parameter"
+msgstr ""
 
-msgid "Previous"
-msgstr "Anterior"
+msgid "Flatten Data"
+msgstr ""
 
-# Error Messages
-msgid "Autentique API key not configured"
-msgstr "Chave de API do Autentique não configurada"
+msgid "Flatten nested data for easier mapping in Zapier."
+msgstr ""
 
-msgid "Submission not found"
-msgstr "Envio não encontrado"
+msgid "Force SSO"
+msgstr ""
 
-msgid "PDF file not found: %s"
-msgstr "Arquivo PDF não encontrado: %s"
+msgid "Form"
+msgstr "Formulário"
 
-msgid "Autentique API error: %s"
-msgstr "Erro na API do Autentique: %s"
+msgid "Form Builder"
+msgstr "Construtor de Formulário"
 
-msgid "Failed to create document"
-msgstr "Falha ao criar documento"
+msgid "Form Container"
+msgstr ""
 
-msgid "No signers configured. Email is required."
-msgstr "Nenhum signatário configurado. Email é obrigatório."
+msgid "Form Fields"
+msgstr "Campos do Formulário"
 
-msgid "Failed to get document status"
-msgstr "Falha ao obter status do documento"
+msgid "Form ID"
+msgstr "ID do Formulário"
 
-# Queue
-msgid "Every 5 minutes"
-msgstr "A cada 5 minutos"
+msgid "Form ID and Integration ID required."
+msgstr ""
 
-msgid "Weekly"
-msgstr "Semanalmente"
+msgid "Form ID and status are required."
+msgstr ""
 
-# Settings
+msgid "Form ID is required."
+msgstr ""
+
+msgid "Form ID required."
+msgstr ""
+
+msgid "Form Name"
+msgstr "Nome do Formulário"
+
+msgid "Form Settings"
+msgstr "Configurações do Formulário"
+
+msgid "Form Status"
+msgstr "Status do Formulário"
+
+msgid "Form Submission"
+msgstr "Envio de Formulário"
+
+msgid "Form Submission Received"
+msgstr ""
+
+msgid "Form Submissions"
+msgstr ""
+
+msgid "Form created successfully."
+msgstr "Formulário criado com sucesso."
+
+msgid "Form deleted successfully."
+msgstr "Formulário excluído com sucesso."
+
+msgid "Form duplicated successfully."
+msgstr "Formulário duplicado com sucesso."
+
+msgid "Form name is required."
+msgstr ""
+
+msgid "Form not found or inactive"
+msgstr ""
+
+msgid "Form not found or inactive."
+msgstr ""
+
+msgid "Form not found."
+msgstr "Formulário não encontrado."
+
+msgid "Form status updated successfully."
+msgstr ""
+
+msgid "Form status updated."
+msgstr "Status do formulário atualizado."
+
+msgid "Form submission received via FormFlow Pro (ID: %d)"
+msgstr ""
+
+msgid "Form submitted successfully!"
+msgstr ""
+
+msgid "Form updated successfully."
+msgstr "Formulário atualizado com sucesso."
+
+msgid "Form:"
+msgstr ""
+
+msgid "FormFlow Form"
+msgstr ""
+
+msgid "FormFlow Pro"
+msgstr "FormFlow Pro"
+
+msgid "FormFlow Pro - License Management"
+msgstr ""
+
+msgid "FormFlow Pro - Network Settings"
+msgstr ""
+
+msgid "FormFlow Pro - Sites Overview"
+msgstr ""
+
+msgid "FormFlow Pro - Test Email"
+msgstr ""
+
+msgid "FormFlow Pro Enterprise"
+msgstr "FormFlow Pro Enterprise"
+
+msgid "FormFlow Pro Marketplace"
+msgstr ""
+
+msgid "FormFlow Pro Network"
+msgstr ""
+
+msgid "FormFlow Pro Network Dashboard"
+msgstr ""
+
+msgid "FormFlow Pro network license not configured. Some features may be limited."
+msgstr "Licença de rede do FormFlow Pro não configurada. Alguns recursos podem estar limitados."
+
+msgid "FormFlow Pro provides a comprehensive REST API for integration."
+msgstr ""
+
 msgid "FormFlow Pro requires PHP 8.0 or higher."
 msgstr "FormFlow Pro requer PHP 8.0 ou superior."
 
@@ -244,77 +1973,557 @@ msgstr "FormFlow Pro requer WordPress 6.0 ou superior."
 msgid "FormFlow Pro requires the %s PHP extension."
 msgstr "FormFlow Pro requer a extensão PHP %s."
 
-msgid "Plugin Activation Error"
-msgstr "Erro na Ativação do Plugin"
+msgid "FormFlow Submission Count"
+msgstr ""
 
-# Dashboard
-msgid "Welcome to FormFlow Pro"
-msgstr "Bem-vindo ao FormFlow Pro"
+msgid "FormFlow target form not selected."
+msgstr ""
 
-msgid "Total Forms"
-msgstr "Total de Formulários"
+msgid "Formatted (1,234)"
+msgstr ""
 
-msgid "Total Submissions"
-msgstr "Total de Envios"
+msgid "Forms"
+msgstr "Formulários"
 
-msgid "Conversion Rate"
-msgstr "Taxa de Conversão"
+msgid "Forms Only"
+msgstr ""
 
-msgid "Recent Activity"
-msgstr "Atividade Recente"
+msgid "Forms imported:"
+msgstr ""
 
-# Forms
-msgid "Form Name"
-msgstr "Nome do Formulário"
+msgid "Free"
+msgstr "Gratuito"
 
-msgid "Form Type"
-msgstr "Tipo de Formulário"
+msgid "From Email"
+msgstr ""
 
-msgid "Total Views"
-msgstr "Total de Visualizações"
+msgid "From Name"
+msgstr ""
 
-msgid "Conversion"
-msgstr "Conversão"
+msgid "From date"
+msgstr "De"
 
-msgid "Last Modified"
-msgstr "Última Modificação"
+msgid "From your Salesforce Connected App."
+msgstr ""
 
-msgid "Add New Form"
-msgstr "Adicionar Novo Formulário"
+msgid "From:"
+msgstr ""
 
-msgid "Edit Form"
-msgstr "Editar Formulário"
+msgid "Full Documentation"
+msgstr ""
 
-msgid "View Submissions"
-msgstr "Ver Envios"
+msgid "Fullscreen"
+msgstr "Tela Cheia"
 
-msgid "Duplicate"
-msgstr "Duplicar"
+msgid "GDPR"
+msgstr ""
 
-# Analytics
-msgid "Performance Metrics"
-msgstr "Métricas de Desempenho"
+msgid "GDPR Compliance"
+msgstr "Conformidade GDPR"
 
-msgid "Submission Trends"
-msgstr "Tendências de Envios"
+msgid "GDPR Requests"
+msgstr ""
 
-msgid "Top Forms"
-msgstr "Principais Formulários"
+msgid "GPT Model"
+msgstr "Modelo GPT"
 
-msgid "Conversion Funnel"
-msgstr "Funil de Conversão"
+msgid "General"
+msgstr "Geral"
 
-msgid "Views"
-msgstr "Visualizações"
+msgid "General Settings"
+msgstr ""
 
-msgid "Submissions vs Views"
-msgstr "Envios vs Visualizações"
+msgid "Generate Backup Codes"
+msgstr "Gerar Códigos de Backup"
 
-msgid "Time Period"
-msgstr "Período"
+msgid "Generate Report"
+msgstr "Gerar Relatório"
 
-msgid "Last 7 Days"
-msgstr "Últimos 7 Dias"
+msgid "Generate Scaffold"
+msgstr ""
+
+msgid "Generate boilerplate code for your extension."
+msgstr ""
+
+msgid "Generate extension scaffold"
+msgstr ""
+
+msgid "Generated Files"
+msgstr ""
+
+msgid "Geo Blocking"
+msgstr ""
+
+msgid "Get SDK information"
+msgstr ""
+
+msgid "Get started by creating your first form."
+msgstr ""
+
+msgid "Get your API key from"
+msgstr ""
+
+msgid "Getting Started"
+msgstr ""
+
+msgid "Given"
+msgstr ""
+
+msgid "Global Integrations"
+msgstr ""
+
+msgid "Go to Developer Settings and generate an API key"
+msgstr ""
+
+msgid "Go to Settings"
+msgstr "Ir para Configurações"
+
+msgid "Google"
+msgstr "Google"
+
+msgid "Google Cloud Console Client ID."
+msgstr ""
+
+msgid "Google Cloud Console Client Secret."
+msgstr ""
+
+msgid "Google Drive"
+msgstr "Google Drive"
+
+msgid "Google Sheets"
+msgstr "Google Sheets"
+
+msgid "Google Sheets integration is not configured or enabled."
+msgstr ""
+
+msgid "Greater Than"
+msgstr "Maior que"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "HTML ID"
+msgstr "ID HTML"
+
+msgid "HTTP Request"
+msgstr "Requisição HTTP"
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "Hello,\\n\\nThis is a friendly reminder to sign the document:\\n\\n%s\\n\\nPlease click the link below to sign:\\n%s\\n\\nThank you!"
+msgstr ""
+
+msgid "Hello,\\n\\nWe received a %s request for this email address.\\n\\nPlease click the link below to verify your request:\\n%s\\n\\nThis link will expire in 30 days.\\n\\nIf you did not make this request, please ignore this email.\\n\\nRegards,\\n%s"
+msgstr ""
+
+msgid "Hello,\\n\\nYour data deletion request has been processed.\\n\\nAll personal data associated with this email address has been anonymized or deleted from our systems.\\n\\nRegards,\\n%s"
+msgstr ""
+
+msgid "Hello,\\n\\nYour data export is ready for download.\\n\\nDownload link: %s\\n\\nThis link will expire in 7 days.\\n\\nRegards,\\n%s"
+msgstr ""
+
+msgid "Help"
+msgstr "Ajuda"
+
+msgid "Hidden"
+msgstr "Oculto"
+
+msgid "Hide"
+msgstr ""
+
+msgid "Hide Local Login Form"
+msgstr ""
+
+msgid "Hide Support Links"
+msgstr ""
+
+msgid "Hide Version"
+msgstr ""
+
+msgid "Hide field"
+msgstr ""
+
+msgid "Hide support links on plugins page"
+msgstr ""
+
+msgid "Hide the username/password form on login page"
+msgstr ""
+
+msgid "Hide version number in admin"
+msgstr ""
+
+msgid "High Contrast"
+msgstr "Alto Contraste"
+
+msgid "High capability with vision support."
+msgstr ""
+
+msgid "Highest Rated"
+msgstr ""
+
+msgid "Honeypot"
+msgstr "Honeypot"
+
+msgid "Hook Name"
+msgstr ""
+
+msgid "Hooks"
+msgstr ""
+
+msgid "Hourly Distribution"
+msgstr ""
+
+msgid "Hover"
+msgstr ""
+
+msgid "How long to keep cached data (60-86400 seconds)"
+msgstr ""
+
+msgid "HubSpot"
+msgstr "HubSpot"
+
+msgid "HubSpot integration is not configured or enabled."
+msgstr ""
+
+msgid "ID"
+msgstr "ID"
+
+msgid "IP"
+msgstr ""
+
+msgid "IP Address"
+msgstr ""
+
+msgid "IP Address/CIDR"
+msgstr ""
+
+msgid "IP Blacklist"
+msgstr "Lista de IPs Bloqueados"
+
+msgid "IP Rules"
+msgstr ""
+
+msgid "IP Whitelist"
+msgstr "Lista de IPs Permitidos"
+
+msgid "IP blocked"
+msgstr ""
+
+msgid "IP rule added"
+msgstr ""
+
+msgid "IP rule removed"
+msgstr ""
+
+msgid "IP unblocked"
+msgstr ""
+
+msgid "IP/Range"
+msgstr ""
+
+msgid "IdP Certificate"
+msgstr ""
+
+msgid "IdP Entity ID"
+msgstr ""
+
+msgid "IdP SLO URL"
+msgstr ""
+
+msgid "IdP SSO URL"
+msgstr ""
+
+msgid "Identity Provider Settings"
+msgstr ""
+
+msgid "Identity unlinked successfully"
+msgstr ""
+
+msgid "Idle"
+msgstr ""
+
+msgid "If"
+msgstr "Se"
+
+msgid "If checked, existing forms, templates, and settings with the same ID will be overwritten."
+msgstr ""
+
+msgid "If you received this email, your email configuration is working correctly."
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Image Upload"
+msgstr "Upload de Imagem"
+
+msgid "Implement your custom functionality using hooks and filters"
+msgstr ""
+
+msgid "Import"
+msgstr "Importar"
+
+msgid "Import Configuration"
+msgstr ""
+
+msgid "Import Forms"
+msgstr ""
+
+msgid "Import Options"
+msgstr ""
+
+msgid "Import Preview"
+msgstr ""
+
+msgid "Import Results"
+msgstr ""
+
+msgid "Import Settings"
+msgstr ""
+
+msgid "Import Templates"
+msgstr ""
+
+msgid "Import Webhooks"
+msgstr ""
+
+msgid "Import a FormFlow Pro configuration from a JSON file. This will add or update your forms, templates, settings, and webhooks."
+msgstr ""
+
+msgid "Import completed successfully!"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
+msgid "Import failed:"
+msgstr ""
+
+msgid "Import file version too old. Please export from a newer version."
+msgstr ""
+
+msgid "Import request failed."
+msgstr ""
+
+msgid "Importing..."
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
+msgid "Inactive"
+msgstr "Inativo"
+
+msgid "Include Form Fields Info"
+msgstr ""
+
+msgid "Include Forms"
+msgstr ""
+
+msgid "Include Metadata"
+msgstr ""
+
+msgid "Include Settings"
+msgstr ""
+
+msgid "Include Submission ID"
+msgstr ""
+
+msgid "Include Templates"
+msgstr ""
+
+msgid "Include Timestamp"
+msgstr ""
+
+msgid "Include Webhooks"
+msgstr ""
+
+msgid "Include field names and types in the payload."
+msgstr ""
+
+msgid "Include form and submission metadata in webhook payload."
+msgstr ""
+
+msgid "Info"
+msgstr "Informação"
+
+msgid "Input Fields"
+msgstr ""
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Install Prompt"
+msgstr "Solicitação de Instalação"
+
+msgid "Installed"
+msgstr "Instalado"
+
+msgid "Installed Extensions"
+msgstr ""
+
+msgid "Installing..."
+msgstr ""
+
+msgid "Instance URL"
+msgstr ""
+
+msgid "Insufficient permissions."
+msgstr ""
+
+msgid "Integration"
+msgstr "Integração"
+
+msgid "Integration ID required."
+msgstr ""
+
+msgid "Integration not found."
+msgstr ""
+
+msgid "Integrations"
+msgstr "Integrações"
+
+msgid "Invalid"
+msgstr "Inválido"
+
+msgid "Invalid API key. Please check your credentials."
+msgstr ""
+
+msgid "Invalid JSON data."
+msgstr ""
+
+msgid "Invalid JSON file."
+msgstr ""
+
+msgid "Invalid action"
+msgstr ""
+
+msgid "Invalid action."
+msgstr ""
+
+msgid "Invalid chart type."
+msgstr ""
+
+msgid "Invalid code"
+msgstr ""
+
+msgid "Invalid code. Please try again."
+msgstr ""
+
+msgid "Invalid data provided."
+msgstr "Dados inválidos fornecidos."
+
+msgid "Invalid email address"
+msgstr ""
+
+msgid "Invalid file type."
+msgstr "Tipo de arquivo inválido."
+
+msgid "Invalid import file: missing metadata"
+msgstr ""
+
+msgid "Invalid import file: missing version"
+msgstr ""
+
+msgid "Invalid import file: no data to import"
+msgstr ""
+
+msgid "Invalid operator."
+msgstr ""
+
+msgid "Invalid parameters"
+msgstr ""
+
+msgid "Invalid password."
+msgstr ""
+
+msgid "Invalid provider"
+msgstr ""
+
+msgid "Invalid request method"
+msgstr ""
+
+msgid "Invalid request type"
+msgstr ""
+
+msgid "Invalid request."
+msgstr "Requisição inválida."
+
+msgid "Invalid status."
+msgstr ""
+
+msgid "Invalid table."
+msgstr ""
+
+msgid "Invalid user ID"
+msgstr ""
+
+msgid "Invalid verification code."
+msgstr ""
+
+msgid "Invoice"
+msgstr "Fatura"
+
+msgid "Is Empty"
+msgstr "Está Vazio"
+
+msgid "Is Not Empty"
+msgstr "Não Está Vazio"
+
+msgid "Items per page"
+msgstr "Itens por página"
+
+msgid "JavaScript"
+msgstr "JavaScript"
+
+msgid "Job Title"
+msgstr ""
+
+msgid "Just now"
+msgstr "Agora mesmo"
+
+msgid "Keyboard Shortcuts"
+msgstr "Atalhos de Teclado"
+
+msgid "LDAP"
+msgstr "LDAP"
+
+msgid "LDAP Host"
+msgstr ""
+
+msgid "LDAP filter for user search. Use %s as placeholder for username."
+msgstr ""
+
+msgid "LDAP provider not available"
+msgstr ""
+
+msgid "LDAP provider not configured"
+msgstr ""
+
+msgid "LDAP/AD"
+msgstr ""
+
+msgid "LDAP/Active Directory Configuration"
+msgstr ""
+
+msgid "Label"
+msgstr "Rótulo"
+
+msgid "Labels"
+msgstr ""
+
+msgid "Landscape"
+msgstr "Paisagem"
+
+msgid "Large"
+msgstr "Grande"
+
+msgid "Last"
+msgstr "Último"
 
 msgid "Last 30 Days"
 msgstr "Últimos 30 Dias"
@@ -322,208 +2531,2565 @@ msgstr "Últimos 30 Dias"
 msgid "Last 90 Days"
 msgstr "Últimos 90 Dias"
 
-msgid "Custom Range"
-msgstr "Intervalo Personalizado"
+msgid "Last Activity"
+msgstr ""
 
-# Signature
-msgid "Digital Signature Required"
-msgstr "Assinatura Digital Obrigatória"
+msgid "Last Login"
+msgstr ""
 
-msgid "Please sign the document to complete your submission."
-msgstr "Por favor, assine o documento para completar seu envio."
+msgid "Last Name"
+msgstr ""
 
-msgid "Sign Document"
-msgstr "Assinar Documento"
+msgid "Last Submission"
+msgstr ""
 
-msgid "Document signed successfully!"
-msgstr "Documento assinado com sucesso!"
+msgid "Last Updated"
+msgstr "Última Atualização"
 
-msgid "Signature refused"
-msgstr "Assinatura recusada"
+msgid "Last Used"
+msgstr ""
 
-msgid "Waiting for signature..."
-msgstr "Aguardando assinatura..."
+msgid "Last login:"
+msgstr ""
 
-# Email
-msgid "New Form Submission"
-msgstr "Novo Envio de Formulário"
+msgid "Layout"
+msgstr "Layout"
 
-msgid "A new submission has been received for form: %s"
-msgstr "Um novo envio foi recebido para o formulário: %s"
+msgid "Lead"
+msgstr ""
 
-msgid "View Submission"
-msgstr "Ver Envio"
+msgid "Lead Source"
+msgstr ""
 
-msgid "Document Ready for Signature"
-msgstr "Documento Pronto para Assinatura"
+msgid "Lead Status"
+msgstr ""
 
-msgid "Your document is ready for signature. Please click the link below:"
-msgstr "Seu documento está pronto para assinatura. Por favor, clique no link abaixo:"
+msgid "Leave all unchecked to export all forms."
+msgstr ""
 
-# PDF
-msgid "Generated on %s"
-msgstr "Gerado em %s"
+msgid "Legacy API Key. Use Private App instead."
+msgstr ""
 
-msgid "Submission #%d"
-msgstr "Envio #%d"
+msgid "Legacy model, cost-effective for simple tasks."
+msgstr ""
 
-msgid "Form Data"
-msgstr "Dados do Formulário"
+msgid "Less Than"
+msgstr "Menor que"
 
-msgid "Field"
-msgstr "Campo"
+msgid "Level"
+msgstr ""
 
-msgid "Value"
-msgstr "Valor"
+msgid "License"
+msgstr "Licença"
 
-# Logs
+msgid "License Active"
+msgstr ""
+
+msgid "License Key"
+msgstr ""
+
+msgid "License Management"
+msgstr ""
+
+msgid "License Required"
+msgstr ""
+
+msgid "License activated successfully"
+msgstr ""
+
+msgid "License key is required"
+msgstr ""
+
+msgid "License key required for premium extension"
+msgstr ""
+
+msgid "License limit reached: %1$d of %2$d sites active."
+msgstr "Limite de licença atingido: %1$d de %2$d sites ativos."
+
+msgid "License validation failed"
+msgstr ""
+
+msgid "Licensed"
+msgstr "Licenciado"
+
+msgid "Licenses"
+msgstr ""
+
+msgid "Lifecycle Stage"
+msgstr ""
+
+msgid "Light Mode"
+msgstr "Modo Claro"
+
+msgid "Limit exceeded."
+msgstr "Limite excedido."
+
+msgid "Line Chart"
+msgstr "Gráfico de Linha"
+
+msgid "Linked Identities"
+msgstr ""
+
+msgid "Linked:"
+msgstr ""
+
+msgid "List all available filters"
+msgstr ""
+
+msgid "List all available hooks"
+msgstr ""
+
+msgid "List extension points"
+msgstr ""
+
+msgid "Loading builder..."
+msgstr ""
+
+msgid "Loading extensions..."
+msgstr ""
+
+msgid "Loading..."
+msgstr "Carregando..."
+
+msgid "Local AI"
+msgstr "IA Local"
+
+msgid "Local AI (Offline)"
+msgstr ""
+
+msgid "Local Heuristics"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Login Page Customization"
+msgstr ""
+
+msgid "Login with %s"
+msgstr "Entrar com %s"
+
 msgid "Logs"
-msgstr "Logs"
+msgstr ""
 
-msgid "Log Type"
-msgstr "Tipo de Log"
+msgid "Mailchimp"
+msgstr "Mailchimp"
+
+msgid "Main file is required"
+msgstr ""
+
+msgid "Make optional"
+msgstr ""
+
+msgid "Make required"
+msgstr ""
+
+msgid "Manage Sites"
+msgstr ""
+
+msgid "Mapping saved successfully."
+msgstr ""
+
+msgid "Marketing Qualified Lead"
+msgstr ""
+
+msgid "Marketplace"
+msgstr "Marketplace"
+
+msgid "Max Concurrent Sessions"
+msgstr ""
+
+msgid "Max Length"
+msgstr ""
+
+msgid "Max Retries"
+msgstr ""
+
+msgid "Maximum Sites"
+msgstr ""
+
+msgid "Maximum length is %d characters."
+msgstr "O comprimento máximo é %d caracteres."
+
+msgid "Maximum number of retry attempts."
+msgstr ""
+
+msgid "Maximum value is %d."
+msgstr "O valor máximo é %d."
+
+msgid "Medium"
+msgstr "Médio"
+
+msgid "Memcached"
+msgstr ""
+
+msgid "Memcached Available"
+msgstr ""
+
+msgid "Memcached extension found but initialization failed: %s"
+msgstr ""
+
+msgid "Memcached extension is installed and available."
+msgstr ""
+
+msgid "Memcached extension is not installed."
+msgstr ""
 
 msgid "Message"
 msgstr "Mensagem"
 
-msgid "User"
-msgstr "Usuário"
+msgid "Messages"
+msgstr ""
 
-msgid "Date"
-msgstr "Data"
+msgid "Metadata URL:"
+msgstr ""
 
-msgid "Clear Logs"
-msgstr "Limpar Logs"
+msgid "Method"
+msgstr ""
 
-msgid "Error"
-msgstr "Erro"
+msgid "Microsoft"
+msgstr "Microsoft"
 
-msgid "Warning"
-msgstr "Aviso"
+msgid "Microsoft Teams"
+msgstr "Microsoft Teams"
 
-msgid "Info"
-msgstr "Informação"
+msgid "Minimal UI"
+msgstr "Interface Mínima"
 
-msgid "Debug"
-msgstr "Debug"
+msgid "Minimum length is %d characters."
+msgstr "O comprimento mínimo é %d caracteres."
 
-# Archive
-msgid "Archive"
-msgstr "Arquivo"
+msgid "Minimum value is %d."
+msgstr "O valor mínimo é %d."
 
-msgid "Archived Submissions"
-msgstr "Envios Arquivados"
+msgid "Missing required fields."
+msgstr "Campos obrigatórios faltando."
 
-msgid "Restore"
-msgstr "Restaurar"
+msgid "Monthly"
+msgstr "Mensal"
 
-msgid "Permanently Delete"
-msgstr "Excluir Permanentemente"
+msgid "Most Popular"
+msgstr ""
 
-msgid "Archived on %s"
-msgstr "Arquivado em %s"
+msgid "Most active forms"
+msgstr ""
 
-# Cache
-msgid "Cache cleared successfully"
-msgstr "Cache limpo com sucesso"
+msgid "Most capable model for complex tasks."
+msgstr ""
 
-msgid "Clear Cache"
-msgstr "Limpar Cache"
+msgid "Move Down"
+msgstr "Mover para Baixo"
 
-msgid "Cache Statistics"
-msgstr "Estatísticas do Cache"
+msgid "Move Up"
+msgstr "Mover para Cima"
 
-msgid "Hit Rate"
-msgstr "Taxa de Acerto"
+msgid "Multi-Select"
+msgstr "Seleção Múltipla"
 
-msgid "Miss Rate"
-msgstr "Taxa de Falha"
+msgid "My Extensions"
+msgstr "Minhas Extensões"
 
-msgid "Total Entries"
-msgstr "Total de Entradas"
+msgid "MySQL Version"
+msgstr ""
 
-# Queue
-msgid "Queue Manager"
-msgstr "Gerenciador de Fila"
+msgid "Name"
+msgstr "Nome"
 
-msgid "Job Type"
-msgstr "Tipo de Trabalho"
+msgid "Name should not contain numbers."
+msgstr ""
 
-msgid "Priority"
-msgstr "Prioridade"
+msgid "Need a License?"
+msgstr ""
 
-msgid "Attempts"
-msgstr "Tentativas"
+msgid "Network"
+msgstr "Rede"
 
-msgid "Completed"
-msgstr "Concluído"
+msgid "Network Activated"
+msgstr ""
 
-msgid "Failed"
-msgstr "Falhou"
+msgid "Network Activation"
+msgstr ""
 
-msgid "Retry"
-msgstr "Tentar Novamente"
+msgid "Network Dashboard"
+msgstr "Painel da Rede"
+
+msgid "Network First"
+msgstr "Rede Primeiro"
+
+msgid "Network License"
+msgstr "Licença da Rede"
+
+msgid "Network License Key"
+msgstr ""
+
+msgid "Network Settings"
+msgstr "Configurações da Rede"
+
+msgid "Network error. Please check your connection."
+msgstr "Erro de rede. Por favor, verifique sua conexão."
+
+msgid "Network licenses allow you to use FormFlow Pro across your entire WordPress multisite network."
+msgstr ""
+
+msgid "New"
+msgstr "Novo"
+
+msgid "New Form Submission"
+msgstr ""
+
+msgid "New Form Submission: %s (#%d)"
+msgstr ""
+
+msgid "New FormFlow Submission #%d"
+msgstr ""
+
+msgid "New Submission: %s"
+msgstr ""
+
+msgid "New backup codes generated."
+msgstr ""
+
+msgid "New item"
+msgstr ""
+
+msgid "Newest"
+msgstr ""
+
+msgid "Next"
+msgstr "Próximo"
+
+msgid "No"
+msgstr "Não"
+
+msgid "No AI provider configured."
+msgstr ""
+
+msgid "No Forms Yet"
+msgstr ""
+
+msgid "No IP rules configured."
+msgstr ""
+
+msgid "No License"
+msgstr ""
+
+msgid "No SAML response received"
+msgstr ""
+
+msgid "No SSO identities linked to this account."
+msgstr ""
+
+msgid "No SSO users found."
+msgstr ""
+
+msgid "No access token received."
+msgstr ""
+
+msgid "No authorization code received"
+msgstr ""
+
+msgid "No blocked IPs."
+msgstr ""
+
+msgid "No content provided."
+msgstr ""
+
+msgid "No data available."
+msgstr ""
+
+msgid "No extensions installed yet."
+msgstr ""
+
+msgid "No forms found."
+msgstr "Nenhum formulário encontrado."
+
+msgid "No import data provided."
+msgstr ""
+
+msgid "No logs found."
+msgstr ""
+
+msgid "No privacy requests."
+msgstr ""
+
+msgid "No recent activity"
+msgstr ""
+
+msgid "No spreadsheet ID configured."
+msgstr ""
+
+msgid "No submissions found to export."
+msgstr ""
+
+msgid "No submissions found."
+msgstr "Nenhum envio encontrado."
+
+msgid "No submissions selected."
+msgstr ""
+
+msgid "No submissions yet."
+msgstr ""
+
+msgid "No text provided."
+msgstr ""
+
+msgid "No trusted devices."
+msgstr ""
+
+msgid "No webhook URL configured."
+msgstr ""
+
+msgid "None"
+msgstr "Nenhum"
+
+msgid "Normal"
+msgstr ""
+
+msgid "Not Configured"
+msgstr ""
+
+msgid "Not Contains"
+msgstr "Não Contém"
+
+msgid "Not Equals"
+msgstr "Diferente de"
+
+msgid "Not Installed"
+msgstr "Não Instalado"
+
+msgid "Not authenticated."
+msgstr ""
+
+msgid "Not found."
+msgstr "Não encontrado."
+
+msgid "Notification"
+msgstr "Notificação"
+
+msgid "Notification Center"
+msgstr ""
+
+msgid "Notification Email"
+msgstr ""
+
+msgid "Notification Settings"
+msgstr "Configurações de Notificação"
+
+msgid "Notification Template"
+msgstr "Modelo de Notificação"
+
+msgid "Notifications"
+msgstr "Notificações"
+
+msgid "Number"
+msgstr "Número"
+
+msgid "Number Format"
+msgstr ""
+
+msgid "Number of jobs to process per batch"
+msgstr ""
+
+msgid "Number of submissions to display per page"
+msgstr ""
+
+msgid "Number of times to retry failed jobs"
+msgstr ""
+
+msgid "OAuth 2.0"
+msgstr "OAuth 2.0"
+
+msgid "OAuth 2.0 (User consent)"
+msgstr ""
+
+msgid "OAuth2 configuration is valid"
+msgstr ""
+
+msgid "OAuth2 provider not available"
+msgstr ""
+
+msgid "OAuth2 provider not configured"
+msgstr ""
+
+msgid "OAuth2/OIDC"
+msgstr ""
+
+msgid "OAuth2/OpenID Connect Providers"
+msgstr ""
+
+msgid "Object Cache"
+msgstr ""
+
+msgid "Offline Support"
+msgstr "Suporte Offline"
+
+msgid "Okta"
+msgstr "Okta"
+
+msgid "One domain per line. Leave empty to allow all domains."
+msgstr ""
+
+msgid "One domain per line. Users from these domains will be blocked."
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Open Deal"
+msgstr ""
+
+msgid "Open in Autentique"
+msgstr "Abrir no Autentique"
+
+msgid "OpenAI"
+msgstr "OpenAI"
+
+msgid "OpenAI API Key"
+msgstr "Chave API OpenAI"
+
+msgid "OpenAI API key not configured."
+msgstr ""
+
+msgid "OpenID Connect"
+msgstr "OpenID Connect"
+
+msgid "Operation completed successfully."
+msgstr "Operação concluída com sucesso."
+
+msgid "Operator is required."
+msgstr ""
+
+msgid "Opportunity"
+msgstr ""
+
+msgid "Optimize"
+msgstr ""
+
+msgid "Optimize database tables and clean up old data."
+msgstr ""
+
+msgid "Option"
+msgstr "Opção"
+
+msgid "Option 1"
+msgstr ""
+
+msgid "Option 2"
+msgstr ""
+
+msgid "Optional"
+msgstr "Opcional"
+
+msgid "Optional description"
+msgstr ""
+
+msgid "Options"
+msgstr "Opções"
+
+msgid "Or"
+msgstr "Ou"
+
+msgid "Or enter this code manually:"
+msgstr ""
+
+msgid "Or sign in with:"
+msgstr "Ou entre com:"
+
+msgid "Orientation"
+msgstr "Orientação"
+
+msgid "Overview"
+msgstr ""
+
+msgid "Overwrite existing items"
+msgstr ""
+
+msgid "PDF Report"
+msgstr "Relatório em PDF"
+
+msgid "PHP"
+msgstr "PHP"
+
+msgid "PHP Max Upload Size"
+msgstr ""
+
+msgid "PHP Memory Limit"
+msgstr ""
+
+msgid "PHP Post Max Size"
+msgstr ""
+
+msgid "PHP Version"
+msgstr ""
+
+msgid "PHP date format for timestamps."
+msgstr ""
+
+msgid "PWA"
+msgstr "PWA"
+
+msgid "PWA Settings"
+msgstr "Configurações do PWA"
+
+msgid "Padding"
+msgstr ""
+
+msgid "Page Break"
+msgstr "Quebra de Página"
+
+msgid "Parameter 1"
+msgstr ""
+
+msgid "Parameter 2"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Password"
+msgstr "Senha"
+
+msgid "Password + Security Token"
+msgstr ""
+
+msgid "Paste your API key in the field above"
+msgstr ""
+
+msgid "Paste your service account JSON key (for service account auth)."
+msgstr ""
+
+msgid "PayPal"
+msgstr "PayPal"
+
+msgid "Payment"
+msgstr "Pagamento"
+
+msgid "Payment Failed"
+msgstr "Pagamento Falhou"
+
+msgid "Payment Method"
+msgstr "Método de Pagamento"
+
+msgid "Payment Methods"
+msgstr "Métodos de Pagamento"
+
+msgid "Payment Pending"
+msgstr "Pagamento Pendente"
+
+msgid "Payment Settings"
+msgstr "Configurações de Pagamento"
+
+msgid "Payment Successful"
+msgstr "Pagamento Realizado"
+
+msgid "Payments"
+msgstr "Pagamentos"
+
+msgid "Peak hours for submissions"
+msgstr ""
+
+msgid "Pending"
+msgstr "Pendente"
+
+msgid "Pending Jobs"
+msgstr ""
+
+msgid "Pending Signature"
+msgstr "Pendente de Assinatura"
+
+msgid "Pending Signatures"
+msgstr ""
+
+msgid "Pending requests"
+msgstr ""
+
+msgid "Performance"
+msgstr ""
+
+msgid "Performs a custom action"
+msgstr ""
+
+msgid "Period Comparison"
+msgstr ""
+
+msgid "Period Comparison Chart"
+msgstr ""
+
+msgid "Permission denied"
+msgstr ""
+
+msgid "Permission denied."
+msgstr "Permissão negada."
+
+msgid "Permissions"
+msgstr "Permissões"
+
+msgid "Personal Data Export"
+msgstr ""
+
+msgid "Phone"
+msgstr "Telefone"
+
+msgid "Pie Chart"
+msgstr "Gráfico de Pizza"
+
+msgid "Placeholder"
+msgstr "Texto de exemplo"
+
+msgid "Placeholder Color"
+msgstr ""
+
+msgid "Plain (1234)"
+msgstr ""
+
+msgid "Please configure a webhook URL first."
+msgstr ""
+
+msgid "Please configure all required fields first."
+msgstr ""
+
+msgid "Please configure authentication first."
+msgstr ""
+
+msgid "Please configure your Autentique API key in settings to start using digital signatures."
+msgstr "Por favor, configure sua chave API do Autentique nas configurações para começar a usar assinaturas digitais."
+
+msgid "Please enter a complete address."
+msgstr ""
+
+msgid "Please enter a real phone number."
+msgstr ""
+
+msgid "Please enter a valid URL."
+msgstr "Por favor, digite uma URL válida."
+
+msgid "Please enter a valid date."
+msgstr "Por favor, digite uma data válida."
+
+msgid "Please enter a valid email address."
+msgstr "Por favor, digite um endereço de e-mail válido."
+
+msgid "Please enter a valid number."
+msgstr "Por favor, digite um número válido."
+
+msgid "Please enter a valid phone number."
+msgstr "Por favor, digite um número de telefone válido."
+
+msgid "Please enter your full name."
+msgstr ""
+
+msgid "Please enter your license key"
+msgstr ""
+
+msgid "Please enter your real name."
+msgstr ""
+
+msgid "Please log in again."
+msgstr "Por favor, faça login novamente."
+
+msgid "Please provide a valid email address."
+msgstr ""
+
+msgid "Please review and sign this document."
+msgstr ""
+
+msgid "Please select a file first."
+msgstr ""
+
+msgid "Please select a form to display."
+msgstr "Por favor, selecione um formulário para exibir."
+
+msgid "Please select a valid JSON file."
+msgstr ""
+
+msgid "Please select at least one option."
+msgstr "Por favor, selecione pelo menos uma opção."
+
+msgid "Please select at most %d options."
+msgstr "Por favor, selecione no máximo %d opções."
+
+msgid "Please specify a form ID"
+msgstr ""
+
+msgid "Please use a permanent email address."
+msgstr ""
+
+msgid "Plugin Activation Error"
+msgstr "Erro de Ativação do Plugin"
+
+msgid "Plugin Active"
+msgstr ""
+
+msgid "Plugin Inactive"
+msgstr ""
+
+msgid "Plugin Name"
+msgstr ""
+
+msgid "Plugin Settings"
+msgstr ""
+
+msgid "Plugin Version"
+msgstr ""
+
+msgid "Popular"
+msgstr "Popular"
+
+msgid "Port"
+msgstr ""
+
+msgid "Portal ID"
+msgstr ""
+
+msgid "Portrait"
+msgstr "Retrato"
+
+msgid "Postal Code"
+msgstr ""
+
+msgid "Premium"
+msgstr "Premium"
+
+msgid "Press %s to open command palette"
+msgstr "Pressione %s para abrir a paleta de comandos"
+
+msgid "Preview"
+msgstr "Pré-visualizar"
+
+msgid "Preview:"
+msgstr ""
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Previous Period"
+msgstr ""
+
+msgid "Price"
+msgstr "Preço"
+
+msgid "Primary Button"
+msgstr ""
+
+msgid "Primary Color"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr "Política de Privacidade"
+
+msgid "Privacy Requests"
+msgstr ""
+
+msgid "Private App (Recommended)"
+msgstr ""
+
+msgid "Private App access token from HubSpot."
+msgstr ""
+
+msgid "Pro"
+msgstr "Pro"
+
+msgid "Process tasks in background for better performance"
+msgstr ""
 
 msgid "Processing"
 msgstr "Processando"
 
-# Webhook
-msgid "Webhook received"
-msgstr "Webhook recebido"
+msgid "Processing Performance"
+msgstr ""
 
-msgid "Invalid webhook payload"
-msgstr "Payload do webhook inválido"
+msgid "Processing Time Over Time"
+msgstr ""
 
-msgid "Webhook processed successfully"
-msgstr "Webhook processado com sucesso"
+msgid "Processing..."
+msgstr ""
 
-# Help
-msgid "Documentation"
-msgstr "Documentação"
+msgid "Progressive Web App"
+msgstr "Aplicativo Web Progressivo"
+
+msgid "Protect your account with two-factor authentication."
+msgstr ""
+
+msgid "Provider"
+msgstr ""
+
+msgid "Provider Name"
+msgstr ""
+
+msgid "Published"
+msgstr "Publicado"
+
+msgid "Push"
+msgstr ""
+
+msgid "Push Notifications"
+msgstr "Notificações Push"
+
+msgid "Quarterly"
+msgstr "Trimestral"
+
+msgid "Queue"
+msgstr ""
+
+msgid "Queue Configuration"
+msgstr ""
+
+msgid "Queue Processor"
+msgstr ""
+
+msgid "Queue Status"
+msgstr ""
+
+msgid "Quick Actions"
+msgstr "Ações Rápidas"
+
+msgid "Quick Setup"
+msgstr ""
+
+msgid "Quick Start"
+msgstr ""
+
+msgid "REST API"
+msgstr ""
+
+msgid "REST API Reference"
+msgstr ""
+
+msgid "Radio"
+msgstr "Botão de Opção"
+
+msgid "Range"
+msgstr "Intervalo"
+
+msgid "Rate Limiting"
+msgstr "Limitação de Taxa"
+
+msgid "Rate limit exceeded."
+msgstr ""
+
+msgid "Rate limit exceeded. Please try again later."
+msgstr ""
+
+msgid "Rate limit exceeded. Please wait."
+msgstr "Limite de requisições excedido. Por favor, aguarde."
+
+msgid "Rating"
+msgstr "Avaliação"
+
+msgid "Real-time"
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "Receipt"
+msgstr "Recibo"
+
+msgid "Recent Activity"
+msgstr "Atividade Recente"
+
+msgid "Recent Submissions"
+msgstr ""
+
+msgid "Recipients"
+msgstr "Destinatários"
+
+msgid "Recommended for production. Significantly improves performance."
+msgstr ""
+
+msgid "Record already exists, skipped."
+msgstr ""
+
+msgid "Redirect After Login"
+msgstr ""
+
+msgid "Redirect After Logout"
+msgstr ""
+
+msgid "Redirect URI"
+msgstr "URI de Redirecionamento"
+
+msgid "Redirect URL"
+msgstr ""
+
+msgid "Redirect to URL"
+msgstr ""
+
+msgid "Redirect to this URL after successful submission (leave empty to stay on page)"
+msgstr ""
+
+msgid "Redis"
+msgstr ""
+
+msgid "Redis Available"
+msgstr ""
+
+msgid "Redis extension found but connection failed: %s"
+msgstr ""
+
+msgid "Redis extension is installed and available."
+msgstr ""
+
+msgid "Redis extension is not installed."
+msgstr ""
+
+msgid "Redo"
+msgstr ""
+
+msgid "Refresh"
+msgstr "Atualizar"
+
+msgid "Refund"
+msgstr "Reembolso"
+
+msgid "Refunded"
+msgstr "Reembolsado"
+
+msgid "Refused"
+msgstr "Recusado"
+
+msgid "Regenerate Backup Codes"
+msgstr ""
+
+msgid "Register custom PDF templates"
+msgstr ""
+
+msgid "Register custom SSO providers"
+msgstr ""
+
+msgid "Register custom analytics widgets"
+msgstr ""
+
+msgid "Register custom components using these extension points."
+msgstr ""
+
+msgid "Register custom email templates"
+msgstr ""
+
+msgid "Register custom form field types"
+msgstr ""
+
+msgid "Register custom integrations"
+msgstr ""
+
+msgid "Register custom notification channels"
+msgstr ""
+
+msgid "Register custom payment gateways"
+msgstr ""
+
+msgid "Register custom workflow actions"
+msgstr ""
+
+msgid "Register custom workflow triggers"
+msgstr ""
+
+msgid "Registration Function:"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Remember this device for 30 days"
+msgstr ""
+
+msgid "Reminder: Please sign the document \"%s\""
+msgstr "Lembrete: Por favor, assine o documento \"%s\""
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "Remove Powered By"
+msgstr ""
+
+msgid "Remove all cached data. Use if experiencing issues."
+msgstr ""
+
+msgid "Repeater"
+msgstr "Repetidor"
+
+msgid "Report"
+msgstr "Relatório"
+
+msgid "Report History"
+msgstr "Histórico de Relatórios"
+
+msgid "Report Settings"
+msgstr "Configurações do Relatório"
+
+msgid "Report Template"
+msgstr "Modelo de Relatório"
+
+msgid "Reports"
+msgstr "Relatórios"
+
+msgid "Request ID"
+msgstr ""
+
+msgid "Request created. Please check your email to verify."
+msgstr ""
+
+msgid "Request not found"
+msgstr ""
+
+msgid "Require Autentique digital signature"
+msgstr ""
+
+msgid "Require SSO for all users (disable local login)"
+msgstr ""
+
+msgid "Require signed assertions from IdP"
+msgstr ""
+
+msgid "Required"
+msgstr "Obrigatório"
+
+msgid "Resend Link"
+msgstr "Reenviar Link"
+
+msgid "Resend code"
+msgstr ""
+
+msgid "Reset"
+msgstr "Redefinir"
+
+msgid "Reset to Defaults"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Restore"
+msgstr "Restaurar"
+
+msgid "Retry Attempts"
+msgstr ""
+
+msgid "Retry Delay (seconds)"
+msgstr ""
+
+msgid "Retry Failed Webhooks"
+msgstr ""
+
+msgid "Returns"
+msgstr ""
+
+msgid "Review Pending Signatures"
+msgstr ""
+
+msgid "Reviews"
+msgstr "Avaliações"
+
+msgid "Revoke"
+msgstr ""
+
+msgid "Role"
+msgstr "Função"
+
+msgid "Roles"
+msgstr "Funções"
+
+msgid "Rows"
+msgstr ""
+
+msgid "Rule Type"
+msgstr ""
+
+msgid "Rule-based analysis without API calls."
+msgstr ""
+
+msgid "Running"
+msgstr ""
+
+msgid "SAML 2.0"
+msgstr "SAML 2.0"
+
+msgid "SAML 2.0 Configuration"
+msgstr ""
+
+msgid "SAML configuration is valid. Use the login button to test authentication."
+msgstr ""
+
+msgid "SAML provider not configured"
+msgstr ""
+
+msgid "SDK Endpoints"
+msgstr ""
+
+msgid "SLO URL:"
+msgstr ""
+
+msgid "SMS"
+msgstr ""
+
+msgid "SMS Notifications"
+msgstr "Notificações por SMS"
+
+msgid "SSO"
+msgstr "SSO"
+
+msgid "SSO Configuration"
+msgstr ""
+
+msgid "SSO Error:"
+msgstr "Erro de SSO:"
+
+msgid "SSO Logs"
+msgstr ""
+
+msgid "SSO Provider"
+msgstr "Provedor de SSO"
+
+msgid "SSO Providers"
+msgstr "Provedores de SSO"
+
+msgid "SSO Settings"
+msgstr "Configurações de SSO"
+
+msgid "SSO Users"
+msgstr ""
+
+msgid "SSO authentication failed."
+msgstr "Autenticação SSO falhou."
+
+msgid "SSO session expired."
+msgstr "Sessão SSO expirada."
+
+msgid "Sales Qualified Lead"
+msgstr ""
+
+msgid "Salesforce"
+msgstr "Salesforce"
+
+msgid "Salesforce integration is not configured or enabled."
+msgstr ""
+
+msgid "Salesforce user email for API access."
+msgstr ""
+
+msgid "Sandbox Environment"
+msgstr ""
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "Save Form"
+msgstr ""
+
+msgid "Save LDAP Settings"
+msgstr ""
+
+msgid "Save License"
+msgstr ""
+
+msgid "Save Network Settings"
+msgstr ""
+
+msgid "Save Provider"
+msgstr ""
+
+msgid "Save SAML Settings"
+msgstr ""
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Save Template"
+msgstr ""
+
+msgid "Save White Label Settings"
+msgstr ""
+
+msgid "Save Your Backup Codes"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Saved!"
+msgstr ""
+
+msgid "Saving..."
+msgstr "Salvando..."
+
+msgid "Scaffold"
+msgstr ""
+
+msgid "Scan QR Code"
+msgstr ""
+
+msgid "Scan this QR code with your authenticator app:"
+msgstr ""
+
+msgid "Schedule Report"
+msgstr "Agendar Relatório"
+
+msgid "Scheduled Reports"
+msgstr "Relatórios Agendados"
+
+msgid "Scope"
+msgstr ""
+
+msgid "Scopes"
+msgstr ""
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Search extensions..."
+msgstr ""
+
+msgid "Search..."
+msgstr ""
+
+msgid "Secondary Button"
+msgstr ""
+
+msgid "Secondary Color"
+msgstr ""
+
+msgid "Security"
+msgstr "Segurança"
+
+msgid "Security Alert Emails"
+msgstr ""
+
+msgid "Security Center"
+msgstr ""
+
+msgid "Security Headers"
+msgstr ""
+
+msgid "Security Settings"
+msgstr "Configurações de Segurança"
+
+msgid "Security Status"
+msgstr ""
+
+msgid "Security check failed."
+msgstr ""
+
+msgid "Select"
+msgstr "Seleção"
+
+msgid "Select All"
+msgstr "Selecionar Todos"
+
+msgid "Select Form"
+msgstr ""
+
+msgid "Select Specific Forms (optional)"
+msgstr ""
+
+msgid "Select a form"
+msgstr ""
+
+msgid "Select a form to count submissions (leave empty for all forms)"
+msgstr ""
+
+msgid "Select cache storage method"
+msgstr ""
+
+msgid "Select template..."
+msgstr ""
+
+msgid "Select which FormFlow form to save this submission to"
+msgstr ""
+
+msgid "Select..."
+msgstr "Selecione..."
+
+msgid "Send Email"
+msgstr "Enviar E-mail"
+
+msgid "Send Notification"
+msgstr "Enviar Notificação"
+
+msgid "Send Notification Email"
+msgstr ""
+
+msgid "Send Test"
+msgstr "Enviar Teste"
+
+msgid "Send admin notification on new submission"
+msgstr ""
+
+msgid "Send automatic reminders for pending signatures"
+msgstr ""
+
+msgid "Send code to email"
+msgstr ""
+
+msgid "Send to Autentique for digital signature"
+msgstr ""
+
+msgid "Send user confirmation email"
+msgstr ""
+
+msgid "SendGrid"
+msgstr "SendGrid"
+
+msgid "Sent from:"
+msgstr ""
+
+msgid "Sentiment Analysis"
+msgstr "Análise de Sentimento"
+
+msgid "Sentiment analysis failed."
+msgstr ""
+
+msgid "Server Settings"
+msgstr ""
+
+msgid "Server error. Please try again later."
+msgstr "Erro no servidor. Por favor, tente novamente mais tarde."
+
+msgid "Service Account (Server-to-server)"
+msgstr ""
+
+msgid "Service Account JSON"
+msgstr ""
+
+msgid "Service Provider Metadata"
+msgstr ""
+
+msgid "Service Worker"
+msgstr "Service Worker"
+
+msgid "Service account DN for searching users"
+msgstr ""
+
+msgid "Session Lifetime"
+msgstr ""
+
+msgid "Session Settings"
+msgstr ""
+
+msgid "Session expired."
+msgstr "Sessão expirada."
+
+msgid "Session expired. Please log in again."
+msgstr ""
+
+msgid "Session lifetime in seconds (default: 28800 = 8 hours)"
+msgstr ""
+
+msgid "Session not found"
+msgstr ""
+
+msgid "Session terminated"
+msgstr ""
+
+msgid "Sessions"
+msgstr ""
+
+msgid "Set value"
+msgstr ""
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Settings imported:"
+msgstr ""
+
+msgid "Settings reset to defaults."
+msgstr ""
+
+msgid "Settings saved"
+msgstr ""
+
+msgid "Settings saved successfully."
+msgstr ""
+
+msgid "Settings saved!"
+msgstr ""
+
+msgid "Settings saved."
+msgstr ""
+
+msgid "Setup session expired. Please start again."
+msgstr ""
+
+msgid "Severity"
+msgstr ""
+
+msgid "Share form templates across all sites"
+msgstr ""
+
+msgid "Shared Resources"
+msgstr ""
+
+msgid "Shared Templates"
+msgstr ""
+
+msgid "Short (1.2K)"
+msgstr ""
+
+msgid "Short Name"
+msgstr "Nome Curto"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Shortcode copied!"
+msgstr "Shortcode copiado!"
+
+msgid "Show"
+msgstr ""
+
+msgid "Show Form Description"
+msgstr ""
+
+msgid "Show Form Title"
+msgstr ""
+
+msgid "Show Shortcuts"
+msgstr "Mostrar Atalhos"
+
+msgid "Show field"
+msgstr ""
+
+msgid "Show message"
+msgstr ""
+
+msgid "Show shortcuts"
+msgstr ""
+
+msgid "Show/Hide API Key"
+msgstr ""
+
+msgid "Showing %1$d to %2$d of %3$d items"
+msgstr "Mostrando %1$d a %2$d de %3$d itens"
+
+msgid "Sign Requests"
+msgstr ""
+
+msgid "Sign authentication requests"
+msgstr ""
+
+msgid "Sign in with %s"
+msgstr ""
+
+msgid "Sign in with LDAP"
+msgstr ""
+
+msgid "Sign in with SAML"
+msgstr ""
+
+msgid "Sign in with SSO"
+msgstr ""
+
+msgid "Signature"
+msgstr "Assinatura"
+
+msgid "Signature Reminders"
+msgstr ""
+
+msgid "Signature Status"
+msgstr "Status da Assinatura"
+
+msgid "Signature URL"
+msgstr "URL de Assinatura"
+
+msgid "Signature link resent successfully."
+msgstr "Link de assinatura reenviado com sucesso."
+
+msgid "Signed"
+msgstr "Assinado"
+
+msgid "Signed At"
+msgstr "Assinado em"
+
+msgid "Signer"
+msgstr "Signatário"
+
+msgid "Since"
+msgstr ""
+
+msgid "Single Logout"
+msgstr ""
+
+msgid "Single Logout Service URL (optional)"
+msgstr ""
+
+msgid "Single Sign-On"
+msgstr "Login Único (SSO)"
+
+msgid "Single Sign-On Service URL"
+msgstr ""
+
+msgid "Site"
+msgstr "Site"
+
+msgid "Sites"
+msgstr "Sites"
+
+msgid "Sites Overview"
+msgstr ""
+
+msgid "Size"
+msgstr "Tamanho"
+
+msgid "Slack"
+msgstr "Slack"
+
+msgid "Slack Notifications"
+msgstr "Notificações no Slack"
+
+msgid "Slug"
+msgstr ""
+
+msgid "Small"
+msgstr "Pequeno"
+
+msgid "Smart Validation"
+msgstr "Validação Inteligente"
+
+msgid "Social Icons"
+msgstr ""
+
+msgid "Some items were skipped (already exist)."
+msgstr ""
+
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+msgid "Source field is required."
+msgstr ""
+
+msgid "Space-separated list of scopes"
+msgstr ""
+
+msgid "Spacer"
+msgstr ""
+
+msgid "Spacing"
+msgstr ""
+
+msgid "Spam Detection"
+msgstr "Detecção de Spam"
+
+msgid "Spam Protection"
+msgstr "Proteção contra Spam"
+
+msgid "Stale While Revalidate"
+msgstr "Obsoleto Enquanto Revalida"
+
+msgid "Standalone"
+msgstr "Standalone"
+
+msgid "State"
+msgstr "Estado"
+
+msgid "State/Region"
+msgstr ""
+
+msgid "Statistics"
+msgstr "Estatísticas"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Store these codes in a safe place:"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "Street Address"
+msgstr ""
+
+msgid "Strict IP Checking"
+msgstr ""
+
+msgid "Stripe"
+msgstr "Stripe"
+
+msgid "Style"
+msgstr "Estilo"
+
+msgid "Subject"
+msgstr "Assunto"
+
+msgid "Submission"
+msgstr "Envio"
+
+msgid "Submission Data"
+msgstr "Dados do Envio"
+
+msgid "Submission Date"
+msgstr "Data do Envio"
+
+msgid "Submission Details"
+msgstr ""
+
+msgid "Submission Details:"
+msgstr ""
+
+msgid "Submission ID"
+msgstr "ID do Envio"
+
+msgid "Submission ID and Integration ID required."
+msgstr ""
+
+msgid "Submission ID is required."
+msgstr ""
+
+msgid "Submission ID required."
+msgstr ""
+
+msgid "Submission Status"
+msgstr "Status do Envio"
+
+msgid "Submission deleted successfully."
+msgstr "Envio excluído com sucesso."
+
+msgid "Submission not found."
+msgstr ""
+
+msgid "Submission processing failed"
+msgstr ""
+
+msgid "Submission received and queued for processing"
+msgstr ""
+
+msgid "Submissions"
+msgstr "Envios"
+
+msgid "Submissions (Last 30 Days)"
+msgstr ""
+
+msgid "Submissions Per Page"
+msgstr ""
+
+msgid "Submissions Today"
+msgstr ""
+
+msgid "Submissions Trend"
+msgstr ""
+
+msgid "Submissions older than this will be archived."
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Submit Button"
+msgstr ""
+
+msgid "Submit form without page reload"
+msgstr ""
+
+msgid "Submit to the marketplace for review"
+msgstr ""
+
+msgid "Subscribe"
+msgstr "Assinar"
+
+msgid "Subscriber"
+msgstr "Assinante"
+
+msgid "Subscription"
+msgstr "Assinatura"
+
+msgid "Subscriptions"
+msgstr "Assinaturas"
+
+msgid "Subtotal"
+msgstr "Subtotal"
+
+msgid "Success"
+msgstr "Sucesso"
+
+msgid "Success Message"
+msgstr ""
+
+msgid "Success Rate"
+msgstr ""
+
+msgid "Successfully connected to Google Sheets!"
+msgstr ""
+
+msgid "Successfully connected to LDAP server"
+msgstr ""
 
 msgid "Support"
 msgstr "Suporte"
 
-msgid "Need help? Check our documentation or contact support."
-msgstr "Precisa de ajuda? Confira nossa documentação ou entre em contato com o suporte."
+msgid "Sync"
+msgstr ""
 
-msgid "Get Started"
-msgstr "Começar"
+msgid "Sync All Sites"
+msgstr ""
 
-msgid "Quick Links"
-msgstr "Links Rápidos"
+msgid "Sync Groups/Roles"
+msgstr ""
 
-# Validation
-msgid "This field is required"
-msgstr "Este campo é obrigatório"
+msgid "Sync Profile on Login"
+msgstr ""
 
-msgid "Please enter a valid email address"
-msgstr "Por favor, insira um endereço de email válido"
+msgid "Sync Settings"
+msgstr ""
 
-msgid "Please enter a valid phone number"
-msgstr "Por favor, insira um número de telefone válido"
+msgid "Sync Settings to All"
+msgstr ""
 
-msgid "Please accept the terms and conditions"
-msgstr "Por favor, aceite os termos e condições"
+msgid "Sync completed successfully."
+msgstr ""
 
-# Success Messages
-msgid "Form submitted successfully!"
-msgstr "Formulário enviado com sucesso!"
+msgid "Sync failed."
+msgstr ""
 
-msgid "Your submission has been received."
-msgstr "Seu envio foi recebido."
+msgid "Sync form submissions with HubSpot CRM as Contacts or Deals."
+msgstr ""
 
-msgid "Thank you!"
-msgstr "Obrigado!"
+msgid "Sync form submissions with Salesforce CRM as Leads or Contacts."
+msgstr ""
 
-msgid "Settings saved successfully"
-msgstr "Configurações salvas com sucesso"
+msgid "Sync settings from main site to all subsites"
+msgstr ""
 
-msgid "Form created successfully"
-msgstr "Formulário criado com sucesso"
+msgid "Sync user roles based on IdP group membership"
+msgstr ""
 
-msgid "Form updated successfully"
-msgstr "Formulário atualizado com sucesso"
+msgid "System Health"
+msgstr ""
 
-msgid "Form deleted successfully"
-msgstr "Formulário excluído com sucesso"
+msgid "System Info"
+msgstr ""
+
+msgid "System Information"
+msgstr ""
+
+msgid "System Status"
+msgstr ""
+
+msgid "TEST"
+msgstr ""
+
+msgid "Table"
+msgstr "Tabela"
+
+msgid "Table Name"
+msgstr ""
+
+msgid "Target Form"
+msgstr ""
+
+msgid "Target field is required."
+msgstr ""
+
+msgid "Tax"
+msgstr "Imposto"
+
+msgid "Templates"
+msgstr ""
+
+msgid "Templates imported:"
+msgstr ""
+
+msgid "Temporarily Blocked IPs"
+msgstr ""
+
+msgid "Terminate"
+msgstr ""
+
+msgid "Terminate All Other Sessions"
+msgstr ""
+
+msgid "Terminate session when IP changes"
+msgstr ""
+
+msgid "Terminate this session?"
+msgstr ""
+
+msgid "Terms of Service"
+msgstr "Termos de Serviço"
+
+msgid "Test"
+msgstr ""
+
+msgid "Test Connection"
+msgstr "Testar Conexão"
+
+msgid "Test email sent successfully to %s"
+msgstr ""
+
+msgid "Test email sent successfully."
+msgstr "E-mail de teste enviado com sucesso."
+
+msgid "Test notification sent!"
+msgstr ""
+
+msgid "Test the connection to verify everything is working"
+msgstr ""
+
+msgid "Test webhook sent successfully! Check your Zapier dashboard."
+msgstr ""
+
+msgid "Test your extension thoroughly"
+msgstr ""
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Text Area"
+msgstr "Área de Texto"
+
+msgid "Text Color"
+msgstr ""
+
+msgid "Thank you! Your submission has been received."
+msgstr ""
+
+msgid "The Entity ID of your Identity Provider"
+msgstr ""
+
+msgid "The spreadsheet ID from the Google Sheets URL."
+msgstr ""
+
+msgid "Theme Color"
+msgstr "Cor do Tema"
+
+msgid "Then"
+msgstr "Então"
+
+msgid "These are the devices currently logged into your account."
+msgstr ""
+
+msgid "This Month"
+msgstr "Este Mês"
+
+msgid "This Week"
+msgstr "Esta Semana"
+
+msgid "This Year"
+msgstr ""
+
+msgid "This action cannot be undone."
+msgstr "Esta ação não pode ser desfeita."
+
+msgid "This extension requires FormFlow Pro %s or higher"
+msgstr ""
+
+msgid "This extension requires PHP %s or higher"
+msgstr ""
+
+msgid "This extension requires WordPress %s or higher"
+msgstr ""
+
+msgid "This field is required."
+msgstr "Este campo é obrigatório."
+
+msgid "This is a test email from FormFlow Pro."
+msgstr ""
+
+msgid "This submission has been flagged as potential spam."
+msgstr ""
+
+msgid "Ticket"
+msgstr ""
+
+msgid "Time"
+msgstr "Hora"
+
+msgid "Time:"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "To date"
+msgstr "Até"
+
+msgid "To:"
+msgstr ""
+
+msgid "Today"
+msgstr "Hoje"
+
+msgid "Token URL"
+msgstr ""
+
+msgid "Too many attempts. Please try again later."
+msgstr ""
+
+msgid "Too many failed attempts. Please try again in 15 minutes."
+msgstr ""
+
+msgid "Too many failed login attempts. Please try again in %d minutes."
+msgstr ""
+
+msgid "Tools"
+msgstr "Ferramentas"
+
+msgid "Top Forms"
+msgstr "Formulários Principais"
+
+msgid "Top Sites by Submissions"
+msgstr ""
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Total Documents"
+msgstr "Total de Documentos"
+
+msgid "Total Forms"
+msgstr ""
+
+msgid "Total Requests"
+msgstr ""
+
+msgid "Total Sites"
+msgstr ""
+
+msgid "Total Submissions"
+msgstr "Total de Envios"
+
+msgid "Transaction ID"
+msgstr "ID da Transação"
+
+msgid "Trends"
+msgstr "Tendências"
+
+msgid "Trigger"
+msgstr "Gatilho"
+
+msgid "Triggers"
+msgstr "Gatilhos"
+
+msgid "Trusted Devices"
+msgstr ""
+
+msgid "Twilio"
+msgstr "Twilio"
+
+msgid "Two-Factor Auth"
+msgstr ""
+
+msgid "Two-Factor Authentication"
+msgstr "Autenticação de Dois Fatores"
+
+msgid "Two-factor authentication disabled."
+msgstr ""
+
+msgid "Two-factor authentication enabled successfully!"
+msgstr ""
+
+msgid "Two-factor authentication is enabled"
+msgstr ""
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Type: %s"
+msgstr ""
+
+msgid "URL"
+msgstr "URL"
+
+msgid "URL to redirect users after successful SSO login"
+msgstr ""
+
+msgid "URL to your custom logo image"
+msgstr ""
+
+msgid "Unblock"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Unexpected response from AI."
+msgstr ""
+
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+msgid "Uninstalling..."
+msgstr ""
+
+msgid "Unknown Form"
+msgstr ""
+
+msgid "Unknown cache driver."
+msgstr ""
+
+msgid "Unknown error"
+msgstr ""
+
+msgid "Unlicensed"
+msgstr "Não Licenciado"
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "Unlink"
+msgstr ""
+
+msgid "Unqualified"
+msgstr ""
+
+msgid "Unsaved changes"
+msgstr "Alterações não salvas"
+
+msgid "Unsubscribe"
+msgstr "Cancelar Assinatura"
+
+msgid "Update"
+msgstr "Atualizar"
+
+msgid "Update Available"
+msgstr "Atualização Disponível"
+
+msgid "Update Existing Contacts"
+msgstr ""
+
+msgid "Update Field"
+msgstr "Atualizar Campo"
+
+msgid "Update contact if email already exists."
+msgstr ""
+
+msgid "Update existing"
+msgstr ""
+
+msgid "Update failed."
+msgstr ""
+
+msgid "Update to %s available"
+msgstr ""
+
+msgid "Update user profile with IdP data on each login"
+msgstr ""
+
+msgid "Updated"
+msgstr "Atualizado"
+
+msgid "Updated successfully."
+msgstr ""
+
+msgid "Updating..."
+msgstr ""
+
+msgid "Upload"
+msgstr "Enviar"
+
+msgid "Use Application Passwords or JWT for authentication."
+msgstr ""
+
+msgid "Use PKCE"
+msgstr ""
+
+msgid "Use SSL (LDAPS)"
+msgstr ""
+
+msgid "Use StartTLS"
+msgstr ""
+
+msgid "Use same integration credentials for all sites"
+msgstr ""
+
+msgid "Use sandbox environment for testing. Documents created in sandbox mode are not legally binding. Disable for production use."
+msgstr ""
+
+msgid "Use the Scaffold tool to generate extension boilerplate"
+msgstr ""
+
+msgid "Use these filters to modify data at specific points in FormFlow Pro."
+msgstr ""
+
+msgid "Use these hooks to execute code at specific points in FormFlow Pro."
+msgstr ""
+
+msgid "Use this URL as the redirect/callback URI in your OAuth2 provider configuration."
+msgstr ""
+
+msgid "Used in documents and email templates"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User Email Subject"
+msgstr ""
+
+msgid "User Filter"
+msgstr ""
+
+msgid "User ID Attribute"
+msgstr ""
+
+msgid "User Provisioning"
+msgstr ""
+
+msgid "User Search Settings"
+msgstr ""
+
+msgid "UserInfo URL"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username and password are required"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Users with 2FA enabled"
+msgstr ""
+
+msgid "Utilities"
+msgstr ""
+
+msgid "Valid"
+msgstr "Válido"
+
+msgid "Valid license required to activate premium extension"
+msgstr ""
+
+msgid "Validate extension manifest"
+msgstr ""
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Value for LeadSource field."
+msgstr ""
+
+msgid "Verification Code"
+msgstr "Código de Verificação"
+
+msgid "Verification successful!"
+msgstr ""
+
+msgid "Verify"
+msgstr ""
+
+msgid "Verify & Enable"
+msgstr ""
+
+msgid "Verify Setup"
+msgstr ""
+
+msgid "Verify that your API key is valid and the connection to Autentique is working."
+msgstr ""
+
+msgid "Verify your identity to continue as %s"
+msgstr ""
+
+msgid "Verifying..."
+msgstr ""
+
+msgid "Version"
+msgstr "Versão"
+
+msgid "Version must be in semver format (e.g., 1.0.0)"
+msgstr ""
+
+msgid "Version:"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "View"
+msgstr "Visualizar"
+
+msgid "View All"
+msgstr ""
+
+msgid "View Analytics"
+msgstr ""
+
+msgid "View Documentation"
+msgstr ""
+
+msgid "View Documents"
+msgstr ""
+
+msgid "View Info"
+msgstr ""
+
+msgid "View Pricing"
+msgstr ""
+
+msgid "View Submission"
+msgstr "Ver Envio"
+
+msgid "View name required."
+msgstr ""
+
+msgid "View saved successfully."
+msgstr ""
+
+msgid "View submission: %s"
+msgstr ""
+
+msgid "View system information and debug data."
+msgstr ""
+
+msgid "View updates"
+msgstr ""
+
+msgid "Visit"
+msgstr ""
+
+msgid "Wait"
+msgstr "Aguardar"
+
+msgid "Want Assertions Signed"
+msgstr ""
+
+msgid "Warning"
+msgstr "Aviso"
+
+msgid "Warning:"
+msgstr ""
+
+msgid "Warning: This will permanently delete all forms, submissions, and settings"
+msgstr ""
+
+msgid "Warning: This will reduce the security of your account."
+msgstr ""
+
+msgid "Web Server"
+msgstr ""
+
+msgid "Webhook"
+msgstr "Webhook"
+
+msgid "Webhook Configuration"
+msgstr ""
+
+msgid "Webhook URL"
+msgstr "URL do Webhook"
+
+msgid "Webhook test failed: %s"
+msgstr ""
+
+msgid "Webhooks"
+msgstr ""
+
+msgid "Webhooks imported:"
+msgstr ""
+
+msgid "Website"
+msgstr ""
+
+msgid "Weekly"
+msgstr "Semanal"
+
+msgid "Welcome to FormFlow Pro SDK"
+msgstr ""
+
+msgid "When enabled, signers will automatically receive an email with the signature link. If disabled, documents will be created but you will need to send them manually."
+msgstr ""
+
+msgid "White Label"
+msgstr ""
+
+msgid "White Label Settings"
+msgstr ""
+
+msgid "White label settings saved successfully."
+msgstr ""
+
+msgid "Whitelist (Allow)"
+msgstr ""
+
+msgid "Width"
+msgstr "Largura"
+
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+msgid "WordPress"
+msgstr "WordPress"
+
+msgid "WordPress Memory Limit"
+msgstr ""
+
+msgid "WordPress Transient (Default)"
+msgstr ""
+
+msgid "WordPress Version"
+msgstr ""
+
+msgid "Workflow"
+msgstr "Fluxo de Trabalho"
+
+msgid "Workflow Action"
+msgstr ""
+
+msgid "Workflow Actions"
+msgstr ""
+
+msgid "Workflow Name"
+msgstr "Nome do Fluxo"
+
+msgid "Workflow Status"
+msgstr "Status do Fluxo"
+
+msgid "Workflows"
+msgstr "Fluxos de Trabalho"
+
+msgid "X.509 certificate from your Identity Provider (PEM format)"
+msgstr ""
+
+msgid "Yearly"
+msgstr "Anual"
+
+msgid "Yes"
+msgstr "Sim"
+
+msgid "You have %d backup codes remaining."
+msgstr ""
+
+msgid "Your Autentique integration is ready to use."
+msgstr ""
+
+msgid "Your HubSpot Portal ID (optional, auto-detected)."
+msgstr ""
+
+msgid "Your IP address has been temporarily blocked."
+msgstr ""
+
+msgid "Your Salesforce instance URL (e.g., https://yourcompany.salesforce.com)."
+msgstr ""
+
+msgid "Your Two-Factor Authentication"
+msgstr ""
+
+msgid "Your password concatenated with security token."
+msgstr ""
+
+msgid "ZIP Code"
+msgstr "CEP"
+
+msgid "Zapier"
+msgstr "Zapier"
+
+msgid "Zapier integration is not enabled."
+msgstr ""
+
+msgid "[%s] Verify your %s request"
+msgstr ""
+
+msgid "[%s] Your data export is ready"
+msgstr ""
+
+msgid "[%s] Your data has been deleted"
+msgstr ""
+
+msgid "[%s] Your verification code"
+msgstr ""
+
+msgid "admin@example.com"
+msgstr ""
+
+msgid "ago"
+msgstr "atrás"
+
+msgid "by %s"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "data correction"
+msgstr ""
+
+msgid "data deletion"
+msgstr ""
+
+msgid "data export"
+msgstr ""
+
+msgid "days"
+msgstr "dias"
+
+msgid "does not contain"
+msgstr ""
+
+msgid "does not equal"
+msgstr ""
+
+msgid "ends with"
+msgstr ""
+
+msgid "equals"
+msgstr ""
+
+msgid "from now"
+msgstr "a partir de agora"
+
+msgid "hours"
+msgstr "horas"
+
+msgid "https://your-link.com"
+msgstr ""
+
+msgid "is between"
+msgstr ""
+
+msgid "is checked"
+msgstr ""
+
+msgid "is empty"
+msgstr ""
+
+msgid "is greater than"
+msgstr ""
+
+msgid "is less than"
+msgstr ""
+
+msgid "is not checked"
+msgstr ""
+
+msgid "is not empty"
+msgstr ""
+
+msgid "key1=value1
+key2=value2"
+msgstr ""
+
+msgid "matches pattern"
+msgstr ""
+
+msgid "minutes"
+msgstr "minutos"
+
+msgid "months"
+msgstr "meses"
+
+msgid "or"
+msgstr ""
+
+msgid "processing restriction"
+msgstr ""
+
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+msgid "seconds"
+msgstr "segundos"
+
+msgid "starts with"
+msgstr ""
+
+msgid "vs previous"
+msgstr ""
+
+msgid "weeks"
+msgstr "semanas"
+
+msgid "years"
+msgstr "anos"
+
+msgid "← Back to login"
+msgstr ""
