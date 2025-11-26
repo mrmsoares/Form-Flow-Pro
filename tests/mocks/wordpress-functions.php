@@ -987,6 +987,14 @@ if (!function_exists('esc_html')) {
     }
 }
 
+if (!function_exists('wp_kses_post')) {
+    function wp_kses_post($data)
+    {
+        // Simplified mock - allows basic HTML tags commonly used in posts
+        return strip_tags($data, '<a><b><strong><i><em><p><br><ul><ol><li><h1><h2><h3><h4><h5><h6><blockquote><span><div><table><tr><td><th><thead><tbody>');
+    }
+}
+
 if (!function_exists('__return_true')) {
     function __return_true()
     {

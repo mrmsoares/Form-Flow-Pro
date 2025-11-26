@@ -25,6 +25,11 @@ class AutomationManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Reset wpdb mock data (including insert_id) before tests
+        global $wpdb;
+        if ($wpdb && method_exists($wpdb, 'clear_mock_data')) {
+            $wpdb->clear_mock_data();
+        }
         // Reset all related singletons for clean state
         $this->resetAllSingletons();
     }
