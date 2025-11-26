@@ -1,0 +1,1506 @@
+/**
+ * FormFlow Pro - Automation Builder Styles
+ *
+ * Styles for the visual workflow/automation builder
+ *
+ * @package FormFlowPro
+ * @since 3.0.0
+ */
+
+/* ==================== Builder Container ==================== */
+
+.ffp-automation-builder {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+    min-height: 600px;
+    background: #f0f0f1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== Toolbar ==================== */
+
+.ffp-builder-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dcdcde;
+    flex-shrink: 0;
+}
+
+.ffp-toolbar-left,
+.ffp-toolbar-center,
+.ffp-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ffp-toolbar-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.ffp-workflow-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    transition: all 0.2s ease;
+    min-width: 200px;
+    text-align: center;
+}
+
+.ffp-workflow-name:hover {
+    background: #f6f7f7;
+    border-color: #dcdcde;
+}
+
+.ffp-workflow-name:focus {
+    outline: none;
+    background: #fff;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.ffp-toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1d2327;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ffp-toolbar-btn:hover {
+    background: #f0f0f1;
+    border-color: #c3c4c7;
+}
+
+.ffp-toolbar-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ffp-toolbar-btn.ffp-btn-primary {
+    color: #fff;
+    background: #2271b1;
+    border-color: #2271b1;
+}
+
+.ffp-toolbar-btn.ffp-btn-primary:hover {
+    background: #135e96;
+    border-color: #135e96;
+}
+
+.ffp-toolbar-btn.ffp-btn-success {
+    color: #fff;
+    background: #00a32a;
+    border-color: #00a32a;
+}
+
+.ffp-toolbar-btn.ffp-btn-success:hover {
+    background: #008a20;
+    border-color: #008a20;
+}
+
+.ffp-toolbar-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.ffp-toolbar-separator {
+    width: 1px;
+    height: 24px;
+    background: #dcdcde;
+    margin: 0 4px;
+}
+
+.ffp-zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.ffp-zoom-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #646970;
+    transition: all 0.2s ease;
+}
+
+.ffp-zoom-btn:hover {
+    background: #fff;
+    color: #2271b1;
+}
+
+.ffp-zoom-level {
+    min-width: 45px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1d2327;
+}
+
+/* ==================== Main Content Area ==================== */
+
+.ffp-builder-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ==================== Node Palette (Left Sidebar) ==================== */
+
+.ffp-node-palette {
+    width: 260px;
+    background: #fff;
+    border-right: 1px solid #dcdcde;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.ffp-palette-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.ffp-palette-search {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #f6f7f7;
+    transition: all 0.2s ease;
+}
+
+.ffp-palette-search:focus {
+    outline: none;
+    background: #fff;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.ffp-palette-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.ffp-palette-group {
+    margin-bottom: 16px;
+}
+
+.ffp-palette-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #646970;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 8px 4px;
+    margin: 0;
+}
+
+.ffp-palette-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ffp-palette-node {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    cursor: grab;
+    transition: all 0.2s ease;
+}
+
+.ffp-palette-node:hover {
+    background: #fff;
+    border-color: #2271b1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.ffp-palette-node:active {
+    cursor: grabbing;
+}
+
+.ffp-palette-node.dragging {
+    opacity: 0.5;
+}
+
+.ffp-palette-node-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.ffp-palette-node-icon .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #fff;
+}
+
+.ffp-palette-node-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ffp-palette-node-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1d2327;
+    margin: 0 0 2px 0;
+}
+
+.ffp-palette-node-desc {
+    font-size: 11px;
+    color: #646970;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Node Type Colors */
+.ffp-node-type-trigger .ffp-palette-node-icon,
+.ffp-node-start { background: #00a32a; }
+
+.ffp-node-type-flow .ffp-palette-node-icon,
+.ffp-node-end { background: #d63638; }
+
+.ffp-node-type-condition .ffp-palette-node-icon,
+.ffp-node-condition { background: #dba617; }
+
+.ffp-node-type-loop .ffp-palette-node-icon,
+.ffp-node-loop { background: #8c5cb7; }
+
+.ffp-node-type-delay .ffp-palette-node-icon,
+.ffp-node-delay { background: #646970; }
+
+.ffp-node-type-variable .ffp-palette-node-icon,
+.ffp-node-set_variable { background: #3582c4; }
+
+.ffp-node-type-transform .ffp-palette-node-icon,
+.ffp-node-transform { background: #1e88e5; }
+
+.ffp-node-type-action .ffp-palette-node-icon { background: #2271b1; }
+
+.ffp-node-send_email { background: #2271b1; }
+.ffp-node-send_sms { background: #00a0d2; }
+.ffp-node-http_request { background: #e65100; }
+.ffp-node-database_query { background: #6b4fbb; }
+.ffp-node-create_pdf { background: #b32d2e; }
+.ffp-node-send_signature { background: #0073aa; }
+
+/* ==================== Canvas ==================== */
+
+.ffp-builder-canvas {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f1;
+}
+
+.ffp-canvas-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.ffp-canvas-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.ffp-canvas-svg path,
+.ffp-canvas-svg line {
+    pointer-events: stroke;
+}
+
+.ffp-canvas-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(to right, #dcdcde 1px, transparent 1px),
+        linear-gradient(to bottom, #dcdcde 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.ffp-canvas-nodes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ==================== Canvas Nodes ==================== */
+
+.ffp-canvas-node {
+    position: absolute;
+    min-width: 180px;
+    max-width: 280px;
+    background: #fff;
+    border: 2px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: move;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    user-select: none;
+}
+
+.ffp-canvas-node:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.ffp-canvas-node.selected {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.2), 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.ffp-canvas-node.dragging {
+    opacity: 0.8;
+    z-index: 1000;
+}
+
+.ffp-canvas-node.invalid {
+    border-color: #d63638;
+}
+
+.ffp-node-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0f0f1;
+    border-radius: 6px 6px 0 0;
+}
+
+.ffp-node-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.ffp-node-icon .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+}
+
+.ffp-node-title {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ffp-node-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #646970;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.ffp-canvas-node:hover .ffp-node-menu-btn {
+    opacity: 1;
+}
+
+.ffp-node-menu-btn:hover {
+    background: #f0f0f1;
+    color: #1d2327;
+}
+
+.ffp-node-body {
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #646970;
+}
+
+.ffp-node-preview {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.ffp-node-preview code {
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+/* ==================== Node Ports (Connection Points) ==================== */
+
+.ffp-node-port {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 2px solid #dcdcde;
+    border-radius: 50%;
+    cursor: crosshair;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.ffp-node-port:hover {
+    transform: scale(1.3);
+    border-color: #2271b1;
+    background: #2271b1;
+}
+
+.ffp-node-port.connecting {
+    border-color: #00a32a;
+    background: #00a32a;
+}
+
+.ffp-node-port.port-input {
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ffp-node-port.port-output {
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ffp-node-port.port-input:hover,
+.ffp-node-port.port-output:hover {
+    transform: translateY(-50%) scale(1.3);
+}
+
+/* Condition node has multiple outputs */
+.ffp-node-port.port-true {
+    right: -7px;
+    top: 35%;
+    transform: translateY(-50%);
+}
+
+.ffp-node-port.port-false {
+    right: -7px;
+    top: 65%;
+    transform: translateY(-50%);
+}
+
+.ffp-node-port.port-true::after,
+.ffp-node-port.port-false::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 18px;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.ffp-node-port.port-true::after {
+    content: 'Yes';
+    color: #00a32a;
+}
+
+.ffp-node-port.port-false::after {
+    content: 'No';
+    color: #d63638;
+}
+
+/* ==================== Connections (SVG Paths) ==================== */
+
+.ffp-connection {
+    fill: none;
+    stroke: #a7aaad;
+    stroke-width: 2;
+    transition: stroke 0.2s ease;
+}
+
+.ffp-connection:hover {
+    stroke: #2271b1;
+    stroke-width: 3;
+    cursor: pointer;
+}
+
+.ffp-connection.selected {
+    stroke: #2271b1;
+    stroke-width: 3;
+}
+
+.ffp-connection.connecting {
+    stroke: #00a32a;
+    stroke-dasharray: 5, 5;
+    animation: ffp-dash 0.5s linear infinite;
+}
+
+@keyframes ffp-dash {
+    to {
+        stroke-dashoffset: -10;
+    }
+}
+
+.ffp-connection-arrow {
+    fill: #a7aaad;
+}
+
+.ffp-connection:hover + .ffp-connection-arrow,
+.ffp-connection.selected + .ffp-connection-arrow {
+    fill: #2271b1;
+}
+
+/* Temporary connection line while dragging */
+.ffp-temp-connection {
+    fill: none;
+    stroke: #2271b1;
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+    pointer-events: none;
+}
+
+/* ==================== Properties Panel (Right Sidebar) ==================== */
+
+.ffp-properties-panel {
+    width: 320px;
+    background: #fff;
+    border-left: 1px solid #dcdcde;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.ffp-properties-panel.hidden {
+    display: none;
+}
+
+.ffp-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #dcdcde;
+    background: #f6f7f7;
+}
+
+.ffp-panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 0;
+}
+
+.ffp-panel-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #646970;
+    transition: all 0.2s ease;
+}
+
+.ffp-panel-close:hover {
+    background: #dcdcde;
+    color: #1d2327;
+}
+
+.ffp-panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.ffp-property-group {
+    margin-bottom: 20px;
+}
+
+.ffp-property-group:last-child {
+    margin-bottom: 0;
+}
+
+.ffp-property-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #646970;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.ffp-property-field {
+    margin-bottom: 16px;
+}
+
+.ffp-property-field:last-child {
+    margin-bottom: 0;
+}
+
+.ffp-property-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1d2327;
+    margin-bottom: 6px;
+}
+
+.ffp-property-label .required {
+    color: #d63638;
+}
+
+.ffp-property-hint {
+    display: block;
+    font-size: 11px;
+    color: #646970;
+    margin-top: 4px;
+}
+
+.ffp-property-input,
+.ffp-property-select,
+.ffp-property-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.ffp-property-input:focus,
+.ffp-property-select:focus,
+.ffp-property-textarea:focus {
+    outline: none;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.ffp-property-textarea {
+    min-height: 80px;
+    resize: vertical;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.ffp-property-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ffp-property-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.ffp-property-checkbox label {
+    font-size: 13px;
+    color: #1d2327;
+    cursor: pointer;
+}
+
+/* Variable picker */
+.ffp-variable-picker {
+    position: relative;
+}
+
+.ffp-variable-picker-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 4px 8px;
+    font-size: 11px;
+    background: #f0f0f1;
+    border: 1px solid #dcdcde;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #646970;
+    transition: all 0.2s ease;
+}
+
+.ffp-variable-picker-btn:hover {
+    background: #dcdcde;
+    color: #1d2327;
+}
+
+.ffp-variable-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.ffp-variable-item {
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ffp-variable-item:hover {
+    background: #f0f0f1;
+}
+
+.ffp-variable-item code {
+    background: #e7e8ea;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    margin-right: 8px;
+}
+
+/* Key-value editor */
+.ffp-keyvalue-editor {
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ffp-keyvalue-row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.ffp-keyvalue-row:last-child {
+    border-bottom: none;
+}
+
+.ffp-keyvalue-key,
+.ffp-keyvalue-value {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 12px;
+    border: none;
+    background: transparent;
+}
+
+.ffp-keyvalue-key {
+    border-right: 1px solid #f0f0f1;
+    font-weight: 500;
+}
+
+.ffp-keyvalue-key:focus,
+.ffp-keyvalue-value:focus {
+    outline: none;
+    background: #f6f7f7;
+}
+
+.ffp-keyvalue-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #f0f0f1;
+    color: #646970;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ffp-keyvalue-remove:hover {
+    background: #fcf0f1;
+    color: #d63638;
+}
+
+.ffp-keyvalue-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px;
+    font-size: 12px;
+    color: #2271b1;
+    background: #f6f7f7;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ffp-keyvalue-add:hover {
+    background: #f0f0f1;
+}
+
+/* ==================== Context Menu ==================== */
+
+.ffp-context-menu {
+    position: fixed;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.ffp-context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #1d2327;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ffp-context-menu-item:hover {
+    background: #f0f0f1;
+}
+
+.ffp-context-menu-item.danger {
+    color: #d63638;
+}
+
+.ffp-context-menu-item.danger:hover {
+    background: #fcf0f1;
+}
+
+.ffp-context-menu-item .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #646970;
+}
+
+.ffp-context-menu-item.danger .dashicons {
+    color: #d63638;
+}
+
+.ffp-context-menu-separator {
+    height: 1px;
+    background: #f0f0f1;
+    margin: 4px 0;
+}
+
+.ffp-context-menu-shortcut {
+    margin-left: auto;
+    font-size: 11px;
+    color: #a7aaad;
+}
+
+/* ==================== Minimap ==================== */
+
+.ffp-minimap {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 180px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 100;
+}
+
+.ffp-minimap-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.ffp-minimap-viewport {
+    position: absolute;
+    border: 2px solid #2271b1;
+    background: rgba(34, 113, 177, 0.1);
+    pointer-events: none;
+}
+
+.ffp-minimap-toggle {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 99;
+    transition: all 0.2s ease;
+}
+
+.ffp-minimap-toggle:hover {
+    background: #f0f0f1;
+    border-color: #2271b1;
+}
+
+/* ==================== Status Bar ==================== */
+
+.ffp-builder-statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: #fff;
+    border-top: 1px solid #dcdcde;
+    font-size: 12px;
+    color: #646970;
+    flex-shrink: 0;
+}
+
+.ffp-status-left,
+.ffp-status-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ffp-status-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ffp-status-item .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+.ffp-status-saved {
+    color: #00a32a;
+}
+
+.ffp-status-unsaved {
+    color: #dba617;
+}
+
+.ffp-status-error {
+    color: #d63638;
+}
+
+/* ==================== Empty State ==================== */
+
+.ffp-canvas-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #646970;
+    pointer-events: none;
+}
+
+.ffp-canvas-empty .dashicons {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #c3c4c7;
+    margin-bottom: 16px;
+}
+
+.ffp-canvas-empty h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1d2327;
+}
+
+.ffp-canvas-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ==================== Validation Errors ==================== */
+
+.ffp-validation-errors {
+    position: absolute;
+    bottom: 60px;
+    left: 16px;
+    max-width: 400px;
+    background: #fcf0f1;
+    border: 1px solid #d63638;
+    border-radius: 6px;
+    padding: 12px 16px;
+    z-index: 100;
+}
+
+.ffp-validation-errors h4 {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d63638;
+}
+
+.ffp-validation-errors ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ffp-validation-errors li {
+    font-size: 12px;
+    color: #1d2327;
+    margin-bottom: 4px;
+}
+
+.ffp-validation-errors li:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== Run/Test Panel ==================== */
+
+.ffp-test-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    background: #fff;
+    border-left: 1px solid #dcdcde;
+    display: flex;
+    flex-direction: column;
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.ffp-test-panel.visible {
+    transform: translateX(0);
+}
+
+.ffp-test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #dcdcde;
+    background: #f6f7f7;
+}
+
+.ffp-test-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 0;
+}
+
+.ffp-test-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.ffp-test-step {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.ffp-test-step:last-child {
+    border-bottom: none;
+}
+
+.ffp-test-step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ffp-test-step.pending .ffp-test-step-indicator {
+    background: #f0f0f1;
+    color: #646970;
+}
+
+.ffp-test-step.running .ffp-test-step-indicator {
+    background: #dba617;
+    color: #fff;
+    animation: ffp-pulse 1s infinite;
+}
+
+.ffp-test-step.success .ffp-test-step-indicator {
+    background: #00a32a;
+    color: #fff;
+}
+
+.ffp-test-step.error .ffp-test-step-indicator {
+    background: #d63638;
+    color: #fff;
+}
+
+@keyframes ffp-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.ffp-test-step-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ffp-test-step-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1d2327;
+    margin: 0 0 4px 0;
+}
+
+.ffp-test-step-details {
+    font-size: 12px;
+    color: #646970;
+    margin: 0;
+}
+
+.ffp-test-step-output {
+    margin-top: 8px;
+    padding: 8px;
+    background: #f6f7f7;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 11px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+/* ==================== Loading Overlay ==================== */
+
+.ffp-builder-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 1000;
+}
+
+.ffp-builder-loading-content {
+    text-align: center;
+}
+
+.ffp-builder-loading .ffp-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #dcdcde;
+    border-top-color: #2271b1;
+    border-radius: 50%;
+    animation: ffp-spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes ffp-spin {
+    to { transform: rotate(360deg); }
+}
+
+.ffp-builder-loading p {
+    margin: 0;
+    font-size: 14px;
+    color: #646970;
+}
+
+/* ==================== Keyboard Shortcuts Modal ==================== */
+
+.ffp-shortcuts-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    z-index: 10001;
+}
+
+.ffp-shortcuts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.ffp-shortcuts-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 0;
+}
+
+.ffp-shortcuts-content {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ffp-shortcuts-group {
+    margin-bottom: 24px;
+}
+
+.ffp-shortcuts-group:last-child {
+    margin-bottom: 0;
+}
+
+.ffp-shortcuts-group-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #646970;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+}
+
+.ffp-shortcut-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.ffp-shortcut-label {
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.ffp-shortcut-keys {
+    display: flex;
+    gap: 4px;
+}
+
+.ffp-shortcut-key {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #1d2327;
+    background: #f0f0f1;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.ffp-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+/* ==================== Responsive Adjustments ==================== */
+
+@media (max-width: 1200px) {
+    .ffp-node-palette {
+        width: 220px;
+    }
+
+    .ffp-properties-panel {
+        width: 280px;
+    }
+}
+
+@media (max-width: 960px) {
+    .ffp-node-palette {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .ffp-node-palette.visible {
+        transform: translateX(0);
+    }
+
+    .ffp-properties-panel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .ffp-properties-panel.visible {
+        transform: translateX(0);
+    }
+
+    .ffp-toolbar-center {
+        display: none;
+    }
+}
+
+@media (max-width: 782px) {
+    .ffp-automation-builder {
+        height: calc(100vh - 46px);
+    }
+
+    .ffp-builder-toolbar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .ffp-toolbar-left,
+    .ffp-toolbar-right {
+        flex-wrap: wrap;
+    }
+
+    .ffp-zoom-controls {
+        order: 10;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ffp-minimap {
+        display: none;
+    }
+}
+
+/* ==================== Print Styles ==================== */
+
+@media print {
+    .ffp-automation-builder {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .ffp-builder-toolbar,
+    .ffp-node-palette,
+    .ffp-properties-panel,
+    .ffp-builder-statusbar,
+    .ffp-minimap {
+        display: none !important;
+    }
+
+    .ffp-builder-canvas {
+        flex: 1;
+    }
+
+    .ffp-canvas-node {
+        break-inside: avoid;
+    }
+}
+
+/* ==================== Dark Mode Support ==================== */
+
+@media (prefers-color-scheme: dark) {
+    .ffp-automation-builder.ffp-dark-mode {
+        background: #1d2327;
+    }
+
+    .ffp-automation-builder.ffp-dark-mode .ffp-builder-toolbar,
+    .ffp-automation-builder.ffp-dark-mode .ffp-node-palette,
+    .ffp-automation-builder.ffp-dark-mode .ffp-properties-panel,
+    .ffp-automation-builder.ffp-dark-mode .ffp-builder-statusbar {
+        background: #2c3338;
+        border-color: #3c434a;
+    }
+
+    .ffp-automation-builder.ffp-dark-mode .ffp-canvas-node {
+        background: #2c3338;
+        border-color: #3c434a;
+    }
+
+    .ffp-automation-builder.ffp-dark-mode .ffp-workflow-name,
+    .ffp-automation-builder.ffp-dark-mode .ffp-node-title,
+    .ffp-automation-builder.ffp-dark-mode .ffp-palette-node-name,
+    .ffp-automation-builder.ffp-dark-mode .ffp-panel-title {
+        color: #f0f0f1;
+    }
+
+    .ffp-automation-builder.ffp-dark-mode .ffp-canvas-grid {
+        background-image:
+            linear-gradient(to right, #3c434a 1px, transparent 1px),
+            linear-gradient(to bottom, #3c434a 1px, transparent 1px);
+    }
+}
