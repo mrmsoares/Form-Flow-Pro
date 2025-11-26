@@ -10,23 +10,44 @@ use FormFlowPro\Reporting\ReportingManager;
 
 class ReportingManagerTest extends TestCase
 {
+    /**
+     * Classes that need singleton reset for ReportingManager tests
+     */
+    private array $singletonClasses = [
+        ReportingManager::class,
+        \FormFlowPro\Reporting\ReportGenerator::class,
+        \FormFlowPro\Reporting\D3Visualization::class,
+    ];
+
     protected function setUp(): void
     {
         parent::setUp();
-        // Reset singleton
-        $reflection = new \ReflectionClass(ReportingManager::class);
-        $instance = $reflection->getProperty('instance');
-        $instance->setAccessible(true);
-        $instance->setValue(null, null);
+        // Reset all related singletons for clean state
+        $this->resetAllSingletons();
     }
 
     protected function tearDown(): void
     {
-        $reflection = new \ReflectionClass(ReportingManager::class);
-        $instance = $reflection->getProperty('instance');
-        $instance->setAccessible(true);
-        $instance->setValue(null, null);
+        // Reset all singletons
+        $this->resetAllSingletons();
         parent::tearDown();
+    }
+
+    /**
+     * Reset all singleton instances to ensure clean test state
+     */
+    private function resetAllSingletons(): void
+    {
+        foreach ($this->singletonClasses as $class) {
+            if (class_exists($class)) {
+                $reflection = new \ReflectionClass($class);
+                if ($reflection->hasProperty('instance')) {
+                    $instance = $reflection->getProperty('instance');
+                    $instance->setAccessible(true);
+                    $instance->setValue(null, null);
+                }
+            }
+        }
     }
 
     public function test_singleton_instance()
@@ -181,16 +202,18 @@ class ReportingManagerTest extends TestCase
         $wpdb->set_mock_result('get_row', (object)[
             'id' => 1,
             'name' => 'Test Report',
-            'template' => 'executive_summary',
-            'frequency' => 'weekly',
+            'template' => 'executive',
+            'config' => json_encode(['period' => 'last_30_days']),
+            'schedule_type' => 'weekly',
+            'schedule_config' => json_encode(['time' => '09:00', 'day_of_week' => 1]),
             'recipients' => json_encode(['admin@example.com']),
             'format' => 'pdf',
-            'settings' => json_encode([]),
         ]);
 
         $manager = ReportingManager::getInstance();
         $result = $manager->runScheduledReport(1);
 
         $this->assertIsArray($result);
+        $this->assertTrue($result['success']);
     }
 }

@@ -11,24 +11,46 @@ use FormFlowPro\Automation\WorkflowTemplate;
 
 class AutomationManagerTest extends TestCase
 {
+    /**
+     * Classes that need singleton reset for AutomationManager tests
+     */
+    private array $singletonClasses = [
+        AutomationManager::class,
+        \FormFlowPro\Automation\TriggerManager::class,
+        \FormFlowPro\Automation\WorkflowEngine::class,
+        \FormFlowPro\Automation\ActionLibrary::class,
+        \FormFlowPro\Automation\ConditionEvaluator::class,
+    ];
+
     protected function setUp(): void
     {
         parent::setUp();
-        // Reset singleton for each test
-        $reflection = new \ReflectionClass(AutomationManager::class);
-        $instance = $reflection->getProperty('instance');
-        $instance->setAccessible(true);
-        $instance->setValue(null, null);
+        // Reset all related singletons for clean state
+        $this->resetAllSingletons();
     }
 
     protected function tearDown(): void
     {
-        // Reset singleton
-        $reflection = new \ReflectionClass(AutomationManager::class);
-        $instance = $reflection->getProperty('instance');
-        $instance->setAccessible(true);
-        $instance->setValue(null, null);
+        // Reset all singletons
+        $this->resetAllSingletons();
         parent::tearDown();
+    }
+
+    /**
+     * Reset all singleton instances to ensure clean test state
+     */
+    private function resetAllSingletons(): void
+    {
+        foreach ($this->singletonClasses as $class) {
+            if (class_exists($class)) {
+                $reflection = new \ReflectionClass($class);
+                if ($reflection->hasProperty('instance')) {
+                    $instance = $reflection->getProperty('instance');
+                    $instance->setAccessible(true);
+                    $instance->setValue(null, null);
+                }
+            }
+        }
     }
 
     // ==========================================================================
