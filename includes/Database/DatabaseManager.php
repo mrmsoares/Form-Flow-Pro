@@ -78,7 +78,8 @@ class DatabaseManager
      */
     private function run_migration($version)
     {
-        $migration_file = FORMFLOW_PATH . "includes/database/migrations/v{$version}.php";
+        // Note: Path uses 'Database' with capital D to match PSR-4 autoloading
+        $migration_file = FORMFLOW_PATH . "includes/Database/migrations/v{$version}.php";
 
         if (!file_exists($migration_file)) {
             return;
@@ -92,6 +93,40 @@ class DatabaseManager
             $migration = new $class_name();
             $migration->up();
         }
+    }
+
+    /**
+     * Check if database needs migration.
+     *
+     * @since 2.0.0
+     * @return bool True if migration is needed.
+     */
+    public function needs_migration()
+    {
+        $current_version = $this->get_current_version();
+        return version_compare($current_version, $this->db_version, '<');
+    }
+
+    /**
+     * Get current database version.
+     *
+     * @since 2.0.0
+     * @return string Current database version.
+     */
+    public function get_current_version()
+    {
+        return get_option('formflow_db_version', '0.0.0');
+    }
+
+    /**
+     * Get target database version.
+     *
+     * @since 2.0.0
+     * @return string Target database version.
+     */
+    public function get_target_version()
+    {
+        return $this->db_version;
     }
 
     /**
