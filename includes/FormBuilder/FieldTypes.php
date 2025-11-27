@@ -1820,6 +1820,94 @@ class RepeaterField extends AbstractFieldType
         return $this->wrapField($input, $field);
     }
 
+    public function validate($value, array $field): array
+    {
+        $errors = [];
+        $values = is_array($value) ? $value : [];
+        $min_rows = $field['min_rows'] ?? 0;
+        $max_rows = $field['max_rows'] ?? null;
+        $sub_fields = $field['sub_fields'] ?? [];
+
+        // Validate row count
+        $row_count = count($values);
+
+        if ($min_rows > 0 && $row_count < $min_rows) {
+            $errors[] = sprintf(
+                __('%s requires at least %d row(s).', 'form-flow-pro'),
+                $field['label'] ?? 'This field',
+                $min_rows
+            );
+        }
+
+        if ($max_rows !== null && $row_count > $max_rows) {
+            $errors[] = sprintf(
+                __('%s cannot have more than %d row(s).', 'form-flow-pro'),
+                $field['label'] ?? 'This field',
+                $max_rows
+            );
+        }
+
+        // Validate each row's sub-fields
+        $registry = FieldTypesRegistry::getInstance();
+
+        foreach ($values as $row_index => $row_values) {
+            foreach ($sub_fields as $sub_field) {
+                $sub_field_name = $sub_field['name'] ?? '';
+                $sub_field_type = $sub_field['type'] ?? 'text';
+                $sub_field_value = $row_values[$sub_field_name] ?? null;
+
+                $field_type_obj = $registry->get($sub_field_type);
+                if ($field_type_obj) {
+                    $sub_errors = $field_type_obj->validate($sub_field_value, $sub_field);
+                    foreach ($sub_errors as $error) {
+                        $errors[] = sprintf(
+                            __('Row %d: %s', 'form-flow-pro'),
+                            $row_index + 1,
+                            $error
+                        );
+                    }
+                }
+            }
+        }
+
+        return $errors;
+    }
+
+    public function sanitize($value, array $field)
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $sanitized = [];
+        $sub_fields = $field['sub_fields'] ?? [];
+        $registry = FieldTypesRegistry::getInstance();
+
+        foreach ($value as $row_index => $row_values) {
+            if (!is_array($row_values)) {
+                continue;
+            }
+
+            $sanitized_row = [];
+            foreach ($sub_fields as $sub_field) {
+                $sub_field_name = $sub_field['name'] ?? '';
+                $sub_field_type = $sub_field['type'] ?? 'text';
+                $sub_field_value = $row_values[$sub_field_name] ?? null;
+
+                $field_type_obj = $registry->get($sub_field_type);
+                if ($field_type_obj) {
+                    $sanitized_row[$sub_field_name] = $field_type_obj->sanitize($sub_field_value, $sub_field);
+                } else {
+                    $sanitized_row[$sub_field_name] = sanitize_text_field($sub_field_value ?? '');
+                }
+            }
+
+            $sanitized[$row_index] = $sanitized_row;
+        }
+
+        return $sanitized;
+    }
+
     private function renderRow(array $field, array $sub_fields, array $values, $index): string
     {
         $row = '<div class="ffp-repeater-row" data-index="' . esc_attr($index) . '">';
@@ -1833,14 +1921,35 @@ class RepeaterField extends AbstractFieldType
         $row .= '<div class="ffp-repeater-fields">';
 
         foreach ($sub_fields as $sub_field) {
-            $sub_field['name'] = $field['name'] . '[' . $index . '][' . $sub_field['name'] . ']';
-            $sub_field['id'] = $field['id'] . '_' . $index . '_' . $sub_field['id'];
-            $sub_value = $values[$sub_field['name']] ?? null;
+            $original_name = $sub_field['name'] ?? '';
+            $original_id = $sub_field['id'] ?? $original_name;
 
-            // This would normally call the appropriate field type renderer
-            $row .= '<div class="ffp-repeater-field">';
-            $row .= '<label>' . esc_html($sub_field['label'] ?? '') . '</label>';
-            $row .= '<input type="text" name="' . esc_attr($sub_field['name']) . '" value="' . esc_attr($sub_value ?? '') . '">';
+            // Get value using original name before modifying
+            $sub_value = $values[$original_name] ?? ($sub_field['default_value'] ?? null);
+
+            // Now update name and id for rendering
+            $sub_field['name'] = $field['name'] . '[' . $index . '][' . $original_name . ']';
+            $sub_field['id'] = ($field['id'] ?? 'repeater') . '_' . $index . '_' . $original_id;
+
+            // Get the field type to render appropriately
+            $field_type = $sub_field['type'] ?? 'text';
+            $registry = FieldTypesRegistry::getInstance();
+            $renderer = $registry->get($field_type);
+
+            $row .= '<div class="ffp-repeater-field ffp-repeater-field-' . esc_attr($field_type) . '">';
+
+            if ($renderer) {
+                // Use the proper field type renderer
+                $row .= $renderer->render($sub_field, $sub_value);
+            } else {
+                // Fallback to basic text input
+                $row .= '<label>' . esc_html($sub_field['label'] ?? '') . '</label>';
+                $row .= '<input type="text" name="' . esc_attr($sub_field['name']) . '" ';
+                $row .= 'id="' . esc_attr($sub_field['id']) . '" ';
+                $row .= 'value="' . esc_attr($sub_value ?? '') . '" ';
+                $row .= 'class="ffp-field">';
+            }
+
             $row .= '</div>';
         }
 

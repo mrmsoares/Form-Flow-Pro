@@ -218,4 +218,79 @@ class CacheManagerTest extends TestCase
 
         $this->assertEquals(2, $stats['deletes']);
     }
+
+    public function test_warm_cache_returns_disabled_when_cache_disabled()
+    {
+        update_option('formflow_cache_enabled', false);
+        $cache = new CacheManager();
+
+        $result = $cache->warm_cache();
+
+        $this->assertIsArray($result);
+        $this->assertEquals('disabled', $result['status']);
+        $this->assertEquals(0, $result['entries']);
+    }
+
+    public function test_warm_cache_returns_completed_status()
+    {
+        update_option('formflow_cache_enabled', true);
+        $cache = new CacheManager();
+
+        $result = $cache->warm_cache();
+
+        $this->assertIsArray($result);
+        $this->assertEquals('completed', $result['status']);
+        $this->assertArrayHasKey('entries', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertIsInt($result['entries']);
+        $this->assertGreaterThanOrEqual(0, $result['entries']);
+    }
+
+    public function test_warm_cache_warms_plugin_settings()
+    {
+        update_option('formflow_cache_enabled', true);
+        update_option('formflow_settings', ['general' => 'value']);
+        update_option('formflow_ai_settings', ['provider' => 'openai']);
+
+        $cache = new CacheManager();
+        $result = $cache->warm_cache();
+
+        $this->assertEquals('completed', $result['status']);
+        $this->assertGreaterThanOrEqual(2, $result['entries']);
+    }
+
+    public function test_warm_cache_triggers_action_hook()
+    {
+        update_option('formflow_cache_enabled', true);
+        $hookCalled = false;
+
+        add_action('formflow_cache_warm_up', function($cacheManager) use (&$hookCalled) {
+            $hookCalled = true;
+            $this->assertInstanceOf(CacheManager::class, $cacheManager);
+        });
+
+        $this->cache->warm_cache();
+
+        $this->assertTrue($hookCalled);
+    }
+
+    public function test_schedule_warm_cache_schedules_event()
+    {
+        $this->cache->schedule_warm_cache();
+
+        $scheduled = wp_next_scheduled('formflow_warm_cache_event');
+        $this->assertNotFalse($scheduled);
+    }
+
+    public function test_unschedule_warm_cache_removes_event()
+    {
+        // First schedule it
+        $this->cache->schedule_warm_cache();
+
+        // Then unschedule it
+        $this->cache->unschedule_warm_cache();
+
+        $scheduled = wp_next_scheduled('formflow_warm_cache_event');
+        $this->assertFalse($scheduled);
+    }
 }
