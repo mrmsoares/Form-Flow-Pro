@@ -686,6 +686,26 @@ if (!function_exists('wp_send_json_error')) {
     }
 }
 
+if (!function_exists('wp_die')) {
+    function wp_die($message = '', $title = '', $args = [])
+    {
+        if (is_numeric($title)) {
+            // Title is actually status code
+            http_response_code($title);
+        }
+        throw new \Exception($message);
+    }
+}
+
+if (!function_exists('wp_send_json')) {
+    function wp_send_json($response, $status_code = null)
+    {
+        $json = json_encode($response);
+        echo $json;
+        throw new WPAjaxDieException($json);
+    }
+}
+
 if (!function_exists('wp_add_inline_script')) {
     function wp_add_inline_script($handle, $data, $position = 'after')
     {
@@ -1441,10 +1461,434 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', '/tmp/wordpress/');
 }
 
+// Post meta functions
+if (!function_exists('update_post_meta')) {
+    function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '')
+    {
+        global $wp_post_meta;
+        if (!isset($wp_post_meta)) {
+            $wp_post_meta = [];
+        }
+        if (!isset($wp_post_meta[$post_id])) {
+            $wp_post_meta[$post_id] = [];
+        }
+        $wp_post_meta[$post_id][$meta_key] = $meta_value;
+        return true;
+    }
+}
+
+if (!function_exists('get_post_meta')) {
+    function get_post_meta($post_id, $key = '', $single = false)
+    {
+        global $wp_post_meta;
+        if (!isset($wp_post_meta) || !isset($wp_post_meta[$post_id])) {
+            return $single ? '' : [];
+        }
+        if (empty($key)) {
+            return $wp_post_meta[$post_id];
+        }
+        $value = $wp_post_meta[$post_id][$key] ?? null;
+        if ($single) {
+            return $value ?? '';
+        }
+        return $value !== null ? [$value] : [];
+    }
+}
+
+if (!function_exists('delete_post_meta')) {
+    function delete_post_meta($post_id, $meta_key, $meta_value = '')
+    {
+        global $wp_post_meta;
+        if (isset($wp_post_meta[$post_id][$meta_key])) {
+            unset($wp_post_meta[$post_id][$meta_key]);
+            return true;
+        }
+        return false;
+    }
+}
+
+if (!function_exists('add_post_meta')) {
+    function add_post_meta($post_id, $meta_key, $meta_value, $unique = false)
+    {
+        global $wp_post_meta;
+        if (!isset($wp_post_meta)) {
+            $wp_post_meta = [];
+        }
+        if ($unique && isset($wp_post_meta[$post_id][$meta_key])) {
+            return false;
+        }
+        if (!isset($wp_post_meta[$post_id])) {
+            $wp_post_meta[$post_id] = [];
+        }
+        $wp_post_meta[$post_id][$meta_key] = $meta_value;
+        return true;
+    }
+}
+
+// User meta functions
+if (!function_exists('update_user_meta')) {
+    function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '')
+    {
+        global $wp_user_meta;
+        if (!isset($wp_user_meta)) {
+            $wp_user_meta = [];
+        }
+        if (!isset($wp_user_meta[$user_id])) {
+            $wp_user_meta[$user_id] = [];
+        }
+        $wp_user_meta[$user_id][$meta_key] = $meta_value;
+        return true;
+    }
+}
+
+if (!function_exists('get_user_meta')) {
+    function get_user_meta($user_id, $key = '', $single = false)
+    {
+        global $wp_user_meta;
+        if (!isset($wp_user_meta) || !isset($wp_user_meta[$user_id])) {
+            return $single ? '' : [];
+        }
+        if (empty($key)) {
+            return $wp_user_meta[$user_id];
+        }
+        $value = $wp_user_meta[$user_id][$key] ?? null;
+        if ($single) {
+            return $value ?? '';
+        }
+        return $value !== null ? [$value] : [];
+    }
+}
+
+if (!function_exists('delete_user_meta')) {
+    function delete_user_meta($user_id, $meta_key, $meta_value = '')
+    {
+        global $wp_user_meta;
+        if (isset($wp_user_meta[$user_id][$meta_key])) {
+            unset($wp_user_meta[$user_id][$meta_key]);
+            return true;
+        }
+        return false;
+    }
+}
+
+// Additional WordPress functions
+if (!function_exists('wp_roles')) {
+    function wp_roles()
+    {
+        return new class {
+            public function get_names()
+            {
+                return [
+                    'administrator' => 'Administrator',
+                    'editor' => 'Editor',
+                    'author' => 'Author',
+                    'contributor' => 'Contributor',
+                    'subscriber' => 'Subscriber',
+                ];
+            }
+        };
+    }
+}
+
+if (!function_exists('is_ssl')) {
+    function is_ssl()
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_get_schedules')) {
+    function wp_get_schedules()
+    {
+        return [
+            'hourly' => ['interval' => 3600, 'display' => 'Once Hourly'],
+            'twicedaily' => ['interval' => 43200, 'display' => 'Twice Daily'],
+            'daily' => ['interval' => 86400, 'display' => 'Once Daily'],
+            'weekly' => ['interval' => 604800, 'display' => 'Once Weekly'],
+        ];
+    }
+}
+
+if (!function_exists('is_multisite')) {
+    function is_multisite()
+    {
+        return false;
+    }
+}
+
+if (!function_exists('get_sites')) {
+    function get_sites($args = [])
+    {
+        return [];
+    }
+}
+
+if (!function_exists('get_current_blog_id')) {
+    function get_current_blog_id()
+    {
+        return 1;
+    }
+}
+
+if (!function_exists('switch_to_blog')) {
+    function switch_to_blog($blog_id)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('restore_current_blog')) {
+    function restore_current_blog()
+    {
+        return true;
+    }
+}
+
+if (!function_exists('get_site_option')) {
+    function get_site_option($option, $default = false)
+    {
+        return get_option('site_' . $option, $default);
+    }
+}
+
+if (!function_exists('update_site_option')) {
+    function update_site_option($option, $value)
+    {
+        return update_option('site_' . $option, $value);
+    }
+}
+
+if (!function_exists('wp_schedule_single_event')) {
+    function wp_schedule_single_event($timestamp, $hook, $args = [], $wp_error = false)
+    {
+        global $wp_scheduled_events;
+        $key = $hook . '_single_' . md5(serialize($args));
+        $wp_scheduled_events[$key] = $timestamp;
+        return true;
+    }
+}
+
+if (!function_exists('get_post')) {
+    function get_post($post = null, $output = OBJECT, $filter = 'raw')
+    {
+        if (is_numeric($post)) {
+            return (object) [
+                'ID' => $post,
+                'post_title' => 'Test Post',
+                'post_content' => 'Test content',
+                'post_status' => 'publish',
+                'post_type' => 'post',
+                'post_author' => 1,
+            ];
+        }
+        return $post;
+    }
+}
+
+if (!function_exists('wp_insert_post')) {
+    function wp_insert_post($postarr, $wp_error = false, $fire_after_hooks = true)
+    {
+        static $post_id = 100;
+        return $post_id++;
+    }
+}
+
+if (!function_exists('wp_update_post')) {
+    function wp_update_post($postarr, $wp_error = false, $fire_after_hooks = true)
+    {
+        return $postarr['ID'] ?? 0;
+    }
+}
+
+if (!function_exists('wp_delete_post')) {
+    function wp_delete_post($postid, $force_delete = false)
+    {
+        return get_post($postid);
+    }
+}
+
+if (!function_exists('get_posts')) {
+    function get_posts($args = null)
+    {
+        return [];
+    }
+}
+
+if (!function_exists('wp_insert_user')) {
+    function wp_insert_user($userdata)
+    {
+        static $user_id = 100;
+        return $user_id++;
+    }
+}
+
+if (!function_exists('wp_hash_password')) {
+    function wp_hash_password($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+}
+
+if (!function_exists('wp_check_password')) {
+    function wp_check_password($password, $hash, $user_id = '')
+    {
+        return password_verify($password, $hash);
+    }
+}
+
+if (!function_exists('wp_generate_password')) {
+    function wp_generate_password($length = 12, $special_chars = true, $extra_special_chars = false)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        if ($special_chars) {
+            $chars .= '!@#$%^&*()';
+        }
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+        return $password;
+    }
+}
+
+if (!function_exists('get_user_by')) {
+    function get_user_by($field, $value)
+    {
+        if ($field === 'email' && $value === 'test@example.com') {
+            return get_userdata(1);
+        }
+        if ($field === 'id' && is_numeric($value)) {
+            return get_userdata($value);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('wp_set_current_user')) {
+    function wp_set_current_user($id, $name = '')
+    {
+        global $wp_current_user_id;
+        $wp_current_user_id = $id;
+        return get_userdata($id);
+    }
+}
+
+if (!function_exists('add_option')) {
+    function add_option($option, $value = '', $deprecated = '', $autoload = 'yes')
+    {
+        global $wp_options;
+        if (!isset($wp_options[$option])) {
+            $wp_options[$option] = $value;
+            return true;
+        }
+        return false;
+    }
+}
+
+if (!function_exists('wp_safe_redirect')) {
+    function wp_safe_redirect($location, $status = 302, $x_redirect_by = 'WordPress')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_redirect')) {
+    function wp_redirect($location, $status = 302, $x_redirect_by = 'WordPress')
+    {
+        return true;
+    }
+}
+
+if (!function_exists('wp_doing_ajax')) {
+    function wp_doing_ajax()
+    {
+        return defined('DOING_AJAX') && DOING_AJAX;
+    }
+}
+
+if (!function_exists('wp_doing_cron')) {
+    function wp_doing_cron()
+    {
+        return defined('DOING_CRON') && DOING_CRON;
+    }
+}
+
+if (!function_exists('remove_filter')) {
+    function remove_filter($tag, $function_to_remove, $priority = 10)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('has_filter')) {
+    function has_filter($tag, $function_to_check = false)
+    {
+        return false;
+    }
+}
+
+if (!function_exists('shortcode_atts')) {
+    function shortcode_atts($pairs, $atts, $shortcode = '')
+    {
+        return array_merge($pairs, (array) $atts);
+    }
+}
+
+if (!function_exists('add_shortcode')) {
+    function add_shortcode($tag, $callback)
+    {
+        return true;
+    }
+}
+
+if (!function_exists('do_shortcode')) {
+    function do_shortcode($content, $ignore_html = false)
+    {
+        return $content;
+    }
+}
+
+if (!function_exists('wp_strip_all_tags')) {
+    function wp_strip_all_tags($string, $remove_breaks = false)
+    {
+        $string = strip_tags($string);
+        if ($remove_breaks) {
+            $string = preg_replace('/[\r\n\t ]+/', ' ', $string);
+        }
+        return trim($string);
+    }
+}
+
+if (!function_exists('wp_get_attachment_url')) {
+    function wp_get_attachment_url($attachment_id)
+    {
+        return 'https://example.com/wp-content/uploads/file.pdf';
+    }
+}
+
+if (!function_exists('get_attached_file')) {
+    function get_attached_file($attachment_id, $unfiltered = false)
+    {
+        return '/tmp/wordpress-uploads/file.pdf';
+    }
+}
+
+if (!function_exists('wp_get_attachment_metadata')) {
+    function wp_get_attachment_metadata($attachment_id, $unfiltered = false)
+    {
+        return [
+            'width' => 800,
+            'height' => 600,
+            'file' => 'file.pdf',
+        ];
+    }
+}
+
 function reset_wp_mocks()
 {
     global $wp_options, $wp_transients, $wp_cache, $wpdb, $wp_actions, $wp_scheduled_events;
     global $wp_http_mock_response, $wp_http_mock_error, $wp_http_download_response;
+    global $wp_post_meta, $wp_user_meta, $wp_current_user_id;
 
     $wp_options = [];
     $wp_transients = [];
@@ -1454,6 +1898,9 @@ function reset_wp_mocks()
     $wp_http_mock_response = null;
     $wp_http_mock_error = null;
     $wp_http_download_response = null;
+    $wp_post_meta = [];
+    $wp_user_meta = [];
+    $wp_current_user_id = 1;
 
     // Clear $_POST and $_GET to prevent test pollution
     $_POST = [];
