@@ -2638,4 +2638,264 @@ class SSOManager
     {
         return $this->oauth2_provider;
     }
+
+    /**
+     * AJAX: Get all SSO providers
+     */
+    public function ajaxGetProviders(): void
+    {
+        check_ajax_referer('ffp_sso_admin', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Permission denied', 'formflow-pro')]);
+        }
+
+        $providers = [];
+
+        // SAML Provider
+        if ($this->saml_provider) {
+            $providers['saml'] = [
+                'type' => 'saml',
+                'name' => 'SAML 2.0',
+                'configured' => $this->saml_provider->isConfigured(),
+                'enabled' => $this->settings->get('saml_enabled', false),
+                'settings' => [
+                    'idp_entity_id' => $this->settings->get('saml_idp_entity_id', ''),
+                    'idp_sso_url' => $this->settings->get('saml_idp_sso_url', ''),
+                    'idp_slo_url' => $this->settings->get('saml_idp_slo_url', ''),
+                    'idp_certificate' => $this->settings->get('saml_idp_certificate', '') ? '[configured]' : '',
+                    'sp_entity_id' => $this->settings->get('saml_sp_entity_id', home_url('/sso/saml/metadata')),
+                ],
+            ];
+        }
+
+        // LDAP Provider
+        if ($this->ldap_provider) {
+            $providers['ldap'] = [
+                'type' => 'ldap',
+                'name' => 'LDAP/Active Directory',
+                'configured' => $this->ldap_provider->isConfigured(),
+                'enabled' => $this->settings->get('ldap_enabled', false),
+                'settings' => [
+                    'host' => $this->settings->get('ldap_host', ''),
+                    'port' => $this->settings->get('ldap_port', 389),
+                    'base_dn' => $this->settings->get('ldap_base_dn', ''),
+                    'bind_dn' => $this->settings->get('ldap_bind_dn', ''),
+                    'use_tls' => $this->settings->get('ldap_use_tls', false),
+                    'user_filter' => $this->settings->get('ldap_user_filter', '(sAMAccountName=%s)'),
+                ],
+            ];
+        }
+
+        // OAuth2 Enterprise Provider
+        if ($this->oauth2_provider) {
+            $providers['oauth2'] = [
+                'type' => 'oauth2',
+                'name' => 'OAuth2/OpenID Connect',
+                'configured' => $this->oauth2_provider->isConfigured(),
+                'enabled' => $this->settings->get('oauth2_enabled', false),
+                'settings' => [
+                    'provider_name' => $this->settings->get('oauth2_provider_name', ''),
+                    'client_id' => $this->settings->get('oauth2_client_id', ''),
+                    'client_secret' => $this->settings->get('oauth2_client_secret', '') ? '[configured]' : '',
+                    'authorization_endpoint' => $this->settings->get('oauth2_authorization_endpoint', ''),
+                    'token_endpoint' => $this->settings->get('oauth2_token_endpoint', ''),
+                    'userinfo_endpoint' => $this->settings->get('oauth2_userinfo_endpoint', ''),
+                    'scope' => $this->settings->get('oauth2_scope', 'openid profile email'),
+                ],
+            ];
+        }
+
+        wp_send_json_success([
+            'providers' => $providers,
+            'default_role' => $this->settings->get('default_role', 'subscriber'),
+            'auto_create_users' => $this->settings->get('auto_create_users', true),
+            'allow_password_login' => $this->settings->get('allow_password_login', true),
+        ]);
+    }
+
+    /**
+     * AJAX: Save SSO provider settings
+     */
+    public function ajaxSaveProvider(): void
+    {
+        check_ajax_referer('ffp_sso_admin', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Permission denied', 'formflow-pro')]);
+        }
+
+        $provider = sanitize_text_field($_POST['provider'] ?? '');
+        $settings = $_POST['settings'] ?? [];
+
+        if (!in_array($provider, ['saml', 'ldap', 'oauth2'], true)) {
+            wp_send_json_error(['message' => __('Invalid provider type', 'formflow-pro')]);
+        }
+
+        try {
+            switch ($provider) {
+                case 'saml':
+                    $this->saveSAMLSettings($settings);
+                    break;
+                case 'ldap':
+                    $this->saveLDAPSettings($settings);
+                    break;
+                case 'oauth2':
+                    $this->saveOAuth2Settings($settings);
+                    break;
+            }
+
+            // Save enabled status
+            $enabled = !empty($settings['enabled']);
+            $this->settings->set("{$provider}_enabled", $enabled);
+
+            $this->logInfo('Provider Settings Saved', "SSO provider {$provider} settings updated");
+
+            wp_send_json_success([
+                'message' => __('Settings saved successfully', 'formflow-pro'),
+            ]);
+        } catch (\Exception $e) {
+            wp_send_json_error(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Save SAML settings
+     */
+    private function saveSAMLSettings(array $settings): void
+    {
+        $this->settings->set('saml_idp_entity_id', sanitize_text_field($settings['idp_entity_id'] ?? ''));
+        $this->settings->set('saml_idp_sso_url', esc_url_raw($settings['idp_sso_url'] ?? ''));
+        $this->settings->set('saml_idp_slo_url', esc_url_raw($settings['idp_slo_url'] ?? ''));
+        $this->settings->set('saml_sp_entity_id', sanitize_text_field($settings['sp_entity_id'] ?? ''));
+
+        // Certificate - only update if provided
+        if (!empty($settings['idp_certificate'])) {
+            $this->settings->set('saml_idp_certificate', sanitize_textarea_field($settings['idp_certificate']));
+        }
+
+        // Attribute mappings
+        if (isset($settings['attribute_mappings'])) {
+            $this->settings->set('saml_attribute_mappings', array_map('sanitize_text_field', $settings['attribute_mappings']));
+        }
+    }
+
+    /**
+     * Save LDAP settings
+     */
+    private function saveLDAPSettings(array $settings): void
+    {
+        $this->settings->set('ldap_host', sanitize_text_field($settings['host'] ?? ''));
+        $this->settings->set('ldap_port', absint($settings['port'] ?? 389));
+        $this->settings->set('ldap_base_dn', sanitize_text_field($settings['base_dn'] ?? ''));
+        $this->settings->set('ldap_bind_dn', sanitize_text_field($settings['bind_dn'] ?? ''));
+        $this->settings->set('ldap_use_tls', !empty($settings['use_tls']));
+        $this->settings->set('ldap_user_filter', sanitize_text_field($settings['user_filter'] ?? '(sAMAccountName=%s)'));
+
+        // Password - only update if provided
+        if (!empty($settings['bind_password'])) {
+            $this->settings->set('ldap_bind_password', $settings['bind_password']);
+        }
+
+        // Attribute mappings
+        if (isset($settings['attribute_mappings'])) {
+            $this->settings->set('ldap_attribute_mappings', array_map('sanitize_text_field', $settings['attribute_mappings']));
+        }
+    }
+
+    /**
+     * Save OAuth2 settings
+     */
+    private function saveOAuth2Settings(array $settings): void
+    {
+        $this->settings->set('oauth2_provider_name', sanitize_text_field($settings['provider_name'] ?? ''));
+        $this->settings->set('oauth2_client_id', sanitize_text_field($settings['client_id'] ?? ''));
+        $this->settings->set('oauth2_authorization_endpoint', esc_url_raw($settings['authorization_endpoint'] ?? ''));
+        $this->settings->set('oauth2_token_endpoint', esc_url_raw($settings['token_endpoint'] ?? ''));
+        $this->settings->set('oauth2_userinfo_endpoint', esc_url_raw($settings['userinfo_endpoint'] ?? ''));
+        $this->settings->set('oauth2_scope', sanitize_text_field($settings['scope'] ?? 'openid profile email'));
+
+        // Client secret - only update if provided
+        if (!empty($settings['client_secret'])) {
+            $this->settings->set('oauth2_client_secret', $settings['client_secret']);
+        }
+
+        // Claim mappings
+        if (isset($settings['claim_mappings'])) {
+            $this->settings->set('oauth2_claim_mappings', array_map('sanitize_text_field', $settings['claim_mappings']));
+        }
+    }
+
+    /**
+     * AJAX: Delete/disable SSO provider
+     */
+    public function ajaxDeleteProvider(): void
+    {
+        check_ajax_referer('ffp_sso_admin', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Permission denied', 'formflow-pro')]);
+        }
+
+        $provider = sanitize_text_field($_POST['provider'] ?? '');
+
+        if (!in_array($provider, ['saml', 'ldap', 'oauth2'], true)) {
+            wp_send_json_error(['message' => __('Invalid provider type', 'formflow-pro')]);
+        }
+
+        // Disable the provider
+        $this->settings->set("{$provider}_enabled", false);
+
+        // Clear provider-specific settings based on type
+        $settingsToDelete = [];
+
+        switch ($provider) {
+            case 'saml':
+                $settingsToDelete = [
+                    'saml_idp_entity_id',
+                    'saml_idp_sso_url',
+                    'saml_idp_slo_url',
+                    'saml_idp_certificate',
+                    'saml_sp_entity_id',
+                    'saml_attribute_mappings',
+                ];
+                break;
+
+            case 'ldap':
+                $settingsToDelete = [
+                    'ldap_host',
+                    'ldap_port',
+                    'ldap_base_dn',
+                    'ldap_bind_dn',
+                    'ldap_bind_password',
+                    'ldap_use_tls',
+                    'ldap_user_filter',
+                    'ldap_attribute_mappings',
+                ];
+                break;
+
+            case 'oauth2':
+                $settingsToDelete = [
+                    'oauth2_provider_name',
+                    'oauth2_client_id',
+                    'oauth2_client_secret',
+                    'oauth2_authorization_endpoint',
+                    'oauth2_token_endpoint',
+                    'oauth2_userinfo_endpoint',
+                    'oauth2_scope',
+                    'oauth2_claim_mappings',
+                ];
+                break;
+        }
+
+        foreach ($settingsToDelete as $setting) {
+            $this->settings->delete($setting);
+        }
+
+        $this->logInfo('Provider Deleted', "SSO provider {$provider} configuration deleted");
+
+        wp_send_json_success([
+            'message' => sprintf(__('%s provider configuration deleted', 'formflow-pro'), strtoupper($provider)),
+        ]);
+    }
 }

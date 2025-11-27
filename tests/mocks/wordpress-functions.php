@@ -25,11 +25,13 @@ if (!defined('FORMFLOW_CACHE_ENABLED')) {
 }
 
 // Global mock data storage
-global $wp_options, $wp_transients, $wp_cache, $wpdb;
+global $wp_options, $wp_transients, $wp_cache, $wpdb, $wp_actions, $wp_scheduled_events;
 
 $wp_options = [];
 $wp_transients = [];
 $wp_cache = [];
+$wp_actions = [];
+$wp_scheduled_events = [];
 
 // Mock wpdb class
 if (!class_exists('wpdb')) {
@@ -573,14 +575,27 @@ if (!function_exists('add_filter')) {
 if (!function_exists('do_action')) {
     function do_action($tag, ...$args)
     {
-        // No-op
+        global $wp_actions;
+        if (isset($wp_actions[$tag])) {
+            foreach ($wp_actions[$tag] as $callback) {
+                call_user_func_array($callback['function'], $args);
+            }
+        }
     }
 }
 
 if (!function_exists('add_action')) {
     function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
     {
-        // No-op for testing - actions are not actually registered
+        global $wp_actions;
+        if (!isset($wp_actions[$tag])) {
+            $wp_actions[$tag] = [];
+        }
+        $wp_actions[$tag][] = [
+            'function' => $function_to_add,
+            'priority' => $priority,
+            'accepted_args' => $accepted_args,
+        ];
         return true;
     }
 }
@@ -1345,13 +1360,28 @@ if (!function_exists('wp_delete_file')) {
 if (!function_exists('wp_next_scheduled')) {
     function wp_next_scheduled($hook, $args = [])
     {
-        return false;
+        global $wp_scheduled_events;
+        $key = $hook . '_' . md5(serialize($args));
+        return $wp_scheduled_events[$key] ?? false;
     }
 }
 
 if (!function_exists('wp_schedule_event')) {
     function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error = false)
     {
+        global $wp_scheduled_events;
+        $key = $hook . '_' . md5(serialize($args));
+        $wp_scheduled_events[$key] = $timestamp;
+        return true;
+    }
+}
+
+if (!function_exists('wp_unschedule_event')) {
+    function wp_unschedule_event($timestamp, $hook, $args = [])
+    {
+        global $wp_scheduled_events;
+        $key = $hook . '_' . md5(serialize($args));
+        unset($wp_scheduled_events[$key]);
         return true;
     }
 }
@@ -1359,7 +1389,15 @@ if (!function_exists('wp_schedule_event')) {
 if (!function_exists('wp_clear_scheduled_hook')) {
     function wp_clear_scheduled_hook($hook, $args = [])
     {
-        return 0; // Returns number of unscheduled events (0 for mock)
+        global $wp_scheduled_events;
+        $count = 0;
+        foreach ($wp_scheduled_events as $key => $timestamp) {
+            if (strpos($key, $hook . '_') === 0) {
+                unset($wp_scheduled_events[$key]);
+                $count++;
+            }
+        }
+        return $count;
     }
 }
 
@@ -1405,12 +1443,14 @@ if (!defined('ABSPATH')) {
 
 function reset_wp_mocks()
 {
-    global $wp_options, $wp_transients, $wp_cache, $wpdb;
+    global $wp_options, $wp_transients, $wp_cache, $wpdb, $wp_actions, $wp_scheduled_events;
     global $wp_http_mock_response, $wp_http_mock_error, $wp_http_download_response;
 
     $wp_options = [];
     $wp_transients = [];
     $wp_cache = [];
+    $wp_actions = [];
+    $wp_scheduled_events = [];
     $wp_http_mock_response = null;
     $wp_http_mock_error = null;
     $wp_http_download_response = null;

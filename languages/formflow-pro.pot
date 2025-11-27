@@ -31,6 +31,12 @@ msgstr ""
 msgid "%d FormFlow Pro extensions have updates available."
 msgstr ""
 
+msgid "%d action"
+msgstr ""
+
+msgid "%d actions"
+msgstr ""
+
 msgid "%d day"
 msgstr ""
 
@@ -112,6 +118,9 @@ msgstr ""
 msgid "%s out of 5 stars"
 msgstr ""
 
+msgid "%s provider configuration deleted"
+msgstr ""
+
 msgid "%s updated successfully."
 msgstr ""
 
@@ -124,6 +133,15 @@ msgstr ""
 msgid "2FA"
 msgstr ""
 
+msgid "2FA Method"
+msgstr ""
+
+msgid "2FA Users"
+msgstr ""
+
+msgid "2FA will be required for users with these roles."
+msgstr ""
+
 msgid "A document signature was refused: %s"
 msgstr ""
 
@@ -134,6 +152,9 @@ msgid "A new form submission was received from %s"
 msgstr ""
 
 msgid "A similar request is already pending"
+msgstr ""
+
+msgid "ACS URL"
 msgstr ""
 
 msgid "ACS URL:"
@@ -155,6 +176,9 @@ msgid "AI rate limit exceeded. Please try again later."
 msgstr ""
 
 msgid "AI settings saved successfully."
+msgstr ""
+
+msgid "AI-powered spam detection with honeypot, reCAPTCHA, and custom rules."
 msgstr ""
 
 msgid "AJAX Submission"
@@ -184,6 +208,9 @@ msgstr ""
 msgid "API Only"
 msgstr ""
 
+msgid "API REST disponível"
+msgstr ""
+
 msgid "API Secret"
 msgstr ""
 
@@ -203,6 +230,12 @@ msgid "API returned error code %d: %s"
 msgstr ""
 
 msgid "AWS S3"
+msgstr ""
+
+msgid "Accept PayPal and credit cards"
+msgstr ""
+
+msgid "Accept credit cards worldwide"
 msgstr ""
 
 msgid "Access Control"
@@ -226,6 +259,9 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+msgid "Account SID"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
@@ -247,6 +283,9 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+msgid "Actions Run"
+msgstr ""
+
 msgid "Activate"
 msgstr ""
 
@@ -262,7 +301,13 @@ msgstr ""
 msgid "Active Consents"
 msgstr ""
 
+msgid "Active Directory integration"
+msgstr ""
+
 msgid "Active Forms"
+msgstr ""
+
+msgid "Active Payment Gateways"
 msgstr ""
 
 msgid "Active Sessions"
@@ -295,6 +340,9 @@ msgstr ""
 msgid "Add New Template"
 msgstr ""
 
+msgid "Add New Workflow"
+msgstr ""
+
 msgid "Add Option"
 msgstr ""
 
@@ -304,6 +352,12 @@ msgstr ""
 msgid "Add Trigger"
 msgstr ""
 
+msgid "Add Webhook"
+msgstr ""
+
+msgid "Add conditions to control when this workflow should run."
+msgstr ""
+
 msgid "Add custom metadata (one per line, format: key=value)"
 msgstr ""
 
@@ -311,6 +365,12 @@ msgid "Add submission ID column."
 msgstr ""
 
 msgid "Add submission timestamp as first column."
+msgstr ""
+
+msgid "Add this URL to your OAuth application settings."
+msgstr ""
+
+msgid "Add this URL to your Stripe webhook settings."
 msgstr ""
 
 msgid "Additional Tools"
@@ -332,6 +392,15 @@ msgid "Administrator"
 msgstr ""
 
 msgid "Advanced"
+msgstr ""
+
+msgid "Advanced Conditional Logic"
+msgstr ""
+
+msgid "Advanced Spam Protection"
+msgstr ""
+
+msgid "After form is rendered"
 msgstr ""
 
 msgid "Aggregate analytics from all sites"
@@ -400,6 +469,9 @@ msgstr ""
 msgid "And"
 msgstr ""
 
+msgid "Anonymize IP addresses in logs"
+msgstr ""
+
 msgid "Any"
 msgstr ""
 
@@ -445,6 +517,9 @@ msgstr ""
 msgid "Are you sure you want to delete this template?"
 msgstr ""
 
+msgid "Are you sure you want to delete this workflow?"
+msgstr ""
+
 msgid "Are you sure you want to delete this?"
 msgstr ""
 
@@ -475,16 +550,28 @@ msgstr ""
 msgid "Attributes"
 msgstr ""
 
+msgid "Audit Entries"
+msgstr ""
+
 msgid "Audit Log"
 msgstr ""
 
 msgid "Audit Log Retention"
 msgstr ""
 
+msgid "Audit Log Settings"
+msgstr ""
+
 msgid "Audit Logging Active"
 msgstr ""
 
 msgid "Audit Logs"
+msgstr ""
+
+msgid "Audit logging enabled"
+msgstr ""
+
+msgid "Audit logs older than this will be automatically deleted."
 msgstr ""
 
 msgid "Autentique"
@@ -503,6 +590,9 @@ msgid "Autentique Webhook Settings"
 msgstr ""
 
 msgid "Autentique not configured!"
+msgstr ""
+
+msgid "Auth Token"
 msgstr ""
 
 msgid "Auth0"
@@ -568,10 +658,19 @@ msgstr ""
 msgid "Automatically send reminder emails to signers who have not signed their documents."
 msgstr ""
 
+msgid "Automatically sync form submissions to Google Sheets in real-time."
+msgstr ""
+
 msgid "Automation"
 msgstr ""
 
+msgid "Automation & Workflows"
+msgstr ""
+
 msgid "Automations"
+msgstr ""
+
+msgid "Automação"
 msgstr ""
 
 msgid "Autosave"
@@ -589,6 +688,9 @@ msgstr ""
 msgid "Available Filters"
 msgstr ""
 
+msgid "Available Hooks"
+msgstr ""
+
 msgid "Available tags: {form_name}, {submission_id}, {date}"
 msgstr ""
 
@@ -599,6 +701,9 @@ msgid "Average Time"
 msgstr ""
 
 msgid "Avg Processing Time"
+msgstr ""
+
+msgid "Back to Workflows"
 msgstr ""
 
 msgid "Background Color"
@@ -619,6 +724,9 @@ msgstr ""
 msgid "Base URL"
 msgstr ""
 
+msgid "Based on your current security configuration"
+msgstr ""
+
 msgid "Basic"
 msgstr ""
 
@@ -629,6 +737,9 @@ msgid "Basic Information"
 msgstr ""
 
 msgid "Batch Size"
+msgstr ""
+
+msgid "Before form is rendered"
 msgstr ""
 
 msgid "Behavior"
@@ -652,7 +763,13 @@ msgstr ""
 msgid "Blocked At"
 msgstr ""
 
+msgid "Blocked Attempts"
+msgstr ""
+
 msgid "Blocked Domains"
+msgstr ""
+
+msgid "Boilerplate"
 msgstr ""
 
 msgid "Border Radius"
@@ -670,7 +787,13 @@ msgstr ""
 msgid "Browse Marketplace"
 msgstr ""
 
+msgid "Browse our marketplace to find extensions that enhance your forms."
+msgstr ""
+
 msgid "Browser"
+msgstr ""
+
+msgid "Build custom extensions for FormFlow Pro using our powerful SDK. Create integrations, custom field types, automation actions, and more."
 msgstr ""
 
 msgid "Build powerful extensions and integrations for FormFlow Pro."
@@ -692,6 +815,12 @@ msgid "By Status"
 msgstr ""
 
 msgid "CAPTCHA"
+msgstr ""
+
+msgid "CRM"
+msgstr ""
+
+msgid "CRM Sync Pro"
 msgstr ""
 
 msgid "CSS"
@@ -730,6 +859,9 @@ msgstr ""
 msgid "Calculate value"
 msgstr ""
 
+msgid "Callback URL"
+msgstr ""
+
 msgid "Callback URL:"
 msgstr ""
 
@@ -758,6 +890,15 @@ msgid "Chart"
 msgstr ""
 
 msgid "Chat"
+msgstr ""
+
+msgid "Chave de Segurança"
+msgstr ""
+
+msgid "Chave de segurança não encontrada"
+msgstr ""
+
+msgid "Chave de segurança registrada com sucesso"
 msgstr ""
 
 msgid "Check for Duplicates"
@@ -835,6 +976,12 @@ msgstr ""
 msgid "Command Palette"
 msgstr ""
 
+msgid "Communication"
+msgstr ""
+
+msgid "Community"
+msgstr ""
+
 msgid "Compact Mode"
 msgstr ""
 
@@ -865,10 +1012,16 @@ msgstr ""
 msgid "Compliance"
 msgstr ""
 
+msgid "Comprehensive guides and API reference for extension development."
+msgstr ""
+
 msgid "Condition"
 msgstr ""
 
 msgid "Conditions"
+msgstr ""
+
+msgid "Configuration (JSON)"
 msgstr ""
 
 msgid "Configuration imported successfully."
@@ -878,6 +1031,9 @@ msgid "Configuration saved successfully."
 msgstr ""
 
 msgid "Configure"
+msgstr ""
+
+msgid "Configure custom webhooks to send form data to any external service."
 msgstr ""
 
 msgid "Configure the webhook URL in your Autentique dashboard"
@@ -893,6 +1049,15 @@ msgid "Connect"
 msgstr ""
 
 msgid "Connect FormFlow Pro to 5,000+ apps via Zapier webhooks."
+msgstr ""
+
+msgid "Connect FormFlow Pro with your favorite tools and services. Enable integrations to automatically sync form data with CRMs, spreadsheets, messaging platforms, and more."
+msgstr ""
+
+msgid "Connect to 5000+ apps via Zapier"
+msgstr ""
+
+msgid "Connect your forms to 5000+ apps via Zapier automation."
 msgstr ""
 
 msgid "Connected"
@@ -913,13 +1078,22 @@ msgstr ""
 msgid "Connection error: %s"
 msgstr ""
 
+msgid "Connection failed"
+msgstr ""
+
 msgid "Connection failed."
 msgstr ""
 
 msgid "Connection failed: %s"
 msgstr ""
 
+msgid "Connection successful!"
+msgstr ""
+
 msgid "Connection successful."
+msgstr ""
+
+msgid "Connection test failed"
 msgstr ""
 
 msgid "Connection test failed:"
@@ -935,6 +1109,12 @@ msgid "Consent History"
 msgstr ""
 
 msgid "Consent Records"
+msgstr ""
+
+msgid "Consent Text"
+msgstr ""
+
+msgid "Consent Withdrawal:"
 msgstr ""
 
 msgid "Consent updated"
@@ -964,13 +1144,25 @@ msgstr ""
 msgid "Conversion Rate"
 msgstr ""
 
+msgid "Copied to clipboard!"
+msgstr ""
+
 msgid "Copy"
 msgstr ""
 
 msgid "Copy Shortcode"
 msgstr ""
 
+msgid "Copy the Webhook Signing Secret"
+msgstr ""
+
+msgid "Copy the webhook URL from Zapier"
+msgstr ""
+
 msgid "Copy this URL and configure it in your"
+msgstr ""
+
+msgid "Copy your Publishable and Secret keys"
 msgstr ""
 
 msgid "Corporate Login"
@@ -988,7 +1180,19 @@ msgstr ""
 msgid "Create Form"
 msgstr ""
 
+msgid "Create New Workflow"
+msgstr ""
+
+msgid "Create Signature Request"
+msgstr ""
+
+msgid "Create Task"
+msgstr ""
+
 msgid "Create Timeline Event"
+msgstr ""
+
+msgid "Create WordPress user accounts from form submissions with role assignment."
 msgstr ""
 
 msgid "Create Workflow"
@@ -997,10 +1201,22 @@ msgstr ""
 msgid "Create Your First Form"
 msgstr ""
 
+msgid "Create Your First Workflow"
+msgstr ""
+
+msgid "Create a new Zap in Zapier"
+msgstr ""
+
+msgid "Create an Incoming Webhook in %s"
+msgstr ""
+
 msgid "Create an account at"
 msgstr ""
 
 msgid "Create anyway"
+msgstr ""
+
+msgid "Create complex conditional rules for fields, sections, and form behavior."
 msgstr ""
 
 msgid "Create timeline event for form submission."
@@ -1081,10 +1297,16 @@ msgstr ""
 msgid "Custom URLs"
 msgstr ""
 
+msgid "Custom Webhooks"
+msgstr ""
+
 msgid "Custom plugin name shown in admin"
 msgstr ""
 
 msgid "Custom text for admin footer (on plugin pages)"
+msgstr ""
+
+msgid "Custom validation logic"
 msgstr ""
 
 msgid "Customer"
@@ -1094,6 +1316,9 @@ msgid "Customize the plugin branding for your agency or client projects."
 msgstr ""
 
 msgid "DB Version"
+msgstr ""
+
+msgid "Dados de credencial inválidos"
 msgstr ""
 
 msgid "Daily"
@@ -1117,7 +1342,13 @@ msgstr ""
 msgid "Data Deletion"
 msgstr ""
 
+msgid "Data Deletion:"
+msgstr ""
+
 msgid "Data Export"
+msgstr ""
+
+msgid "Data Export:"
 msgstr ""
 
 msgid "Data Management"
@@ -1126,7 +1357,13 @@ msgstr ""
 msgid "Data Retention"
 msgstr ""
 
+msgid "Data Retention (days)"
+msgstr ""
+
 msgid "Data Subject"
+msgstr ""
+
+msgid "Data Subject Rights"
 msgstr ""
 
 msgid "Data exported to Google Sheets successfully."
@@ -1228,6 +1465,9 @@ msgstr ""
 msgid "Default: 389 (LDAP) or 636 (LDAPS)"
 msgstr ""
 
+msgid "Define what should happen when this workflow is triggered."
+msgstr ""
+
 msgid "Delay"
 msgstr ""
 
@@ -1265,6 +1505,9 @@ msgid "Developer Docs"
 msgstr ""
 
 msgid "Developer Documentation"
+msgstr ""
+
+msgid "Developer SDK"
 msgstr ""
 
 msgid "Developers"
@@ -1363,6 +1606,18 @@ msgstr ""
 msgid "Download Codes"
 msgstr ""
 
+msgid "Download Metadata XML"
+msgstr ""
+
+msgid "Download a starter template to begin developing your extension."
+msgstr ""
+
+msgid "Download service account credentials from %s"
+msgstr ""
+
+msgid "Downloads"
+msgstr ""
+
 msgid "Draft"
 msgstr ""
 
@@ -1388,6 +1643,9 @@ msgid "Duplicate Form"
 msgstr ""
 
 msgid "Duplicate entry."
+msgstr ""
+
+msgid "Duration"
 msgstr ""
 
 msgid "Edit"
@@ -1417,6 +1675,9 @@ msgstr ""
 msgid "Email Builder"
 msgstr ""
 
+msgid "Email Code"
+msgstr ""
+
 msgid "Email Notifications"
 msgstr ""
 
@@ -1444,22 +1705,82 @@ msgstr ""
 msgid "Enable 2FA"
 msgstr ""
 
+msgid "Enable Audit Log"
+msgstr ""
+
 msgid "Enable Cache"
 msgstr ""
 
 msgid "Enable Digital Signature"
 msgstr ""
 
+msgid "Enable GDPR Features"
+msgstr ""
+
+msgid "Enable GDPR/LGPD compliance features"
+msgstr ""
+
+msgid "Enable Google Sheets"
+msgstr ""
+
+msgid "Enable Google Sheets integration"
+msgstr ""
+
+msgid "Enable HubSpot"
+msgstr ""
+
+msgid "Enable HubSpot integration"
+msgstr ""
+
+msgid "Enable LDAP"
+msgstr ""
+
+msgid "Enable LDAP / Active Directory authentication"
+msgstr ""
+
+msgid "Enable OAuth"
+msgstr ""
+
+msgid "Enable OAuth / Social login"
+msgstr ""
+
 msgid "Enable PKCE (recommended)"
+msgstr ""
+
+msgid "Enable PayPal"
+msgstr ""
+
+msgid "Enable PayPal payment gateway"
+msgstr ""
+
+msgid "Enable Payments"
 msgstr ""
 
 msgid "Enable Queue"
 msgstr ""
 
+msgid "Enable SAML"
+msgstr ""
+
+msgid "Enable SAML 2.0 authentication"
+msgstr ""
+
+msgid "Enable SMS notifications via Twilio"
+msgstr ""
+
 msgid "Enable SSO"
 msgstr ""
 
+msgid "Enable Salesforce"
+msgstr ""
+
+msgid "Enable Salesforce integration"
+msgstr ""
+
 msgid "Enable Sandbox Mode"
+msgstr ""
+
+msgid "Enable Security Features"
 msgstr ""
 
 msgid "Enable Single Logout (logout from IdP when logging out of WordPress)"
@@ -1468,10 +1789,40 @@ msgstr ""
 msgid "Enable Single Sign-On"
 msgstr ""
 
+msgid "Enable Single Sign-On for form authentication."
+msgstr ""
+
+msgid "Enable Slack"
+msgstr ""
+
+msgid "Enable Slack notifications"
+msgstr ""
+
+msgid "Enable Stripe"
+msgstr ""
+
+msgid "Enable Stripe payment gateway"
+msgstr ""
+
+msgid "Enable Twilio"
+msgstr ""
+
 msgid "Enable Two-Factor Authentication"
 msgstr ""
 
 msgid "Enable White Label"
+msgstr ""
+
+msgid "Enable WooCommerce"
+msgstr ""
+
+msgid "Enable Zapier"
+msgstr ""
+
+msgid "Enable Zapier integration"
+msgstr ""
+
+msgid "Enable all security features"
 msgstr ""
 
 msgid "Enable background queue processing"
@@ -1492,10 +1843,19 @@ msgstr ""
 msgid "Enable field"
 msgstr ""
 
+msgid "Enable payment processing for forms"
+msgstr ""
+
 msgid "Enable security headers (X-Frame-Options, CSP, etc.)"
 msgstr ""
 
+msgid "Enable test/sandbox mode"
+msgstr ""
+
 msgid "Enable this for maximum security, but may cause issues with mobile users."
+msgstr ""
+
+msgid "Enable two-factor authentication"
 msgstr ""
 
 msgid "Enable white label mode to customize plugin branding"
@@ -1543,6 +1903,9 @@ msgstr ""
 msgid "Enterprise SSO Settings"
 msgstr ""
 
+msgid "Enterprise identity provider integration"
+msgstr ""
+
 msgid "Entity ID:"
 msgstr ""
 
@@ -1561,7 +1924,16 @@ msgstr ""
 msgid "Error saving settings"
 msgstr ""
 
+msgid "Esta chave de segurança já está registrada"
+msgstr ""
+
+msgid "Este módulo está ativo. A interface administrativa completa estará disponível em breve."
+msgstr ""
+
 msgid "Event"
+msgstr ""
+
+msgid "Events"
 msgstr ""
 
 msgid "Events today"
@@ -1580,6 +1952,15 @@ msgid "Example:"
 msgstr ""
 
 msgid "Excel Report"
+msgstr ""
+
+msgid "Excellent"
+msgstr ""
+
+msgid "Execution Logs"
+msgstr ""
+
+msgid "Executions Today"
 msgstr ""
 
 msgid "Expired"
@@ -1624,6 +2005,9 @@ msgstr ""
 msgid "Export file not found"
 msgstr ""
 
+msgid "Export form submissions to professionally formatted PDF documents with custom templates."
+msgstr ""
+
 msgid "Export generated on %s"
 msgstr ""
 
@@ -1631,6 +2015,9 @@ msgid "Export not found or expired"
 msgstr ""
 
 msgid "Export request failed."
+msgstr ""
+
+msgid "Export submissions to Google Sheets"
 msgstr ""
 
 msgid "Export your FormFlow Pro configuration to a JSON file. This includes forms, templates, settings, and webhooks."
@@ -1643,6 +2030,9 @@ msgid "Exporting..."
 msgstr ""
 
 msgid "Extension"
+msgstr ""
+
+msgid "Extension Marketplace"
 msgstr ""
 
 msgid "Extension Name"
@@ -1682,6 +2072,9 @@ msgid "Extensions"
 msgstr ""
 
 msgid "External ID"
+msgstr ""
+
+msgid "Facebook"
 msgstr ""
 
 msgid "Failed"
@@ -1796,6 +2189,12 @@ msgid "Failed to update form status."
 msgstr ""
 
 msgid "Failed to update form."
+msgstr ""
+
+msgid "Falha ao registrar chave de segurança"
+msgstr ""
+
+msgid "Falha ao remover chave de segurança"
 msgstr ""
 
 msgid "Fast and cost-effective for most tasks."
@@ -2020,16 +2419,34 @@ msgstr ""
 msgid "GDPR"
 msgstr ""
 
+msgid "GDPR / LGPD"
+msgstr ""
+
+msgid "GDPR / LGPD Compliance"
+msgstr ""
+
 msgid "GDPR Compliance"
 msgstr ""
 
 msgid "GDPR Requests"
 msgstr ""
 
+msgid "GDPR/LGPD compliance configured"
+msgstr ""
+
 msgid "GPT Model"
 msgstr ""
 
+msgid "Gateway"
+msgstr ""
+
 msgid "General"
+msgstr ""
+
+msgid "General Payment Settings"
+msgstr ""
+
+msgid "General Security Settings"
 msgstr ""
 
 msgid "General Settings"
@@ -2065,7 +2482,16 @@ msgstr ""
 msgid "Get your API key from"
 msgstr ""
 
+msgid "Get your API key from %s"
+msgstr ""
+
 msgid "Getting Started"
+msgstr ""
+
+msgid "GitHub"
+msgstr ""
+
+msgid "Give your workflow a descriptive name."
 msgstr ""
 
 msgid "Given"
@@ -2074,10 +2500,19 @@ msgstr ""
 msgid "Global Integrations"
 msgstr ""
 
+msgid "Go to %s"
+msgstr ""
+
+msgid "Go to %s and add the webhook URL above"
+msgstr ""
+
 msgid "Go to Developer Settings and generate an API key"
 msgstr ""
 
 msgid "Go to Settings"
+msgstr ""
+
+msgid "Good"
 msgstr ""
 
 msgid "Google"
@@ -2095,7 +2530,13 @@ msgstr ""
 msgid "Google Sheets"
 msgstr ""
 
+msgid "Google Sheets Sync"
+msgstr ""
+
 msgid "Google Sheets integration is not configured or enabled."
+msgstr ""
+
+msgid "Google, Microsoft, GitHub login"
 msgstr ""
 
 msgid "Greater Than"
@@ -2170,6 +2611,9 @@ msgstr ""
 msgid "Honeypot"
 msgstr ""
 
+msgid "Hook"
+msgstr ""
+
 msgid "Hook Name"
 msgstr ""
 
@@ -2185,13 +2629,22 @@ msgstr ""
 msgid "How long to keep cached data (60-86400 seconds)"
 msgstr ""
 
+msgid "How to connect Zapier"
+msgstr ""
+
 msgid "HubSpot"
 msgstr ""
 
 msgid "HubSpot integration is not configured or enabled."
 msgstr ""
 
+msgid "I agree to the processing of my personal data according to the Privacy Policy."
+msgstr ""
+
 msgid "ID"
+msgstr ""
+
+msgid "ID da chave inválido"
 msgstr ""
 
 msgid "IP"
@@ -2201,6 +2654,9 @@ msgid "IP Address"
 msgstr ""
 
 msgid "IP Address/CIDR"
+msgstr ""
+
+msgid "IP Anonymization"
 msgstr ""
 
 msgid "IP Blacklist"
@@ -2237,6 +2693,9 @@ msgid "IdP SLO URL"
 msgstr ""
 
 msgid "IdP SSO URL"
+msgstr ""
+
+msgid "Identity Provider Entity ID (Issuer)"
 msgstr ""
 
 msgid "Identity Provider Settings"
@@ -2362,6 +2821,9 @@ msgstr ""
 msgid "Install Prompt"
 msgstr ""
 
+msgid "Installation failed"
+msgstr ""
+
 msgid "Installed"
 msgstr ""
 
@@ -2386,7 +2848,16 @@ msgstr ""
 msgid "Integration not found."
 msgstr ""
 
+msgid "Integration settings saved successfully."
+msgstr ""
+
 msgid "Integrations"
+msgstr ""
+
+msgid "Integrações"
+msgstr ""
+
+msgid "Interface administrativa em desenvolvimento"
 msgstr ""
 
 msgid "Invalid"
@@ -2446,6 +2917,9 @@ msgstr ""
 msgid "Invalid provider"
 msgstr ""
 
+msgid "Invalid provider type"
+msgstr ""
+
 msgid "Invalid request method"
 msgstr ""
 
@@ -2485,6 +2959,12 @@ msgstr ""
 msgid "Job Title"
 msgstr ""
 
+msgid "Join"
+msgstr ""
+
+msgid "Join our developer community for support and collaboration."
+msgstr ""
+
 msgid "Just now"
 msgstr ""
 
@@ -2494,7 +2974,19 @@ msgstr ""
 msgid "LDAP"
 msgstr ""
 
+msgid "LDAP / AD"
+msgstr ""
+
+msgid "LDAP / Active Directory"
+msgstr ""
+
+msgid "LDAP / Active Directory Configuration"
+msgstr ""
+
 msgid "LDAP Host"
+msgstr ""
+
+msgid "LDAP Port"
 msgstr ""
 
 msgid "LDAP filter for user search. Use %s as placeholder for username."
@@ -2542,6 +3034,9 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
+msgid "Last Run"
+msgstr ""
+
 msgid "Last Submission"
 msgstr ""
 
@@ -2554,6 +3049,9 @@ msgstr ""
 msgid "Last login:"
 msgstr ""
 
+msgid "Last octet of IPv4 and last 80 bits of IPv6 will be masked."
+msgstr ""
+
 msgid "Layout"
 msgstr ""
 
@@ -2564,6 +3062,9 @@ msgid "Lead Source"
 msgstr ""
 
 msgid "Lead Status"
+msgstr ""
+
+msgid "Learn More"
 msgstr ""
 
 msgid "Leave all unchecked to export all forms."
@@ -2626,6 +3127,9 @@ msgstr ""
 msgid "Limit exceeded."
 msgstr ""
 
+msgid "Limit form submissions to prevent abuse."
+msgstr ""
+
 msgid "Line Chart"
 msgstr ""
 
@@ -2633,6 +3137,9 @@ msgid "Linked Identities"
 msgstr ""
 
 msgid "Linked:"
+msgstr ""
+
+msgid "LinkedIn"
 msgstr ""
 
 msgid "List all available filters"
@@ -2663,6 +3170,9 @@ msgid "Local Heuristics"
 msgstr ""
 
 msgid "Location"
+msgstr ""
+
+msgid "Log all form and system activities"
 msgstr ""
 
 msgid "Login Page Customization"
@@ -2696,6 +3206,9 @@ msgid "Marketing Qualified Lead"
 msgstr ""
 
 msgid "Marketplace"
+msgstr ""
+
+msgid "Master switch for all security features. Individual features can be configured in their respective tabs."
 msgstr ""
 
 msgid "Max Concurrent Sessions"
@@ -2752,6 +3265,9 @@ msgstr ""
 msgid "Microsoft"
 msgstr ""
 
+msgid "Microsoft / Azure AD"
+msgstr ""
+
 msgid "Microsoft Teams"
 msgstr ""
 
@@ -2794,6 +3310,12 @@ msgstr ""
 msgid "MySQL Version"
 msgstr ""
 
+msgid "Módulo Enterprise"
+msgstr ""
+
+msgid "Módulo carregado e inicializado"
+msgstr ""
+
 msgid "Name"
 msgstr ""
 
@@ -2801,6 +3323,9 @@ msgid "Name should not contain numbers."
 msgstr ""
 
 msgid "Need a License?"
+msgstr ""
+
+msgid "Needs Improvement"
 msgstr ""
 
 msgid "Network"
@@ -2831,6 +3356,9 @@ msgid "Network error. Please check your connection."
 msgstr ""
 
 msgid "Network licenses allow you to use FormFlow Pro across your entire WordPress multisite network."
+msgstr ""
+
+msgid "Never"
 msgstr ""
 
 msgid "New"
@@ -2887,6 +3415,9 @@ msgstr ""
 msgid "No access token received."
 msgstr ""
 
+msgid "No audit entries yet."
+msgstr ""
+
 msgid "No authorization code received"
 msgstr ""
 
@@ -2899,6 +3430,12 @@ msgstr ""
 msgid "No data available."
 msgstr ""
 
+msgid "No execution logs found."
+msgstr ""
+
+msgid "No extensions installed yet"
+msgstr ""
+
 msgid "No extensions installed yet."
 msgstr ""
 
@@ -2909,6 +3446,9 @@ msgid "No import data provided."
 msgstr ""
 
 msgid "No logs found."
+msgstr ""
+
+msgid "No payment gateways configured in WooCommerce."
 msgstr ""
 
 msgid "No privacy requests."
@@ -2935,10 +3475,19 @@ msgstr ""
 msgid "No text provided."
 msgstr ""
 
+msgid "No transactions yet."
+msgstr ""
+
 msgid "No trusted devices."
 msgstr ""
 
 msgid "No webhook URL configured."
+msgstr ""
+
+msgid "No webhooks configured yet."
+msgstr ""
+
+msgid "No workflows created yet."
 msgstr ""
 
 msgid "None"
@@ -2998,10 +3547,19 @@ msgstr ""
 msgid "Number of times to retry failed jobs"
 msgstr ""
 
+msgid "OAuth / Social"
+msgstr ""
+
+msgid "OAuth / Social Login Configuration"
+msgstr ""
+
 msgid "OAuth 2.0"
 msgstr ""
 
 msgid "OAuth 2.0 (User consent)"
+msgstr ""
+
+msgid "OAuth Provider"
 msgstr ""
 
 msgid "OAuth2 configuration is valid"
@@ -3026,6 +3584,12 @@ msgid "Offline Support"
 msgstr ""
 
 msgid "Okta"
+msgstr ""
+
+msgid "One IP or CIDR range per line. If set, only these IPs can access admin forms."
+msgstr ""
+
+msgid "One IP or CIDR range per line. These IPs will be blocked from submitting forms."
 msgstr ""
 
 msgid "One domain per line. Leave empty to allow all domains."
@@ -3056,6 +3620,9 @@ msgid "OpenID Connect"
 msgstr ""
 
 msgid "Operation completed successfully."
+msgstr ""
+
+msgid "Operations"
 msgstr ""
 
 msgid "Operator is required."
@@ -3106,6 +3673,9 @@ msgstr ""
 msgid "Overwrite existing items"
 msgstr ""
 
+msgid "PDF Export Pro"
+msgstr ""
+
 msgid "PDF Report"
 msgstr ""
 
@@ -3136,6 +3706,9 @@ msgstr ""
 msgid "Padding"
 msgstr ""
 
+msgid "Pagamentos"
+msgstr ""
+
 msgid "Page Break"
 msgstr ""
 
@@ -3160,6 +3733,9 @@ msgstr ""
 msgid "Paste your service account JSON key (for service account auth)."
 msgstr ""
 
+msgid "Paused"
+msgstr ""
+
 msgid "PayPal"
 msgstr ""
 
@@ -3178,10 +3754,16 @@ msgstr ""
 msgid "Payment Pending"
 msgstr ""
 
+msgid "Payment Processing"
+msgstr ""
+
 msgid "Payment Settings"
 msgstr ""
 
 msgid "Payment Successful"
+msgstr ""
+
+msgid "Payment settings saved successfully."
 msgstr ""
 
 msgid "Payments"
@@ -3226,10 +3808,19 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+msgid "Permissão negada"
+msgstr ""
+
 msgid "Personal Data Export"
 msgstr ""
 
+msgid "Personal data older than this will be automatically anonymized/deleted."
+msgstr ""
+
 msgid "Phone"
+msgstr ""
+
+msgid "Phone Number"
 msgstr ""
 
 msgid "Pie Chart"
@@ -3284,6 +3875,9 @@ msgid "Please enter your license key"
 msgstr ""
 
 msgid "Please enter your real name."
+msgstr ""
+
+msgid "Please install and activate WooCommerce to use this integration."
 msgstr ""
 
 msgid "Please log in again."
@@ -3418,6 +4012,9 @@ msgstr ""
 msgid "Provider Name"
 msgstr ""
 
+msgid "Publishable Key"
+msgstr ""
+
 msgid "Published"
 msgstr ""
 
@@ -3451,6 +4048,9 @@ msgstr ""
 msgid "Quick Start"
 msgstr ""
 
+msgid "Quick Start Example"
+msgstr ""
+
 msgid "REST API"
 msgstr ""
 
@@ -3461,6 +4061,9 @@ msgid "Radio"
 msgstr ""
 
 msgid "Range"
+msgstr ""
+
+msgid "Rate Limit"
 msgstr ""
 
 msgid "Rate Limiting"
@@ -3494,6 +4097,9 @@ msgid "Recent Submissions"
 msgstr ""
 
 msgid "Recipients"
+msgstr ""
+
+msgid "Recommended"
 msgstr ""
 
 msgid "Recommended for production. Significantly improves performance."
@@ -3646,6 +4252,9 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
+msgid "Required for Roles"
+msgstr ""
+
 msgid "Resend Link"
 msgstr ""
 
@@ -3662,6 +4271,9 @@ msgid "Resources"
 msgstr ""
 
 msgid "Restore"
+msgstr ""
+
+msgid "Retention Period (days)"
 msgstr ""
 
 msgid "Retry Attempts"
@@ -3718,19 +4330,34 @@ msgstr ""
 msgid "SDK Endpoints"
 msgstr ""
 
+msgid "SLO URL"
+msgstr ""
+
 msgid "SLO URL:"
 msgstr ""
 
 msgid "SMS"
 msgstr ""
 
+msgid "SMS Code"
+msgstr ""
+
 msgid "SMS Notifications"
+msgstr ""
+
+msgid "SP Entity ID"
+msgstr ""
+
+msgid "SSL/HTTPS enabled"
 msgstr ""
 
 msgid "SSO"
 msgstr ""
 
 msgid "SSO Configuration"
+msgstr ""
+
+msgid "SSO Enterprise"
 msgstr ""
 
 msgid "SSO Error:"
@@ -3757,6 +4384,9 @@ msgstr ""
 msgid "SSO session expired."
 msgstr ""
 
+msgid "SSO settings saved successfully."
+msgstr ""
+
 msgid "Sales Qualified Lead"
 msgstr ""
 
@@ -3778,6 +4408,9 @@ msgstr ""
 msgid "Save Form"
 msgstr ""
 
+msgid "Save Integration Settings"
+msgstr ""
+
 msgid "Save LDAP Settings"
 msgstr ""
 
@@ -3787,10 +4420,19 @@ msgstr ""
 msgid "Save Network Settings"
 msgstr ""
 
+msgid "Save Payment Settings"
+msgstr ""
+
 msgid "Save Provider"
 msgstr ""
 
 msgid "Save SAML Settings"
+msgstr ""
+
+msgid "Save SSO Settings"
+msgstr ""
+
+msgid "Save Security Settings"
 msgstr ""
 
 msgid "Save Settings"
@@ -3826,6 +4468,12 @@ msgstr ""
 msgid "Schedule Report"
 msgstr ""
 
+msgid "Scheduled"
+msgstr ""
+
+msgid "Scheduled (Cron)"
+msgstr ""
+
 msgid "Scheduled Reports"
 msgstr ""
 
@@ -3850,7 +4498,13 @@ msgstr ""
 msgid "Secondary Color"
 msgstr ""
 
+msgid "Secret Key"
+msgstr ""
+
 msgid "Security"
+msgstr ""
+
+msgid "Security & Compliance"
 msgstr ""
 
 msgid "Security Alert Emails"
@@ -3859,7 +4513,13 @@ msgstr ""
 msgid "Security Center"
 msgstr ""
 
+msgid "Security Checklist"
+msgstr ""
+
 msgid "Security Headers"
+msgstr ""
+
+msgid "Security Score"
 msgstr ""
 
 msgid "Security Settings"
@@ -3869,6 +4529,15 @@ msgid "Security Status"
 msgstr ""
 
 msgid "Security check failed."
+msgstr ""
+
+msgid "Security features enabled"
+msgstr ""
+
+msgid "Security settings saved successfully."
+msgstr ""
+
+msgid "Segurança"
 msgstr ""
 
 msgid "Select"
@@ -3895,6 +4564,9 @@ msgstr ""
 msgid "Select template..."
 msgstr ""
 
+msgid "Select when this workflow should be triggered."
+msgstr ""
+
 msgid "Select which FormFlow form to save this submission to"
 msgstr ""
 
@@ -3910,7 +4582,13 @@ msgstr ""
 msgid "Send Notification Email"
 msgstr ""
 
+msgid "Send SMS notifications"
+msgstr ""
+
 msgid "Send Test"
+msgstr ""
+
+msgid "Send Webhook"
 msgstr ""
 
 msgid "Send admin notification on new submission"
@@ -3920,6 +4598,15 @@ msgid "Send automatic reminders for pending signatures"
 msgstr ""
 
 msgid "Send code to email"
+msgstr ""
+
+msgid "Send form submission notifications directly to Slack channels."
+msgstr ""
+
+msgid "Send leads to HubSpot CRM"
+msgstr ""
+
+msgid "Send notifications to Slack channels"
 msgstr ""
 
 msgid "Send to Autentique for digital signature"
@@ -4000,6 +4687,9 @@ msgstr ""
 msgid "Settings saved"
 msgstr ""
 
+msgid "Settings saved successfully"
+msgstr ""
+
 msgid "Settings saved successfully."
 msgstr ""
 
@@ -4007,6 +4697,9 @@ msgid "Settings saved!"
 msgstr ""
 
 msgid "Settings saved."
+msgstr ""
+
+msgid "Setup Instructions"
 msgstr ""
 
 msgid "Setup session expired. Please start again."
@@ -4084,6 +4777,9 @@ msgstr ""
 msgid "Signature"
 msgstr ""
 
+msgid "Signature Completed"
+msgstr ""
+
 msgid "Signature Reminders"
 msgstr ""
 
@@ -4094,6 +4790,9 @@ msgid "Signature URL"
 msgstr ""
 
 msgid "Signature link resent successfully."
+msgstr ""
+
+msgid "Signature status changed"
 msgstr ""
 
 msgid "Signed"
@@ -4118,6 +4817,9 @@ msgid "Single Sign-On"
 msgstr ""
 
 msgid "Single Sign-On Service URL"
+msgstr ""
+
+msgid "Single Sign-On Status"
 msgstr ""
 
 msgid "Site"
@@ -4180,6 +4882,12 @@ msgstr ""
 msgid "Standalone"
 msgstr ""
 
+msgid "Starts with pk_test_ (test) or pk_live_ (production)"
+msgstr ""
+
+msgid "Starts with sk_test_ (test) or sk_live_ (production)"
+msgstr ""
+
 msgid "State"
 msgstr ""
 
@@ -4190,6 +4898,12 @@ msgid "Statistics"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid "Status Change"
+msgstr ""
+
+msgid "Status do Módulo"
 msgstr ""
 
 msgid "Store these codes in a safe place:"
@@ -4342,7 +5056,13 @@ msgstr ""
 msgid "Sync failed."
 msgstr ""
 
+msgid "Sync form data with Salesforce, HubSpot, Pipedrive, and more CRMs."
+msgstr ""
+
 msgid "Sync form submissions with HubSpot CRM as Contacts or Deals."
+msgstr ""
+
+msgid "Sync form submissions with Salesforce CRM"
 msgstr ""
 
 msgid "Sync form submissions with Salesforce CRM as Leads or Contacts."
@@ -4352,6 +5072,9 @@ msgid "Sync settings from main site to all subsites"
 msgstr ""
 
 msgid "Sync user roles based on IdP group membership"
+msgstr ""
+
+msgid "System"
 msgstr ""
 
 msgid "System Health"
@@ -4367,6 +5090,9 @@ msgid "System Status"
 msgstr ""
 
 msgid "TEST"
+msgstr ""
+
+msgid "TOTP (Google Authenticator, Authy)"
 msgstr ""
 
 msgid "Table"
@@ -4414,6 +5140,9 @@ msgstr ""
 msgid "Test Connection"
 msgstr ""
 
+msgid "Test Mode"
+msgstr ""
+
 msgid "Test email sent successfully to %s"
 msgstr ""
 
@@ -4439,6 +5168,9 @@ msgid "Text Area"
 msgstr ""
 
 msgid "Text Color"
+msgstr ""
+
+msgid "Text displayed next to the consent checkbox on forms."
 msgstr ""
 
 msgid "Thank you! Your submission has been received."
@@ -4543,19 +5275,34 @@ msgstr ""
 msgid "Total Requests"
 msgstr ""
 
+msgid "Total Revenue"
+msgstr ""
+
 msgid "Total Sites"
 msgstr ""
 
 msgid "Total Submissions"
 msgstr ""
 
+msgid "Total Transactions"
+msgstr ""
+
+msgid "Total Workflows"
+msgstr ""
+
 msgid "Transaction ID"
+msgstr ""
+
+msgid "Transactions"
 msgstr ""
 
 msgid "Trends"
 msgstr ""
 
 msgid "Trigger"
+msgstr ""
+
+msgid "Triggered after form submission"
 msgstr ""
 
 msgid "Triggers"
@@ -4571,6 +5318,9 @@ msgid "Two-Factor Auth"
 msgstr ""
 
 msgid "Two-Factor Authentication"
+msgstr ""
+
+msgid "Two-factor authentication configured"
 msgstr ""
 
 msgid "Two-factor authentication disabled."
@@ -4651,6 +5401,12 @@ msgstr ""
 msgid "Update Field"
 msgstr ""
 
+msgid "Update Status"
+msgstr ""
+
+msgid "Update Workflow"
+msgstr ""
+
 msgid "Update contact if email already exists."
 msgstr ""
 
@@ -4690,10 +5446,19 @@ msgstr ""
 msgid "Use StartTLS"
 msgstr ""
 
+msgid "Use WooCommerce payment gateways"
+msgstr ""
+
+msgid "Use it in your form automations"
+msgstr ""
+
 msgid "Use same integration credentials for all sites"
 msgstr ""
 
 msgid "Use sandbox environment for testing. Documents created in sandbox mode are not legally binding. Disable for production use."
+msgstr ""
+
+msgid "Use test credentials for all payment gateways. No real charges will be made."
 msgstr ""
 
 msgid "Use the Scaffold tool to generate extension boilerplate"
@@ -4705,7 +5470,13 @@ msgstr ""
 msgid "Use these hooks to execute code at specific points in FormFlow Pro."
 msgstr ""
 
+msgid "Use these values to configure your Identity Provider:"
+msgstr ""
+
 msgid "Use this URL as the redirect/callback URI in your OAuth2 provider configuration."
+msgstr ""
+
+msgid "Use this URL when creating a Zapier trigger for FormFlow Pro."
 msgstr ""
 
 msgid "Used in documents and email templates"
@@ -4726,6 +5497,9 @@ msgstr ""
 msgid "User Provisioning"
 msgstr ""
 
+msgid "User Registration"
+msgstr ""
+
 msgid "User Search Settings"
 msgstr ""
 
@@ -4739,6 +5513,9 @@ msgid "Username and password are required"
 msgstr ""
 
 msgid "Users"
+msgstr ""
+
+msgid "Users can exercise their rights through these endpoints:"
 msgstr ""
 
 msgid "Users with 2FA enabled"
@@ -4807,6 +5584,9 @@ msgstr ""
 msgid "View Analytics"
 msgstr ""
 
+msgid "View Docs"
+msgstr ""
+
 msgid "View Documentation"
 msgstr ""
 
@@ -4814,6 +5594,9 @@ msgid "View Documents"
 msgstr ""
 
 msgid "View Info"
+msgstr ""
+
+msgid "View Logs"
 msgstr ""
 
 msgid "View Pricing"
@@ -4867,6 +5650,15 @@ msgstr ""
 msgid "Webhook Configuration"
 msgstr ""
 
+msgid "Webhook Payload Format"
+msgstr ""
+
+msgid "Webhook Received"
+msgstr ""
+
+msgid "Webhook Secret"
+msgstr ""
+
 msgid "Webhook URL"
 msgstr ""
 
@@ -4888,6 +5680,9 @@ msgstr ""
 msgid "Welcome to FormFlow Pro SDK"
 msgstr ""
 
+msgid "When enabled, form payments will use all active WooCommerce payment methods."
+msgstr ""
+
 msgid "When enabled, signers will automatically receive an email with the signature link. If disabled, documents will be created but you will need to send them manually."
 msgstr ""
 
@@ -4907,6 +5702,9 @@ msgid "Width"
 msgstr ""
 
 msgid "WooCommerce"
+msgstr ""
+
+msgid "WooCommerce not detected!"
 msgstr ""
 
 msgid "WordPress"
@@ -4936,7 +5734,19 @@ msgstr ""
 msgid "Workflow Status"
 msgstr ""
 
+msgid "Workflow created successfully."
+msgstr ""
+
+msgid "Workflow deleted successfully."
+msgstr ""
+
+msgid "Workflow updated successfully."
+msgstr ""
+
 msgid "Workflows"
+msgstr ""
+
+msgid "X.509 certificate from your Identity Provider"
 msgstr ""
 
 msgid "X.509 certificate from your Identity Provider (PEM format)"
@@ -4963,6 +5773,9 @@ msgstr ""
 msgid "Your Salesforce instance URL (e.g., https://yourcompany.salesforce.com)."
 msgstr ""
 
+msgid "Your Twilio phone number in E.164 format."
+msgstr ""
+
 msgid "Your Two-Factor Authentication"
 msgstr ""
 
@@ -4973,6 +5786,9 @@ msgid "ZIP Code"
 msgstr ""
 
 msgid "Zapier"
+msgstr ""
+
+msgid "Zapier Integration"
 msgstr ""
 
 msgid "Zapier integration is not enabled."
@@ -5069,6 +5885,12 @@ msgstr ""
 msgid "months"
 msgstr ""
 
+msgid "not contains"
+msgstr ""
+
+msgid "not equals"
+msgstr ""
+
 msgid "or"
 msgstr ""
 
@@ -5076,6 +5898,9 @@ msgid "processing restriction"
 msgstr ""
 
 msgid "reCAPTCHA"
+msgstr ""
+
+msgid "requests per minute per IP"
 msgstr ""
 
 msgid "seconds"
