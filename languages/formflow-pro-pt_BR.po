@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: FormFlow Pro Enterprise 2.0.0\n"
 "Report-Msgid-Bugs-To: https://formflowpro.com/support\n"
 "POT-Creation-Date: " . date('Y-m-d H:i+0000') . "\n"
-"PO-Revision-Date: 2025-11-27 16:03+0000
+"PO-Revision-Date: 2025-11-27 16:05+0000
 "Last-Translator: FormFlow Pro Team <support@formflowpro.com>\n"
 "Language-Team: Portuguese (Brazil) <support@formflowpro.com>\n"
 "Language: pt_BR\n"
@@ -492,7 +492,7 @@ msgid "Apply Filters"
 msgstr "Aplicar Filtros"
 
 msgid "Approve"
-msgstr ""
+msgstr "Aprovar"
 
 msgid "Archive"
 msgstr "Arquivar"
@@ -501,175 +501,175 @@ msgid "Archived"
 msgstr "Arquivado"
 
 msgid "Are you sure you want to clear all cache?"
-msgstr ""
+msgstr "Tem certeza de que deseja limpar todo o cache?"
 
 msgid "Are you sure you want to delete this form?"
-msgstr ""
+msgstr "Tem certeza de que deseja excluir este formulário?"
 
 msgid "Are you sure you want to delete this provider?"
-msgstr ""
+msgstr "Tem certeza de que deseja excluir este provedor?"
 
 msgid "Are you sure you want to delete this submission?"
-msgstr ""
+msgstr "Tem certeza de que deseja excluir este envio?"
 
 msgid "Are you sure you want to delete this template?"
-msgstr ""
+msgstr "Tem certeza de que deseja excluir este modelo?"
 
 msgid "Are you sure you want to delete this workflow?"
-msgstr ""
+msgstr "Tem certeza de que deseja excluir este fluxo de trabalho?"
 
 msgid "Are you sure you want to delete this?"
 msgstr "Tem certeza que deseja excluir isso?"
 
 msgid "Are you sure you want to disable 2FA?"
-msgstr ""
+msgstr "Tem certeza de que deseja desativar o 2FA?"
 
 msgid "Are you sure you want to import this configuration?"
-msgstr ""
+msgstr "Tem certeza de que deseja importar esta configuração?"
 
 msgid "Are you sure you want to perform this action on %d items?"
-msgstr ""
+msgstr "Tem certeza de que deseja executar esta ação em %d itens?"
 
 msgid "Are you sure you want to reset all white label settings to defaults?"
-msgstr ""
+msgstr "Tem certeza de que deseja redefinir todas as configurações de white label para os padrões?"
 
 msgid "Are you sure you want to uninstall this extension? This cannot be undone."
-msgstr ""
+msgstr "Tem certeza de que deseja desinstalar esta extensão? Esta ação não pode ser desfeita."
 
 msgid "Artificial Intelligence"
 msgstr "Inteligência Artificial"
 
 msgid "Attempted to Contact"
-msgstr ""
+msgstr "Tentativa de Contato"
 
 msgid "Attempts"
-msgstr ""
+msgstr "Tentativas"
 
 msgid "Attributes"
 msgstr "Atributos"
 
 msgid "Audit Entries"
-msgstr ""
+msgstr "Entradas de Auditoria"
 
 msgid "Audit Log"
 msgstr "Log de Auditoria"
 
 msgid "Audit Log Retention"
-msgstr ""
+msgstr "Retenção de Log de Auditoria"
 
 msgid "Audit Log Settings"
-msgstr ""
+msgstr "Configurações de Log de Auditoria"
 
 msgid "Audit Logging Active"
-msgstr ""
+msgstr "Log de Auditoria Ativo"
 
 msgid "Audit Logs"
 msgstr "Logs de Auditoria"
 
 msgid "Audit logging enabled"
-msgstr ""
+msgstr "Log de auditoria ativado"
 
 msgid "Audit logs older than this will be automatically deleted."
-msgstr ""
+msgstr "Logs de auditoria mais antigos que isso serão excluídos automaticamente."
 
 msgid "Autentique"
 msgstr "Autentique"
 
 msgid "Autentique API"
-msgstr ""
+msgstr "API Autentique"
 
 msgid "Autentique Digital Signature"
-msgstr ""
+msgstr "Assinatura Digital Autentique"
 
 msgid "Autentique Documents"
 msgstr "Documentos Autentique"
 
 msgid "Autentique Webhook Settings"
-msgstr ""
+msgstr "Configurações de Webhook Autentique"
 
 msgid "Autentique not configured!"
 msgstr "Autentique não configurado!"
 
 msgid "Auth Token"
-msgstr ""
+msgstr "Token de Autenticação"
 
 msgid "Auth0"
 msgstr "Auth0"
 
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticação"
 
 msgid "Authentication Type"
-msgstr ""
+msgstr "Tipo de Autenticação"
 
 msgid "Authentication successful! Configure a spreadsheet ID to complete setup."
-msgstr ""
+msgstr "Autenticação bem-sucedida! Configure um ID de planilha para concluir a configuração."
 
 msgid "Authenticator"
-msgstr ""
+msgstr "Autenticador"
 
 msgid "Author"
 msgstr "Autor"
 
 msgid "Author Name"
-msgstr ""
+msgstr "Nome do Autor"
 
 msgid "Author URL"
-msgstr ""
+msgstr "URL do Autor"
 
 msgid "Authorization URL"
-msgstr ""
+msgstr "URL de Autorização"
 
 msgid "Auto"
 msgstr "Automático"
 
 msgid "Auto Send Documents"
-msgstr ""
+msgstr "Envio Automático de Documentos"
 
 msgid "Auto-Provision Users"
-msgstr ""
+msgstr "Provisionamento Automático de Usuários"
 
 msgid "Auto-Suggestions"
 msgstr "Sugestões Automáticas"
 
 msgid "Auto-activate plugin on all new sites"
-msgstr ""
+msgstr "Ativar plugin automaticamente em todos os novos sites"
 
 msgid "Auto-create Headers"
-msgstr ""
+msgstr "Criar Cabeçalhos Automaticamente"
 
 msgid "Automatically create WordPress users on first SSO login"
-msgstr ""
+msgstr "Criar usuários WordPress automaticamente no primeiro login SSO"
 
 msgid "Automatically create column headers from form fields."
-msgstr ""
+msgstr "Criar cabeçalhos de coluna automaticamente a partir dos campos do formulário."
 
 msgid "Automatically export form submissions to Google Sheets."
-msgstr ""
+msgstr "Exportar envios de formulário automaticamente para o Google Sheets."
 
 msgid "Automatically retry failed webhook deliveries."
-msgstr ""
+msgstr "Tentar novamente automaticamente entregas de webhook que falharam."
 
 msgid "Automatically send documents to signers after creation"
-msgstr ""
+msgstr "Enviar documentos automaticamente para os signatários após a criação"
 
 msgid "Automatically send reminder emails to signers who have not signed their documents."
-msgstr ""
+msgstr "Enviar e-mails de lembrete automaticamente para signatários que não assinaram seus documentos."
 
 msgid "Automatically sync form submissions to Google Sheets in real-time."
-msgstr ""
+msgstr "Sincronizar envios de formulário automaticamente com o Google Sheets em tempo real."
 
 msgid "Automation"
 msgstr "Automação"
 
 msgid "Automation & Workflows"
-msgstr ""
+msgstr "Automação e Fluxos de Trabalho"
 
 msgid "Automations"
 msgstr "Automações"
 
 msgid "Automação"
-msgstr ""
+msgstr "Automação"
 
 msgid "Autosave"
 msgstr "Salvamento Automático"
@@ -678,37 +678,37 @@ msgid "Autosave enabled"
 msgstr "Salvamento automático habilitado"
 
 msgid "Autosaved."
-msgstr ""
+msgstr "Salvo automaticamente."
 
 msgid "Available Action Hooks"
-msgstr ""
+msgstr "Hooks de Ação Disponíveis"
 
 msgid "Available Filters"
-msgstr ""
+msgstr "Filtros Disponíveis"
 
 msgid "Available Hooks"
-msgstr ""
+msgstr "Hooks Disponíveis"
 
 msgid "Available tags: {form_name}, {submission_id}, {date}"
-msgstr ""
+msgstr "Tags disponíveis: {form_name}, {submission_id}, {date}"
 
 msgid "Average Processing Time"
-msgstr ""
+msgstr "Tempo Médio de Processamento"
 
 msgid "Average Time"
 msgstr "Tempo Médio"
 
 msgid "Avg Processing Time"
-msgstr ""
+msgstr "Tempo Médio de Proc."
 
 msgid "Back to Workflows"
-msgstr ""
+msgstr "Voltar para Fluxos de Trabalho"
 
 msgid "Background Color"
 msgstr "Cor de Fundo"
 
 msgid "Backup Code"
-msgstr ""
+msgstr "Código de Backup"
 
 msgid "Backup Codes"
 msgstr "Códigos de Backup"
@@ -717,109 +717,109 @@ msgid "Bar Chart"
 msgstr "Gráfico de Barras"
 
 msgid "Base DN"
-msgstr ""
+msgstr "DN Base"
 
 msgid "Base URL"
-msgstr ""
+msgstr "URL Base"
 
 msgid "Based on your current security configuration"
-msgstr ""
+msgstr "Com base na sua configuração de segurança atual"
 
 msgid "Basic"
 msgstr "Básico"
 
 msgid "Basic Extension"
-msgstr ""
+msgstr "Extensão Básica"
 
 msgid "Basic Information"
-msgstr ""
+msgstr "Informações Básicas"
 
 msgid "Batch Size"
-msgstr ""
+msgstr "Tamanho do Lote"
 
 msgid "Before form is rendered"
-msgstr ""
+msgstr "Antes do formulário ser renderizado"
 
 msgid "Behavior"
 msgstr "Comportamento"
 
 msgid "Bind Credentials"
-msgstr ""
+msgstr "Credenciais de Bind"
 
 msgid "Bind DN"
-msgstr ""
+msgstr "DN de Bind"
 
 msgid "Bind Password"
-msgstr ""
+msgstr "Senha de Bind"
 
 msgid "Blacklist (Block)"
-msgstr ""
+msgstr "Lista Negra (Bloquear)"
 
 msgid "Block this IP address?"
-msgstr ""
+msgstr "Bloquear este endereço IP?"
 
 msgid "Blocked At"
-msgstr ""
+msgstr "Bloqueado Em"
 
 msgid "Blocked Attempts"
-msgstr ""
+msgstr "Tentativas Bloqueadas"
 
 msgid "Blocked Domains"
-msgstr ""
+msgstr "Domínios Bloqueados"
 
 msgid "Boilerplate"
-msgstr ""
+msgstr "Modelo Base"
 
 msgid "Border Radius"
-msgstr ""
+msgstr "Raio da Borda"
 
 msgid "Branding"
-msgstr ""
+msgstr "Marca"
 
 msgid "Browse Extensions"
 msgstr "Explorar Extensões"
 
 msgid "Browse Files"
-msgstr ""
+msgstr "Procurar Arquivos"
 
 msgid "Browse Marketplace"
-msgstr ""
+msgstr "Explorar Marketplace"
 
 msgid "Browse our marketplace to find extensions that enhance your forms."
-msgstr ""
+msgstr "Explore nosso marketplace para encontrar extensões que aprimoram seus formulários."
 
 msgid "Browser"
 msgstr "Navegador"
 
 msgid "Build custom extensions for FormFlow Pro using our powerful SDK. Create integrations, custom field types, automation actions, and more."
-msgstr ""
+msgstr "Crie extensões personalizadas para o FormFlow Pro usando nosso poderoso SDK. Crie integrações, tipos de campo personalizados, ações de automação e muito mais."
 
 msgid "Build powerful extensions and integrations for FormFlow Pro."
-msgstr ""
+msgstr "Crie extensões e integrações poderosas para o FormFlow Pro."
 
 msgid "Bulk Actions"
 msgstr "Ações em Massa"
 
 msgid "Button"
-msgstr ""
+msgstr "Botão"
 
 msgid "Button Text"
-msgstr ""
+msgstr "Texto do Botão"
 
 msgid "By %s"
-msgstr ""
+msgstr "Por %s"
 
 msgid "By Status"
-msgstr ""
+msgstr "Por Status"
 
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
 msgid "CRM"
-msgstr ""
+msgstr "CRM"
 
 msgid "CRM Sync Pro"
-msgstr ""
+msgstr "CRM Sync Pro"
 
 msgid "CSS"
 msgstr "CSS"
@@ -831,13 +831,13 @@ msgid "CSV Export"
 msgstr "Exportar CSV"
 
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 msgid "Cache Configuration"
-msgstr ""
+msgstr "Configuração de Cache"
 
 msgid "Cache Driver"
-msgstr ""
+msgstr "Driver de Cache"
 
 msgid "Cache First"
 msgstr "Cache Primeiro"
@@ -846,28 +846,28 @@ msgid "Cache Strategy"
 msgstr "Estratégia de Cache"
 
 msgid "Cache TTL (seconds)"
-msgstr ""
+msgstr "TTL do Cache (segundos)"
 
 msgid "Cache cleared successfully!"
-msgstr ""
+msgstr "Cache limpo com sucesso!"
 
 msgid "Cache cleared successfully."
-msgstr ""
+msgstr "Cache limpo com sucesso."
 
 msgid "Calculate value"
-msgstr ""
+msgstr "Calcular valor"
 
 msgid "Callback URL"
-msgstr ""
+msgstr "URL de Callback"
 
 msgid "Callback URL:"
-msgstr ""
+msgstr "URL de Callback:"
 
 msgid "Cancel"
 msgstr "Cancelar"
 
 msgid "Case"
-msgstr ""
+msgstr "Caso"
 
 msgid "Categories"
 msgstr "Categorias"
@@ -876,10 +876,10 @@ msgid "Category"
 msgstr "Categoria"
 
 msgid "Centralized Analytics"
-msgstr ""
+msgstr "Analytics Centralizado"
 
 msgid "Change"
-msgstr ""
+msgstr "Alterar"
 
 msgid "Changes saved"
 msgstr "Alterações salvas"
@@ -888,64 +888,64 @@ msgid "Chart"
 msgstr "Gráfico"
 
 msgid "Chat"
-msgstr ""
+msgstr "Chat"
 
 msgid "Chave de Segurança"
-msgstr ""
+msgstr "Chave de Segurança"
 
 msgid "Chave de segurança não encontrada"
-msgstr ""
+msgstr "Chave de segurança não encontrada"
 
 msgid "Chave de segurança registrada com sucesso"
-msgstr ""
+msgstr "Chave de segurança registrada com sucesso"
 
 msgid "Check for Duplicates"
-msgstr ""
+msgstr "Verificar Duplicatas"
 
 msgid "Check for existing records by email before creating."
-msgstr ""
+msgstr "Verificar registros existentes por e-mail antes de criar."
 
 msgid "Check if using a sandbox environment."
-msgstr ""
+msgstr "Verificar se está usando um ambiente sandbox."
 
 msgid "Checkbox"
 msgstr "Caixa de Seleção"
 
 msgid "Checking..."
-msgstr ""
+msgstr "Verificando..."
 
 msgid "Choose how to authenticate with Google."
-msgstr ""
+msgstr "Escolha como autenticar com o Google."
 
 msgid "Choose how to authenticate with HubSpot."
-msgstr ""
+msgstr "Escolha como autenticar com o HubSpot."
 
 msgid "Choose the form you want to display"
-msgstr ""
+msgstr "Escolha o formulário que deseja exibir"
 
 msgid "City"
 msgstr "Cidade"
 
 msgid "Classification failed."
-msgstr ""
+msgstr "Classificação falhou."
 
 msgid "Clear"
 msgstr "Limpar"
 
 msgid "Clear All Cache"
-msgstr ""
+msgstr "Limpar Todo o Cache"
 
 msgid "Clear Cache"
-msgstr ""
+msgstr "Limpar Cache"
 
 msgid "Clear Logs"
-msgstr ""
+msgstr "Limpar Logs"
 
 msgid "Clear all FormFlow Pro cached data."
-msgstr ""
+msgstr "Limpar todos os dados em cache do FormFlow Pro."
 
 msgid "Clear value"
-msgstr ""
+msgstr "Limpar valor"
 
 msgid "Client ID"
 msgstr "ID do Cliente"
@@ -957,7 +957,7 @@ msgid "Close"
 msgstr "Fechar"
 
 msgid "Close/Cancel"
-msgstr ""
+msgstr "Fechar/Cancelar"
 
 msgid "Code"
 msgstr "Código"
@@ -966,52 +966,52 @@ msgid "Color"
 msgstr "Cor"
 
 msgid "Colors"
-msgstr ""
+msgstr "Cores"
 
 msgid "Columns"
-msgstr ""
+msgstr "Colunas"
 
 msgid "Command Palette"
 msgstr "Paleta de Comandos"
 
 msgid "Communication"
-msgstr ""
+msgstr "Comunicação"
 
 msgid "Community"
-msgstr ""
+msgstr "Comunidade"
 
 msgid "Compact Mode"
 msgstr "Modo Compacto"
 
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 msgid "Company Email"
-msgstr ""
+msgstr "E-mail da Empresa"
 
 msgid "Company Name"
-msgstr ""
+msgstr "Nome da Empresa"
 
 msgid "Compare"
-msgstr ""
+msgstr "Comparar"
 
 msgid "Compare metrics between two time periods"
-msgstr ""
+msgstr "Comparar métricas entre dois períodos de tempo"
 
 msgid "Comparison value is required."
-msgstr ""
+msgstr "Valor de comparação é obrigatório."
 
 msgid "Completed"
 msgstr "Concluído"
 
 msgid "Completed Today"
-msgstr ""
+msgstr "Concluídos Hoje"
 
 msgid "Compliance"
-msgstr ""
+msgstr "Conformidade"
 
 msgid "Comprehensive guides and API reference for extension development."
-msgstr ""
+msgstr "Guias completos e referência de API para desenvolvimento de extensões."
 
 msgid "Condition"
 msgstr "Condição"
@@ -1020,25 +1020,25 @@ msgid "Conditions"
 msgstr "Condições"
 
 msgid "Configuration (JSON)"
-msgstr ""
+msgstr "Configuração (JSON)"
 
 msgid "Configuration imported successfully."
-msgstr ""
+msgstr "Configuração importada com sucesso."
 
 msgid "Configuration saved successfully."
-msgstr ""
+msgstr "Configuração salva com sucesso."
 
 msgid "Configure"
 msgstr "Configurar"
 
 msgid "Configure custom webhooks to send form data to any external service."
-msgstr ""
+msgstr "Configure webhooks personalizados para enviar dados do formulário para qualquer serviço externo."
 
 msgid "Configure the webhook URL in your Autentique dashboard"
-msgstr ""
+msgstr "Configure a URL do webhook no seu painel Autentique"
 
 msgid "Configure webhooks to receive real-time notifications when documents are signed or refused."
-msgstr ""
+msgstr "Configure webhooks para receber notificações em tempo real quando documentos são assinados ou recusados."
 
 msgid "Confirm"
 msgstr "Confirmar"
@@ -1047,91 +1047,91 @@ msgid "Connect"
 msgstr "Conectar"
 
 msgid "Connect FormFlow Pro to 5,000+ apps via Zapier webhooks."
-msgstr ""
+msgstr "Conecte o FormFlow Pro a mais de 5.000 aplicativos via webhooks do Zapier."
 
 msgid "Connect FormFlow Pro with your favorite tools and services. Enable integrations to automatically sync form data with CRMs, spreadsheets, messaging platforms, and more."
-msgstr ""
+msgstr "Conecte o FormFlow Pro com suas ferramentas e serviços favoritos. Ative integrações para sincronizar automaticamente dados de formulário com CRMs, planilhas, plataformas de mensagens e muito mais."
 
 msgid "Connect to 5000+ apps via Zapier"
-msgstr ""
+msgstr "Conecte a mais de 5000 aplicativos via Zapier"
 
 msgid "Connect your forms to 5000+ apps via Zapier automation."
-msgstr ""
+msgstr "Conecte seus formulários a mais de 5000 aplicativos via automação Zapier."
 
 msgid "Connected"
 msgstr "Conectado"
 
 msgid "Connected successfully as %s"
-msgstr ""
+msgstr "Conectado com sucesso como %s"
 
 msgid "Connected successfully. Portal ID: %s"
-msgstr ""
+msgstr "Conectado com sucesso. ID do Portal: %s"
 
 msgid "Connected to spreadsheet: %s"
-msgstr ""
+msgstr "Conectado à planilha: %s"
 
 msgid "Connection Test"
-msgstr ""
+msgstr "Teste de Conexão"
 
 msgid "Connection error: %s"
-msgstr ""
+msgstr "Erro de conexão: %s"
 
 msgid "Connection failed"
-msgstr ""
+msgstr "Conexão falhou"
 
 msgid "Connection failed."
 msgstr "Conexão falhou."
 
 msgid "Connection failed: %s"
-msgstr ""
+msgstr "Conexão falhou: %s"
 
 msgid "Connection successful!"
-msgstr ""
+msgstr "Conexão bem-sucedida!"
 
 msgid "Connection successful."
 msgstr "Conexão bem-sucedida."
 
 msgid "Connection test failed"
-msgstr ""
+msgstr "Teste de conexão falhou"
 
 msgid "Connection test failed:"
-msgstr ""
+msgstr "Teste de conexão falhou:"
 
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Teste de conexão bem-sucedido!"
 
 msgid "Consent"
 msgstr "Consentimento"
 
 msgid "Consent History"
-msgstr ""
+msgstr "Histórico de Consentimento"
 
 msgid "Consent Records"
-msgstr ""
+msgstr "Registros de Consentimento"
 
 msgid "Consent Text"
-msgstr ""
+msgstr "Texto de Consentimento"
 
 msgid "Consent Withdrawal:"
-msgstr ""
+msgstr "Revogação de Consentimento:"
 
 msgid "Consent updated"
-msgstr ""
+msgstr "Consentimento atualizado"
 
 msgid "Consider regenerating your backup codes."
-msgstr ""
+msgstr "Considere regenerar seus códigos de backup."
 
 msgid "Consumer Key"
-msgstr ""
+msgstr "Chave do Consumidor"
 
 msgid "Consumer Secret"
-msgstr ""
+msgstr "Segredo do Consumidor"
 
 msgid "Contact"
-msgstr ""
+msgstr "Contato"
 
 msgid "Contact updated successfully."
-msgstr ""
+msgstr "Contato atualizado com sucesso."
 
 msgid "Contains"
 msgstr "Contém"
@@ -1143,7 +1143,7 @@ msgid "Conversion Rate"
 msgstr "Taxa de Conversão"
 
 msgid "Copied to clipboard!"
-msgstr ""
+msgstr "Copiado para a área de transferência!"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -1152,19 +1152,19 @@ msgid "Copy Shortcode"
 msgstr "Copiar Shortcode"
 
 msgid "Copy the Webhook Signing Secret"
-msgstr ""
+msgstr "Copie o Segredo de Assinatura do Webhook"
 
 msgid "Copy the webhook URL from Zapier"
-msgstr ""
+msgstr "Copie a URL do webhook do Zapier"
 
 msgid "Copy this URL and configure it in your"
-msgstr ""
+msgstr "Copie esta URL e configure no seu"
 
 msgid "Copy your Publishable and Secret keys"
-msgstr ""
+msgstr "Copie suas chaves Publicável e Secreta"
 
 msgid "Corporate Login"
-msgstr ""
+msgstr "Login Corporativo"
 
 msgid "Country"
 msgstr "País"
@@ -1179,46 +1179,46 @@ msgid "Create Form"
 msgstr "Criar Formulário"
 
 msgid "Create New Workflow"
-msgstr ""
+msgstr "Criar Novo Fluxo de Trabalho"
 
 msgid "Create Signature Request"
-msgstr ""
+msgstr "Criar Solicitação de Assinatura"
 
 msgid "Create Task"
-msgstr ""
+msgstr "Criar Tarefa"
 
 msgid "Create Timeline Event"
-msgstr ""
+msgstr "Criar Evento na Linha do Tempo"
 
 msgid "Create WordPress user accounts from form submissions with role assignment."
-msgstr ""
+msgstr "Criar contas de usuário WordPress a partir de envios de formulário com atribuição de função."
 
 msgid "Create Workflow"
 msgstr "Criar Fluxo de Trabalho"
 
 msgid "Create Your First Form"
-msgstr ""
+msgstr "Crie Seu Primeiro Formulário"
 
 msgid "Create Your First Workflow"
-msgstr ""
+msgstr "Crie Seu Primeiro Fluxo de Trabalho"
 
 msgid "Create a new Zap in Zapier"
-msgstr ""
+msgstr "Crie um novo Zap no Zapier"
 
 msgid "Create an Incoming Webhook in %s"
-msgstr ""
+msgstr "Crie um Webhook de Entrada no %s"
 
 msgid "Create an account at"
-msgstr ""
+msgstr "Crie uma conta em"
 
 msgid "Create anyway"
-msgstr ""
+msgstr "Criar mesmo assim"
 
 msgid "Create complex conditional rules for fields, sections, and form behavior."
-msgstr ""
+msgstr "Crie regras condicionais complexas para campos, seções e comportamento do formulário."
 
 msgid "Create timeline event for form submission."
-msgstr ""
+msgstr "Criar evento na linha do tempo para envio de formulário."
 
 msgid "Created"
 msgstr "Criado"
@@ -1227,94 +1227,94 @@ msgid "Credit Card"
 msgstr "Cartão de Crédito"
 
 msgid "Critical"
-msgstr ""
+msgstr "Crítico"
 
 msgid "Cross-Site Reporting"
-msgstr ""
+msgstr "Relatórios Entre Sites"
 
 msgid "Currency"
 msgstr "Moeda"
 
 msgid "Current"
-msgstr ""
+msgstr "Atual"
 
 msgid "Current Period"
-msgstr ""
+msgstr "Período Atual"
 
 msgid "Current Rules"
-msgstr ""
+msgstr "Regras Atuais"
 
 msgid "Currently blocked IPs"
-msgstr ""
+msgstr "IPs atualmente bloqueados"
 
 msgid "Custom"
 msgstr "Personalizado"
 
 msgid "Custom Action"
-msgstr ""
+msgstr "Ação Personalizada"
 
 msgid "Custom CSS"
 msgstr "CSS Personalizado"
 
 msgid "Custom Documentation URL"
-msgstr ""
+msgstr "URL de Documentação Personalizada"
 
 msgid "Custom Field"
-msgstr ""
+msgstr "Campo Personalizado"
 
 msgid "Custom Field 1"
-msgstr ""
+msgstr "Campo Personalizado 1"
 
 msgid "Custom Field 2"
-msgstr ""
+msgstr "Campo Personalizado 2"
 
 msgid "Custom Field 3"
-msgstr ""
+msgstr "Campo Personalizado 3"
 
 msgid "Custom Field Type"
-msgstr ""
+msgstr "Tipo de Campo Personalizado"
 
 msgid "Custom Footer Text"
-msgstr ""
+msgstr "Texto de Rodapé Personalizado"
 
 msgid "Custom JavaScript"
 msgstr "JavaScript Personalizado"
 
 msgid "Custom Logo URL"
-msgstr ""
+msgstr "URL do Logo Personalizado"
 
 msgid "Custom Metadata"
-msgstr ""
+msgstr "Metadados Personalizados"
 
 msgid "Custom Range"
 msgstr "Período Personalizado"
 
 msgid "Custom Support URL"
-msgstr ""
+msgstr "URL de Suporte Personalizada"
 
 msgid "Custom URLs"
-msgstr ""
+msgstr "URLs Personalizadas"
 
 msgid "Custom Webhooks"
-msgstr ""
+msgstr "Webhooks Personalizados"
 
 msgid "Custom plugin name shown in admin"
-msgstr ""
+msgstr "Nome personalizado do plugin exibido no admin"
 
 msgid "Custom text for admin footer (on plugin pages)"
-msgstr ""
+msgstr "Texto personalizado para rodapé do admin (nas páginas do plugin)"
 
 msgid "Custom validation logic"
-msgstr ""
+msgstr "Lógica de validação personalizada"
 
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 msgid "Customize the plugin branding for your agency or client projects."
-msgstr ""
+msgstr "Personalize a marca do plugin para sua agência ou projetos de clientes."
 
 msgid "DB Version"
-msgstr ""
+msgstr "Versão do BD"
 
 msgid "Dados de credencial inválidos"
 msgstr ""
