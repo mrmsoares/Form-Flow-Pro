@@ -321,7 +321,7 @@ class FormVersioning
     /**
      * Get version count
      */
-    public function getVersionCount(int $form_id, string $branch = null): int
+    public function getVersionCount(int $form_id, ?string $branch = null): int
     {
         global $wpdb;
 

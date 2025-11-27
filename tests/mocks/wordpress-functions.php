@@ -121,6 +121,30 @@ if (!class_exists('wpdb')) {
             return $this->query_storage($query, 'var');
         }
 
+        public function get_col($query, $column = 0)
+        {
+            $this->last_query = $query;
+
+            // Check if explicit mock result is set
+            if (isset($this->mock_results['get_col'])) {
+                return $this->mock_results['get_col'];
+            }
+
+            // Get results and extract column
+            $results = $this->query_storage($query, 'results') ?? [];
+            $col = [];
+            foreach ($results as $row) {
+                if (is_object($row)) {
+                    $values = array_values(get_object_vars($row));
+                    $col[] = $values[$column] ?? null;
+                } elseif (is_array($row)) {
+                    $values = array_values($row);
+                    $col[] = $values[$column] ?? null;
+                }
+            }
+            return $col;
+        }
+
         public function get_results($query, $output = OBJECT)
         {
             $this->last_query = $query;

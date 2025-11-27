@@ -286,7 +286,8 @@ class ScheduledTrigger extends AbstractTrigger
                 $time = $config['time'] ?? '09:00';
                 $day = $config['day_of_week'] ?? 1;
                 $target = new \DateTime('now', $timezone);
-                $target->setTime(...explode(':', $time));
+                $timeParts = explode(':', $time);
+                $target->setTime((int) ($timeParts[0] ?? 0), (int) ($timeParts[1] ?? 0));
 
                 while ($target->format('w') != $day || $target <= $now) {
                     $target->modify('+1 day');
@@ -994,8 +995,11 @@ class TriggerManager
 
     /**
      * Handle user login
+     *
+     * @param string $user_login User login name.
+     * @param \WP_User $user WordPress user object.
      */
-    public function handleUserLogin(string $user_login, \WP_User $user): void
+    public function handleUserLogin(string $user_login, $user): void
     {
         $this->fireTrigger('user_action', [
             'action_type' => 'login',
@@ -1030,8 +1034,11 @@ class TriggerManager
 
     /**
      * Handle profile update
+     *
+     * @param int $user_id User ID.
+     * @param \WP_User $old_user_data Old user data object.
      */
-    public function handleProfileUpdate(int $user_id, \WP_User $old_user_data): void
+    public function handleProfileUpdate(int $user_id, $old_user_data): void
     {
         $user = get_userdata($user_id);
 
@@ -1108,8 +1115,10 @@ class TriggerManager
 
     /**
      * Handle password reset
+     *
+     * @param \WP_User $user WordPress user object.
      */
-    public function handlePasswordReset(\WP_User $user): void
+    public function handlePasswordReset($user): void
     {
         $this->fireTrigger('user_action', [
             'action_type' => 'password_reset',

@@ -109,7 +109,7 @@ class PayPalProvider implements PaymentProviderInterface
     public function createPayment(array $data): array
     {
         $order_data = [
-            'intent' => $data['capture'] === false ? 'AUTHORIZE' : 'CAPTURE',
+            'intent' => ($data['capture'] ?? true) === false ? 'AUTHORIZE' : 'CAPTURE',
             'purchase_units' => [[
                 'reference_id' => $data['reference_id'] ?? uniqid('ffp_'),
                 'description' => $data['description'] ?? '',
@@ -262,7 +262,7 @@ class PayPalProvider implements PaymentProviderInterface
     /**
      * Capture authorized payment
      */
-    public function captureAuthorization(string $authorization_id, float $amount = null, string $currency = 'USD'): array
+    public function captureAuthorization(string $authorization_id, ?float $amount = null, string $currency = 'USD'): array
     {
         $data = [];
 
@@ -293,7 +293,7 @@ class PayPalProvider implements PaymentProviderInterface
     /**
      * Refund payment
      */
-    public function refundPayment(string $payment_id, float $amount = null): array
+    public function refundPayment(string $payment_id, ?float $amount = null): array
     {
         // First get the capture ID
         $payment = $this->getPayment($payment_id);

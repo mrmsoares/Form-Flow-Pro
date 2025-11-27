@@ -100,10 +100,10 @@ class ABTesting
 {
     use SingletonTrait;
 
-    private string $tests_table;
-    private string $variants_table;
-    private string $results_table;
-    private string $events_table;
+    private string $tests_table = '';
+    private string $variants_table = '';
+    private string $results_table = '';
+    private string $events_table = '';
 
     protected function init(): void
     {
@@ -449,7 +449,7 @@ class ABTesting
     /**
      * Complete a test
      */
-    public function completeTest(int $test_id, string $winner_variant_id = null): bool
+    public function completeTest(int $test_id, ?string $winner_variant_id = null): bool
     {
         global $wpdb;
 
@@ -516,7 +516,7 @@ class ABTesting
     /**
      * Assign variant to visitor
      */
-    public function assignVariant(int $test_id, string $visitor_id = null): ?TestVariant
+    public function assignVariant(int $test_id, ?string $visitor_id = null): ?TestVariant
     {
         $test = $this->getTest($test_id);
 
@@ -1132,7 +1132,7 @@ class ABTesting
             'allocation_weights' => json_decode($row['allocation_weights'] ?? '[]', true) ?? [],
             'minimum_sample' => (int) $row['minimum_sample'],
             'confidence_level' => (float) $row['confidence_level'],
-            'winner_variant_id' => $row['winner_variant_id'],
+            'winner_variant_id' => $row['winner_variant_id'] ?? '',
             'start_date' => $row['start_date'],
             'end_date' => $row['end_date'],
             'created_at' => $row['created_at'],
@@ -1175,7 +1175,7 @@ class ABTesting
     /**
      * Get time series data for reporting
      */
-    public function getTimeSeriesData(int $test_id, string $start_date = null, string $end_date = null): array
+    public function getTimeSeriesData(int $test_id, ?string $start_date = null, ?string $end_date = null): array
     {
         global $wpdb;
 

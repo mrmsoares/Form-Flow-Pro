@@ -1262,8 +1262,8 @@ class ReportGenerator
                 'total_forms' => ['value' => $total_forms],
                 'active_forms' => ['value' => $active_forms]
             ],
-            'list' => array_map(function ($row) {
-                $views = 100; // Placeholder
+            'list' => array_map(function ($row) use ($period) {
+                $views = $this->getFormViews($period, (int) $row['id']);
                 $conversion = $views > 0 ? ($row['submissions'] / $views) * 100 : 0;
                 return [
                     'id' => $row['id'],

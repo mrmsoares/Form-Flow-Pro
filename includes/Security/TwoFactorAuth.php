@@ -160,9 +160,12 @@ class TwoFactorAuth
             INDEX idx_type_time (attempt_type, attempted_at)
         ) {$charset};";
 
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        foreach ($sql as $query) {
-            dbDelta($query);
+        $upgrade_file = ABSPATH . 'wp-admin/includes/upgrade.php';
+        if (file_exists($upgrade_file)) {
+            require_once $upgrade_file;
+            foreach ($sql as $query) {
+                dbDelta($query);
+            }
         }
     }
 

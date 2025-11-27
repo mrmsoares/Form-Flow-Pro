@@ -100,9 +100,9 @@ class PaymentManager
 {
     use SingletonTrait;
 
-    private string $payments_table;
-    private string $subscriptions_table;
-    private string $invoices_table;
+    private string $payments_table = '';
+    private string $subscriptions_table = '';
+    private string $invoices_table = '';
     private array $providers = [];
 
     protected function init(): void
@@ -207,8 +207,11 @@ class PaymentManager
             KEY user_id (user_id)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        $upgrade_file = ABSPATH . 'wp-admin/includes/upgrade.php';
+        if (file_exists($upgrade_file)) {
+            require_once($upgrade_file);
+            dbDelta($sql);
+        }
     }
 
     private function initializeProviders(): void
@@ -338,7 +341,7 @@ class PaymentManager
     /**
      * Refund payment
      */
-    public function refundPayment(string $provider, string $payment_id, float $amount = null): array
+    public function refundPayment(string $provider, string $payment_id, ?float $amount = null): array
     {
         $payment_provider = $this->getProvider($provider);
 
@@ -625,7 +628,7 @@ class PaymentManager
     /**
      * Get user subscriptions
      */
-    public function getUserSubscriptions(int $user_id, string $status = null): array
+    public function getUserSubscriptions(int $user_id, ?string $status = null): array
     {
         global $wpdb;
 
@@ -1253,7 +1256,7 @@ class PaymentManager
             'ffp-payments',
             plugins_url('assets/js/payments.js', dirname(__DIR__)),
             ['jquery'],
-            JEFORM_VERSION,
+            FORMFLOW_VERSION,
             true
         );
 
@@ -1309,7 +1312,7 @@ class PaymentManager
     public function renderPaymentsPage(): void
     {
         $payments = $this->getPayments(['limit' => 50]);
-        include JEFORM_PLUGIN_DIR . 'templates/admin/payments.php';
+        include FORMFLOW_PATH . 'includes/admin/views/payments.php';
     }
 
     /**
@@ -1317,7 +1320,7 @@ class PaymentManager
      */
     public function renderSubscriptionsPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/subscriptions.php';
+        include FORMFLOW_PATH . 'includes/admin/views/subscriptions.php';
     }
 
     /**
@@ -1325,7 +1328,7 @@ class PaymentManager
      */
     public function renderInvoicesPage(): void
     {
-        include JEFORM_PLUGIN_DIR . 'templates/admin/invoices.php';
+        include FORMFLOW_PATH . 'includes/admin/views/invoices.php';
     }
 
     /**
@@ -1514,7 +1517,7 @@ class PaymentManager
         wp_enqueue_script('ffp-payments');
 
         ob_start();
-        include JEFORM_PLUGIN_DIR . 'templates/frontend/payment-form.php';
+        include FORMFLOW_PATH . 'templates/frontend/payment-form.php';
         return ob_get_clean();
     }
 
@@ -1530,7 +1533,7 @@ class PaymentManager
         $subscriptions = $this->getUserSubscriptions(get_current_user_id(), 'active');
 
         ob_start();
-        include JEFORM_PLUGIN_DIR . 'templates/frontend/subscription-manage.php';
+        include FORMFLOW_PATH . 'templates/frontend/subscription-manage.php';
         return ob_get_clean();
     }
 

@@ -1054,8 +1054,10 @@ class RestController
         }
 
         $response = new \WP_REST_Response($csv);
-        $response->header('Content-Type', 'text/csv');
-        $response->header('Content-Disposition', 'attachment; filename="submissions.csv"');
+        $response->set_headers([
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="submissions.csv"'
+        ]);
 
         return $response;
     }

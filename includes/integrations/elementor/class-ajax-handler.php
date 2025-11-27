@@ -155,12 +155,14 @@ class Ajax_Handler
         // Send notification email if configured
         self::send_notification($submission_id, $form, $form_data);
 
-        // Check if digital signature is required
-        $require_signature = isset($_POST['enable_autentique']) && $_POST['enable_autentique'] === 'yes';
+        // Check if digital signature is required (from form settings or POST override)
+        $form_settings = json_decode($form->settings ?? '{}', true);
+        $require_signature = !empty($form_settings['enable_autentique'])
+            || (isset($_POST['enable_autentique']) && $_POST['enable_autentique'] === 'yes');
         $signature_url = null;
 
         if ($require_signature) {
-            // This would integrate with your Autentique service
+            // Create document via Autentique service
             $signature_url = self::create_signature_document($submission_id, $form, $form_data);
 
             if ($signature_url) {

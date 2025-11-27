@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Install PHP dependencies (production)
+        run: composer install --no-dev --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Create release artifact
+        run: |
+          mkdir -p formflow-pro
+          rsync -av --exclude='.git' \
+                    --exclude='.github' \
+                    --exclude='node_modules' \
+                    --exclude='tests' \
+                    --exclude='docs-planning' \
+                    --exclude='.phpunit.result.cache' \
+                    --exclude='phpunit.xml' \
+                    --exclude='phpstan.neon' \
+                    --exclude='composer.lock' \
+                    --exclude='package-lock.json' \
+                    --exclude='*.md' \
+                    --exclude='.gitignore' \
+                    ./ formflow-pro/
+          zip -r formflow-pro-${{ steps.version.outputs.VERSION }}.zip formflow-pro
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: formflow-pro-${{ steps.version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Release notification
+        run: |
+          echo "Release ${{ github.ref_name }} has been published!"
+          echo "Download: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"

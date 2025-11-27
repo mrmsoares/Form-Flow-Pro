@@ -667,7 +667,7 @@ class DatabaseQueryAction extends AbstractAction
             throw new \Exception('No data provided for insert');
         }
 
-        $wpdb->insert($table, $data);
+        $result = $wpdb->insert($table, $data);
 
         if ($wpdb->last_error) {
             throw new \Exception($wpdb->last_error);
@@ -675,7 +675,7 @@ class DatabaseQueryAction extends AbstractAction
 
         return [
             'inserted_id' => $wpdb->insert_id,
-            'rows_affected' => $wpdb->rows_affected
+            'rows_affected' => $result !== false ? (int) $result : 0
         ];
     }
 
@@ -696,14 +696,14 @@ class DatabaseQueryAction extends AbstractAction
             }
         }
 
-        $wpdb->update($table, $data, $where);
+        $result = $wpdb->update($table, $data, $where);
 
         if ($wpdb->last_error) {
             throw new \Exception($wpdb->last_error);
         }
 
         return [
-            'rows_affected' => $wpdb->rows_affected
+            'rows_affected' => $result !== false ? (int) $result : 0
         ];
     }
 
@@ -723,14 +723,14 @@ class DatabaseQueryAction extends AbstractAction
             throw new \Exception('WHERE conditions required for DELETE');
         }
 
-        $wpdb->delete($table, $where);
+        $result = $wpdb->delete($table, $where);
 
         if ($wpdb->last_error) {
             throw new \Exception($wpdb->last_error);
         }
 
         return [
-            'rows_affected' => $wpdb->rows_affected
+            'rows_affected' => $result !== false ? (int) $result : 0
         ];
     }
 

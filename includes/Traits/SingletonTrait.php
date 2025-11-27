@@ -52,6 +52,11 @@ trait SingletonTrait
     {
         if (self::$instance === null) {
             self::$instance = new static();
+
+            // Call init() if it exists
+            if (method_exists(self::$instance, 'init')) {
+                self::$instance->init();
+            }
         }
 
         return self::$instance;

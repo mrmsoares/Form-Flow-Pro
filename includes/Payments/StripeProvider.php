@@ -18,22 +18,6 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Payment Provider Interface
- */
-interface PaymentProviderInterface
-{
-    public function createPayment(array $data): array;
-    public function capturePayment(string $payment_id): array;
-    public function refundPayment(string $payment_id, float $amount = null): array;
-    public function getPayment(string $payment_id): array;
-    public function createCustomer(array $data): array;
-    public function createSubscription(array $data): array;
-    public function cancelSubscription(string $subscription_id): array;
-    public function handleWebhook(string $payload, string $signature): array;
-    public function isConfigured(): bool;
-}
-
-/**
  * Stripe Payment Provider
  */
 class StripeProvider implements PaymentProviderInterface
@@ -147,13 +131,23 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+                'code' => 'invalid_response',
+            ];
+        }
+
         return [
             'success' => true,
             'payment_id' => $response['id'],
-            'client_secret' => $response['client_secret'],
-            'status' => $response['status'],
-            'amount' => $this->convertFromStripeAmount($response['amount'], $response['currency']),
-            'currency' => $response['currency'],
+            'client_secret' => $response['client_secret'] ?? null,
+            'status' => $response['status'] ?? 'unknown',
+            'amount' => isset($response['amount'], $response['currency'])
+                ? $this->convertFromStripeAmount($response['amount'], $response['currency'])
+                : 0,
+            'currency' => $response['currency'] ?? 'usd',
         ];
     }
 
@@ -181,11 +175,18 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'payment_id' => $response['id'],
-            'status' => $response['status'],
-            'requires_action' => $response['status'] === 'requires_action',
+            'status' => $response['status'] ?? 'unknown',
+            'requires_action' => ($response['status'] ?? '') === 'requires_action',
             'client_secret' => $response['client_secret'] ?? null,
         ];
     }
@@ -204,21 +205,27 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'payment_id' => $response['id'],
-            'status' => $response['status'],
-            'amount_captured' => $this->convertFromStripeAmount(
-                $response['amount_received'],
-                $response['currency']
-            ),
+            'status' => $response['status'] ?? 'unknown',
+            'amount_captured' => isset($response['amount_received'], $response['currency'])
+                ? $this->convertFromStripeAmount($response['amount_received'], $response['currency'])
+                : 0,
         ];
     }
 
     /**
      * Refund payment
      */
-    public function refundPayment(string $payment_id, float $amount = null): array
+    public function refundPayment(string $payment_id, ?float $amount = null): array
     {
         $params = [
             'payment_intent' => $payment_id,
@@ -241,11 +248,20 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'refund_id' => $response['id'],
-            'status' => $response['status'],
-            'amount' => $this->convertFromStripeAmount($response['amount'], $response['currency']),
+            'status' => $response['status'] ?? 'unknown',
+            'amount' => isset($response['amount'], $response['currency'])
+                ? $this->convertFromStripeAmount($response['amount'], $response['currency'])
+                : 0,
         ];
     }
 
@@ -263,16 +279,25 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'payment_id' => $response['id'],
-            'status' => $response['status'],
-            'amount' => $this->convertFromStripeAmount($response['amount'], $response['currency']),
-            'currency' => $response['currency'],
+            'status' => $response['status'] ?? 'unknown',
+            'amount' => isset($response['amount'], $response['currency'])
+                ? $this->convertFromStripeAmount($response['amount'], $response['currency'])
+                : 0,
+            'currency' => $response['currency'] ?? 'usd',
             'customer_id' => $response['customer'] ?? null,
             'payment_method' => $response['payment_method'] ?? null,
             'metadata' => $response['metadata'] ?? [],
-            'created' => $response['created'],
+            'created' => $response['created'] ?? null,
         ];
     }
 
@@ -393,10 +418,17 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'session_id' => $response['id'],
-            'url' => $response['url'],
+            'url' => $response['url'] ?? null,
             'expires_at' => $response['expires_at'] ?? null,
         ];
     }
@@ -415,15 +447,22 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'session_id' => $response['id'],
-            'status' => $response['status'],
-            'payment_status' => $response['payment_status'],
+            'status' => $response['status'] ?? 'unknown',
+            'payment_status' => $response['payment_status'] ?? 'unknown',
             'customer' => $response['customer'] ?? null,
             'payment_intent' => $response['payment_intent'] ?? null,
             'subscription' => $response['subscription'] ?? null,
-            'amount_total' => isset($response['amount_total'])
+            'amount_total' => isset($response['amount_total'], $response['currency'])
                 ? $this->convertFromStripeAmount($response['amount_total'], $response['currency'])
                 : null,
             'metadata' => $response['metadata'] ?? [],
@@ -477,6 +516,13 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'customer_id' => $response['id'],
@@ -513,6 +559,13 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'customer_id' => $response['id'],
@@ -530,6 +583,13 @@ class StripeProvider implements PaymentProviderInterface
             return [
                 'success' => false,
                 'error' => $response['error']['message'] ?? 'Customer not found',
+            ];
+        }
+
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
             ];
         }
 
@@ -557,6 +617,13 @@ class StripeProvider implements PaymentProviderInterface
             return [
                 'success' => false,
                 'error' => $response['error']['message'] ?? 'Failed to attach payment method',
+            ];
+        }
+
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
             ];
         }
 
@@ -669,12 +736,19 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         $result = [
             'success' => true,
             'subscription_id' => $response['id'],
-            'status' => $response['status'],
-            'current_period_start' => $response['current_period_start'],
-            'current_period_end' => $response['current_period_end'],
+            'status' => $response['status'] ?? 'unknown',
+            'current_period_start' => $response['current_period_start'] ?? null,
+            'current_period_end' => $response['current_period_end'] ?? null,
             'trial_start' => $response['trial_start'] ?? null,
             'trial_end' => $response['trial_end'] ?? null,
         ];
@@ -701,14 +775,24 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
+        $customer = $response['customer'] ?? null;
+        $customer_id = is_array($customer) ? ($customer['id'] ?? null) : $customer;
+
         return [
             'success' => true,
             'subscription_id' => $response['id'],
-            'status' => $response['status'],
-            'customer_id' => is_array($response['customer']) ? $response['customer']['id'] : $response['customer'],
-            'current_period_start' => $response['current_period_start'],
-            'current_period_end' => $response['current_period_end'],
-            'cancel_at_period_end' => $response['cancel_at_period_end'],
+            'status' => $response['status'] ?? 'unknown',
+            'customer_id' => $customer_id,
+            'current_period_start' => $response['current_period_start'] ?? null,
+            'current_period_end' => $response['current_period_end'] ?? null,
+            'cancel_at_period_end' => $response['cancel_at_period_end'] ?? false,
             'canceled_at' => $response['canceled_at'] ?? null,
             'trial_start' => $response['trial_start'] ?? null,
             'trial_end' => $response['trial_end'] ?? null,
@@ -774,10 +858,17 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'subscription_id' => $response['id'],
-            'status' => $response['status'],
+            'status' => $response['status'] ?? 'unknown',
         ];
     }
 
@@ -795,10 +886,17 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'subscription_id' => $response['id'],
-            'status' => $response['status'],
+            'status' => $response['status'] ?? 'canceled',
         ];
     }
 
@@ -830,10 +928,17 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'subscription_id' => $response['id'],
-            'status' => $response['status'],
+            'status' => $response['status'] ?? 'unknown',
         ];
     }
 
@@ -866,6 +971,13 @@ class StripeProvider implements PaymentProviderInterface
             return [
                 'success' => false,
                 'error' => $response['error']['message'] ?? 'Failed to create product',
+            ];
+        }
+
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
             ];
         }
 
@@ -925,6 +1037,13 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'price_id' => $response['id'],
@@ -969,10 +1088,17 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'invoice_id' => $response['id'],
-            'status' => $response['status'],
+            'status' => $response['status'] ?? 'draft',
             'invoice_url' => $response['hosted_invoice_url'] ?? null,
         ];
     }
@@ -1017,6 +1143,13 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'invoice_item_id' => $response['id'],
@@ -1037,12 +1170,19 @@ class StripeProvider implements PaymentProviderInterface
             ];
         }
 
+        if (!isset($response['id'])) {
+            return [
+                'success' => false,
+                'error' => 'Invalid API response',
+            ];
+        }
+
         return [
             'success' => true,
             'invoice_id' => $response['id'],
-            'status' => $response['status'],
-            'invoice_url' => $response['hosted_invoice_url'],
-            'invoice_pdf' => $response['invoice_pdf'],
+            'status' => $response['status'] ?? 'finalized',
+            'invoice_url' => $response['hosted_invoice_url'] ?? null,
+            'invoice_pdf' => $response['invoice_pdf'] ?? null,
         ];
     }
 
