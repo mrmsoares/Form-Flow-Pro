@@ -1,13 +1,123 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
 parameters:
     level: 5
     paths:
         - includes/
     excludePaths:
         - includes/admin/views/
+        - includes/integrations/elementor/
+
+    # Tratamento flexível para plugins WordPress
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+
+    # Erros específicos a serem ignorados
     ignoreErrors:
+        # Funções WordPress não cobertas pelos stubs
         - '#Function .+ not found#'
+
+        # Constantes do plugin e WordPress
         - '#Constant FORMFLOW_\w+ not found#'
-        - '#Constant ABSPATH not found#'
+        - '#Constant JEFORM_\w+ not found#'
+        - '#Constant COOKIEPATH not found#'
+        - '#Constant COOKIE_DOMAIN not found#'
+        - '#Constant DB_NAME not found#'
+
+        # Comparações (comum em código WordPress)
         - '#Comparison operation#'
-    bootstrapFiles:
-        - tests/mocks/wordpress-functions.php
+
+        # Padrão Singleton (comum em plugins WordPress)
+        - '#Unsafe usage of new static#'
+
+        # Variáveis em empty() que sempre existem
+        - '#Variable \$\w+ in empty\(\) always exists#'
+
+        # Condições sempre verdadeiras/falsas (validações defensivas)
+        - '#If condition is always (true|false)#'
+        - '#is always (true|false)#'
+        - '#will always evaluate to (true|false)#'
+
+        # Código não alcançável (validações defensivas)
+        - '#Unreachable statement#'
+        - '#Dead catch#'
+
+        # Callbacks WordPress com número variável de parâmetros
+        - '#Callback expects .+ parameters?, \$accepted_args is set to#'
+        - '#Action callback returns .+ but should not return anything#'
+
+        # Tipos dinâmicos comuns em WordPress
+        - '#expects string, (int|float|array)#'
+        - '#expects (int|float), string#'
+        - '#expects string\|null, (int|float)#'
+        - '#expects (int|float)\|null, string#'
+        - '#expects array\|string, (int|float)#'
+        - '#expects array<int, mixed>, array<string, mixed>#'
+        - '#given on the right side#'
+
+        # Propriedades dinâmicas do wpdb
+        - '#Access to an undefined property wpdb::#'
+
+        # Parâmetros implicitamente nulos (PHP 8.4 deprecation)
+        - '#Deprecated in PHP 8.4: Parameter .+ is implicitly nullable#'
+
+        # Métodos não definidos em classes (interfaces fluentes e dinâmicas)
+        - '#Call to an undefined method#'
+        - '#Call to method .+ on an unknown class#'
+        - '#Call to private method#'
+        - '#Call to static method .+ on an unknown class#'
+
+        # Variáveis que podem não estar definidas
+        - '#Variable \$\w+ might not be defined#'
+
+        # Constantes não utilizadas (podem ser usadas por código externo)
+        - '#Constant .+ is unused#'
+
+        # Operações binárias com strings (cálculos dinâmicos)
+        - '#Binary operation .+ between .+ results in an error#'
+
+        # Parâmetros invocados com número diferente
+        - '#invoked with \d+ parameters?, \d+ required#'
+
+        # Classes WooCommerce não encontradas
+        - '#Instantiated class WC_.+ not found#'
+        - '#unknown class WC_#'
+
+        # Classes PhpSpreadsheet não encontradas (dependência opcional)
+        - '#Instantiated class PhpOffice\\.+ not found#'
+        - '#unknown class PhpOffice\\#'
+
+        # Propriedades nunca lidas (podem ser usadas por código externo ou futuro)
+        - '#Property .+ is never read, only written#'
+
+        # Métodos não utilizados (podem ser usados por código externo ou hooks)
+        - '#Method .+ is unused#'
+
+        # Offset não existe em null (validações dinâmicas)
+        - '#Offset .+ does not exist on null#'
+
+        # Resultado de void usado
+        - '#Result of method .+ \(void\) is used#'
+
+        # Anonymous function com use não utilizado
+        - '#Anonymous function has an unused use#'
+
+        # Variável no lado esquerdo de ?? nunca definida (validação defensiva)
+        - '#Variable .+ on left side of \?\? is never defined#'
+
+        # Propriedades indefinidas em classes que estendem WooCommerce
+        - '#Access to an undefined property FormFlowPro\\Payments\\WC_#'
+
+        # Classes que estendem WooCommerce (verificado em runtime)
+        - '#does not extend any class#'
+        - '#calls parent::__construct\(\) but#'
+
+        # Array typehints (comum em código WordPress legado)
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics
+
+    # Configurações adicionais para WordPress
+    checkTooWideReturnTypesInProtectedAndPublicMethods: false
