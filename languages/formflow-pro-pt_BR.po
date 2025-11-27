@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: FormFlow Pro Enterprise 2.0.0\n"
 "Report-Msgid-Bugs-To: https://formflowpro.com/support\n"
 "POT-Creation-Date: " . date('Y-m-d H:i+0000') . "\n"
-"PO-Revision-Date: " . date('Y-m-d H:i+0000') . "\n"
+"PO-Revision-Date: 2025-11-27 16:03+0000
 "Last-Translator: FormFlow Pro Team <support@formflowpro.com>\n"
 "Language-Team: Portuguese (Brazil) <support@formflowpro.com>\n"
 "Language: pt_BR\n"
@@ -24,16 +24,16 @@ msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr "\"%1$s\" requer \"%2$s\" versão %3$s ou superior."
 
 msgid "%d FormFlow Pro extension has an update available."
-msgstr ""
+msgstr "%d extensão do FormFlow Pro tem uma atualização disponível."
 
 msgid "%d FormFlow Pro extensions have updates available."
-msgstr ""
+msgstr "%d extensões do FormFlow Pro têm atualizações disponíveis."
 
 msgid "%d action"
-msgstr ""
+msgstr "%d ação"
 
 msgid "%d actions"
-msgstr ""
+msgstr "%d ações"
 
 msgid "%d day"
 msgstr "%d dia"
@@ -42,22 +42,22 @@ msgid "%d days"
 msgstr "%d dias"
 
 msgid "%d field added"
-msgstr ""
+msgstr "%d campo adicionado"
 
 msgid "%d field deleted"
-msgstr ""
+msgstr "%d campo excluído"
 
 msgid "%d field modified"
-msgstr ""
+msgstr "%d campo modificado"
 
 msgid "%d fields added"
-msgstr ""
+msgstr "%d campos adicionados"
 
 msgid "%d fields deleted"
-msgstr ""
+msgstr "%d campos excluídos"
 
 msgid "%d fields modified"
-msgstr ""
+msgstr "%d campos modificados"
 
 msgid "%d hour"
 msgstr "%d hora"
@@ -84,10 +84,10 @@ msgid "%d seconds"
 msgstr "%d segundos"
 
 msgid "%d sessions terminated"
-msgstr ""
+msgstr "%d sessões encerradas"
 
 msgid "%d submission(s) deleted successfully."
-msgstr ""
+msgstr "%d envio(s) excluído(s) com sucesso."
 
 msgid "%d submissions deleted successfully."
 msgstr "%d envios excluídos com sucesso."
@@ -105,58 +105,58 @@ msgid "%d years"
 msgstr "%d anos"
 
 msgid "%s cache is always available."
-msgstr ""
+msgstr "O cache %s está sempre disponível."
 
 msgid "%s created successfully."
-msgstr ""
+msgstr "%s criado com sucesso."
 
 msgid "%s integration is enabled but not properly configured."
 msgstr "A integração %s está habilitada mas não está configurada corretamente."
 
 msgid "%s out of 5 stars"
-msgstr ""
+msgstr "%s de 5 estrelas"
 
 msgid "%s provider configuration deleted"
-msgstr ""
+msgstr "Configuração do provedor %s excluída"
 
 msgid "%s updated successfully."
-msgstr ""
+msgstr "%s atualizado com sucesso."
 
 msgid "%s+ active installs"
-msgstr ""
+msgstr "%s+ instalações ativas"
 
 msgid "0 = Unlimited sites"
-msgstr ""
+msgstr "0 = Sites ilimitados"
 
 msgid "2FA"
 msgstr "2FA"
 
 msgid "2FA Method"
-msgstr ""
+msgstr "Método 2FA"
 
 msgid "2FA Users"
-msgstr ""
+msgstr "Usuários 2FA"
 
 msgid "2FA will be required for users with these roles."
-msgstr ""
+msgstr "2FA será obrigatório para usuários com estas funções."
 
 msgid "A document signature was refused: %s"
-msgstr ""
+msgstr "Uma assinatura de documento foi recusada: %s"
 
 msgid "A new form submission has been received via Elementor Pro."
-msgstr ""
+msgstr "Um novo envio de formulário foi recebido via Elementor Pro."
 
 msgid "A new form submission was received from %s"
-msgstr ""
+msgstr "Um novo envio de formulário foi recebido de %s"
 
 msgid "A similar request is already pending"
-msgstr ""
+msgstr "Uma solicitação semelhante já está pendente"
 
 msgid "ACS URL"
-msgstr ""
+msgstr "URL ACS"
 
 msgid "ACS URL:"
-msgstr ""
+msgstr "URL ACS:"
 
 msgid "AI Features"
 msgstr "Recursos de IA"
@@ -168,28 +168,28 @@ msgid "AI Settings"
 msgstr "Configurações de IA"
 
 msgid "AI connection successful!"
-msgstr ""
+msgstr "Conexão com IA bem-sucedida!"
 
 msgid "AI rate limit exceeded. Please try again later."
-msgstr ""
+msgstr "Limite de taxa de IA excedido. Por favor, tente novamente mais tarde."
 
 msgid "AI settings saved successfully."
-msgstr ""
+msgstr "Configurações de IA salvas com sucesso."
 
 msgid "AI-powered spam detection with honeypot, reCAPTCHA, and custom rules."
-msgstr ""
+msgstr "Detecção de spam com IA usando honeypot, reCAPTCHA e regras personalizadas."
 
 msgid "AJAX Submission"
-msgstr ""
+msgstr "Envio AJAX"
 
 msgid "APCu is installed and available."
-msgstr ""
+msgstr "APCu está instalado e disponível."
 
 msgid "APCu is not installed."
-msgstr ""
+msgstr "APCu não está instalado."
 
 msgid "API Configuration"
-msgstr ""
+msgstr "Configuração de API"
 
 msgid "API Configured"
 msgstr "API Configurada"
@@ -198,124 +198,124 @@ msgid "API Key"
 msgstr "Chave API"
 
 msgid "API Key (Legacy)"
-msgstr ""
+msgstr "Chave de API (Legado)"
 
 msgid "API Not Configured"
 msgstr "API Não Configurada"
 
 msgid "API Only"
-msgstr ""
+msgstr "Somente API"
 
 msgid "API REST disponível"
-msgstr ""
+msgstr "API REST disponível"
 
 msgid "API Secret"
 msgstr "Segredo API"
 
 msgid "API connection successful! Your API key is valid."
-msgstr ""
+msgstr "Conexão com API bem-sucedida! Sua chave de API é válida."
 
 msgid "API key is required"
-msgstr ""
+msgstr "Chave de API é obrigatória"
 
 msgid "API key is required."
-msgstr ""
+msgstr "Chave de API é obrigatória."
 
 msgid "API keys and sensitive credentials are not included in exports for security. You will need to reconfigure these after import."
-msgstr ""
+msgstr "Chaves de API e credenciais sensíveis não são incluídas nas exportações por segurança. Você precisará reconfigurá-las após a importação."
 
 msgid "API returned error code %d: %s"
-msgstr ""
+msgstr "API retornou código de erro %d: %s"
 
 msgid "AWS S3"
 msgstr "AWS S3"
 
 msgid "Accept PayPal and credit cards"
-msgstr ""
+msgstr "Aceitar PayPal e cartões de crédito"
 
 msgid "Accept credit cards worldwide"
-msgstr ""
+msgstr "Aceitar cartões de crédito mundialmente"
 
 msgid "Access Control"
 msgstr "Controle de Acesso"
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Acesso Negado"
 
 msgid "Access Token"
-msgstr ""
+msgstr "Token de Acesso"
 
 msgid "Access denied from your IP address."
-msgstr ""
+msgstr "Acesso negado do seu endereço IP."
 
 msgid "Access denied."
 msgstr "Acesso negado."
 
 msgid "Access is not available in your region."
-msgstr ""
+msgstr "O acesso não está disponível na sua região."
 
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
 msgid "Account SID"
-msgstr ""
+msgstr "SID da Conta"
 
 msgid "Action"
 msgstr "Ação"
 
 msgid "Action Hooks"
-msgstr ""
+msgstr "Hooks de Ação"
 
 msgid "Action completed on %d items."
-msgstr ""
+msgstr "Ação concluída em %d itens."
 
 msgid "Action completed successfully"
-msgstr ""
+msgstr "Ação concluída com sucesso"
 
 msgid "Action is required."
-msgstr ""
+msgstr "Ação é obrigatória."
 
 msgid "Action when duplicate is found."
-msgstr ""
+msgstr "Ação quando duplicata é encontrada."
 
 msgid "Actions"
 msgstr "Ações"
 
 msgid "Actions Run"
-msgstr ""
+msgstr "Ações Executadas"
 
 msgid "Activate"
 msgstr "Ativar"
 
 msgid "Activate All"
-msgstr ""
+msgstr "Ativar Tudo"
 
 msgid "Activating..."
-msgstr ""
+msgstr "Ativando..."
 
 msgid "Active"
 msgstr "Ativo"
 
 msgid "Active Consents"
-msgstr ""
+msgstr "Consentimentos Ativos"
 
 msgid "Active Directory integration"
-msgstr ""
+msgstr "Integração com Active Directory"
 
 msgid "Active Forms"
-msgstr ""
+msgstr "Formulários Ativos"
 
 msgid "Active Payment Gateways"
-msgstr ""
+msgstr "Gateways de Pagamento Ativos"
 
 msgid "Active Sessions"
-msgstr ""
+msgstr "Sessões Ativas"
 
 msgid "Active Sites"
-msgstr ""
+msgstr "Sites Ativos"
 
 msgid "Active Theme"
-msgstr ""
+msgstr "Tema Ativo"
 
 msgid "Add"
 msgstr "Adicionar"
@@ -327,64 +327,64 @@ msgid "Add Condition"
 msgstr "Adicionar Condição"
 
 msgid "Add Field"
-msgstr ""
+msgstr "Adicionar Campo"
 
 msgid "Add IP Rule"
-msgstr ""
+msgstr "Adicionar Regra de IP"
 
 msgid "Add New"
 msgstr "Adicionar Novo"
 
 msgid "Add New Template"
-msgstr ""
+msgstr "Adicionar Novo Modelo"
 
 msgid "Add New Workflow"
-msgstr ""
+msgstr "Adicionar Novo Fluxo de Trabalho"
 
 msgid "Add Option"
 msgstr "Adicionar Opção"
 
 msgid "Add Rule"
-msgstr ""
+msgstr "Adicionar Regra"
 
 msgid "Add Trigger"
 msgstr "Adicionar Gatilho"
 
 msgid "Add Webhook"
-msgstr ""
+msgstr "Adicionar Webhook"
 
 msgid "Add conditions to control when this workflow should run."
-msgstr ""
+msgstr "Adicione condições para controlar quando este fluxo de trabalho deve ser executado."
 
 msgid "Add custom metadata (one per line, format: key=value)"
-msgstr ""
+msgstr "Adicionar metadados personalizados (um por linha, formato: chave=valor)"
 
 msgid "Add submission ID column."
-msgstr ""
+msgstr "Adicionar coluna de ID do envio."
 
 msgid "Add submission timestamp as first column."
-msgstr ""
+msgstr "Adicionar data/hora do envio como primeira coluna."
 
 msgid "Add this URL to your OAuth application settings."
-msgstr ""
+msgstr "Adicione esta URL às configurações do seu aplicativo OAuth."
 
 msgid "Add this URL to your Stripe webhook settings."
-msgstr ""
+msgstr "Adicione esta URL às configurações de webhook do Stripe."
 
 msgid "Additional Tools"
-msgstr ""
+msgstr "Ferramentas Adicionais"
 
 msgid "Address"
 msgstr "Endereço"
 
 msgid "Admin Email Subject"
-msgstr ""
+msgstr "Assunto do E-mail do Admin"
 
 msgid "Admin Only"
-msgstr ""
+msgstr "Somente Admin"
 
 msgid "Administration"
-msgstr ""
+msgstr "Administração"
 
 msgid "Administrator"
 msgstr "Administrador"
@@ -393,31 +393,31 @@ msgid "Advanced"
 msgstr "Avançado"
 
 msgid "Advanced Conditional Logic"
-msgstr ""
+msgstr "Lógica Condicional Avançada"
 
 msgid "Advanced Spam Protection"
-msgstr ""
+msgstr "Proteção Avançada contra Spam"
 
 msgid "After form is rendered"
-msgstr ""
+msgstr "Após o formulário ser renderizado"
 
 msgid "Aggregate analytics from all sites"
-msgstr ""
+msgstr "Agregar analytics de todos os sites"
 
 msgid "All"
 msgstr "Todos"
 
 msgid "All Categories"
-msgstr ""
+msgstr "Todas as Categorias"
 
 msgid "All Extensions"
-msgstr ""
+msgstr "Todas as Extensões"
 
 msgid "All Forms"
-msgstr ""
+msgstr "Todos os Formulários"
 
 msgid "All Severities"
-msgstr ""
+msgstr "Todas as Severidades"
 
 msgid "All Sites"
 msgstr "Todos os Sites"
@@ -426,22 +426,22 @@ msgid "All Statuses"
 msgstr "Todos os Status"
 
 msgid "All Time"
-msgstr ""
+msgstr "Todo o Período"
 
 msgid "Allow Local Login"
-msgstr ""
+msgstr "Permitir Login Local"
 
 msgid "Allow username/password login alongside SSO"
-msgstr ""
+msgstr "Permitir login com usuário/senha junto com SSO"
 
 msgid "Allowed Domains"
-msgstr ""
+msgstr "Domínios Permitidos"
 
 msgid "Allowed file types: %s"
 msgstr "Tipos de arquivo permitidos: %s"
 
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alfabético"
 
 msgid "Already exists."
 msgstr "Já existe."
@@ -450,7 +450,7 @@ msgid "Amount"
 msgstr "Valor"
 
 msgid "An error occurred"
-msgstr ""
+msgstr "Ocorreu um erro"
 
 msgid "An error occurred. Please try again."
 msgstr "Ocorreu um erro. Por favor, tente novamente."
@@ -459,16 +459,16 @@ msgid "Analytics"
 msgstr "Análises"
 
 msgid "Analytics & Reporting"
-msgstr ""
+msgstr "Analytics e Relatórios"
 
 msgid "Analytics Dashboard"
-msgstr ""
+msgstr "Painel de Analytics"
 
 msgid "And"
 msgstr "E"
 
 msgid "Anonymize IP addresses in logs"
-msgstr ""
+msgstr "Anonimizar endereços IP nos logs"
 
 msgid "Any"
 msgstr "Qualquer"
