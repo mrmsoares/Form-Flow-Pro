@@ -17,9 +17,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Include interface
-require_once __DIR__ . '/PaymentProviderInterface.php';
-
 /**
  * Stripe Payment Provider
  */
