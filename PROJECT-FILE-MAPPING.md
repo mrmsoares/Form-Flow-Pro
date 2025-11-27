@@ -1,7 +1,7 @@
 # 📁 MAPEAMENTO COMPLETO DO PROJETO FORM-FLOW-PRO
 
-> Gerado em: 2025-11-27
-> Total de Arquivos: **184**
+> Atualizado em: 2025-11-27
+> Total de Arquivos: **177**
 > Total de Diretórios: **63**
 
 ---
@@ -11,11 +11,11 @@
 | Extensão | Quantidade | Descrição |
 |----------|------------|-----------|
 | `.php` | 134 | Arquivos PHP (backend) |
-| `.md` | 17 | Documentação Markdown |
+| `.md` | 13 | Documentação Markdown |
 | `.js` | 12 | JavaScript |
 | `.css` | 4 | Folhas de estilo |
 | `.scss` | 3 | Sass/SCSS |
-| `.txt` | 3 | Arquivos de texto |
+| `.txt` | 0 | Arquivos de texto |
 | `.json` | 2 | Configuração JSON |
 | `.yml` | 1 | GitHub Actions |
 | `.xml` | 1 | PHPUnit config |
@@ -500,18 +500,15 @@ Form-Flow-Pro/
 
 ---
 
-### ⚪ DOCUMENTAÇÃO (17 arquivos .md)
+### ⚪ DOCUMENTAÇÃO (13 arquivos .md)
 
-#### Raiz (6 arquivos)
+#### Raiz (3 arquivos)
 
 | # | Arquivo | Descrição |
 |---|---------|-----------|
 | 1 | `README.md` | Documentação principal |
-| 2 | `ANALYSIS-INDEX.md` | Índice de análise |
-| 3 | `BUILD-REPORT.md` | Relatório de build |
-| 4 | `ENVIRONMENT.md` | Ambiente |
-| 5 | `GAPS-BY-FILE.md` | Lacunas por arquivo |
-| 6 | `PRODUCTION-READINESS-GAPS.md` | Prontidão produção |
+| 2 | `ENVIRONMENT.md` | Ambiente de desenvolvimento |
+| 3 | `PROJECT-FILE-MAPPING.md` | Mapeamento de arquivos |
 
 #### `/docs-planning/` (9 arquivos)
 
@@ -529,15 +526,12 @@ Form-Flow-Pro/
 
 ---
 
-### ⚫ OUTROS ARQUIVOS (6 arquivos)
+### ⚫ OUTROS ARQUIVOS (2 arquivos)
 
 | # | Arquivo | Tipo |
 |---|---------|------|
 | 1 | `.github/workflows/tests.yml` | CI/CD |
-| 2 | `PRODUCTION-GAPS-SUMMARY.txt` | Resumo gaps |
-| 3 | `PRODUCTION-READINESS-EXECUTIVE-SUMMARY.txt` | Sumário executivo |
-| 4 | `test-results.txt` | Resultados testes |
-| 5 | `tests/integration/.gitkeep` | Marcador |
+| 2 | `tests/integration/.gitkeep` | Marcador |
 
 ---
 
