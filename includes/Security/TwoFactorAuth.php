@@ -1801,4 +1801,187 @@ class TwoFactorAuth
             "DELETE FROM {$this->tableAttempts} WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 30 DAY)"
         );
     }
+
+    /**
+     * AJAX: Register security key (WebAuthn)
+     *
+     * Note: Full WebAuthn implementation requires external library (web-auth/webauthn-lib).
+     * This provides the basic structure for security key management.
+     */
+    public function ajaxRegisterSecurityKey(): void
+    {
+        check_ajax_referer('formflow_security_nonce', 'nonce');
+
+        if (!current_user_can('read')) {
+            wp_send_json_error(['message' => __('Permissão negada', 'formflow-pro')]);
+        }
+
+        $userId = get_current_user_id();
+        $keyName = sanitize_text_field($_POST['key_name'] ?? __('Chave de Segurança', 'formflow-pro'));
+        $credentialId = sanitize_text_field($_POST['credential_id'] ?? '');
+        $publicKey = sanitize_textarea_field($_POST['public_key'] ?? '');
+        $attestationType = sanitize_text_field($_POST['attestation_type'] ?? 'none');
+
+        if (empty($credentialId) || empty($publicKey)) {
+            wp_send_json_error(['message' => __('Dados de credencial inválidos', 'formflow-pro')]);
+        }
+
+        global $wpdb;
+
+        // Check if credential already exists
+        $existing = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT id FROM {$this->tableSecurityKeys} WHERE credential_id = %s",
+                $credentialId
+            )
+        );
+
+        if ($existing) {
+            wp_send_json_error(['message' => __('Esta chave de segurança já está registrada', 'formflow-pro')]);
+        }
+
+        // Store the security key
+        $inserted = $wpdb->insert(
+            $this->tableSecurityKeys,
+            [
+                'user_id' => $userId,
+                'credential_id' => $credentialId,
+                'public_key' => $publicKey,
+                'sign_count' => 0,
+                'name' => $keyName,
+                'transports' => json_encode($_POST['transports'] ?? ['usb', 'nfc', 'ble', 'internal']),
+                'attestation_type' => $attestationType,
+                'aaguid' => sanitize_text_field($_POST['aaguid'] ?? ''),
+                'last_used' => null,
+                'created_at' => current_time('mysql'),
+            ],
+            ['%d', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s']
+        );
+
+        if (!$inserted) {
+            wp_send_json_error(['message' => __('Falha ao registrar chave de segurança', 'formflow-pro')]);
+        }
+
+        do_action('formflow_security_key_registered', $userId, $wpdb->insert_id);
+
+        wp_send_json_success([
+            'message' => __('Chave de segurança registrada com sucesso', 'formflow-pro'),
+            'key_id' => $wpdb->insert_id,
+        ]);
+    }
+
+    /**
+     * AJAX: Remove security key
+     */
+    public function ajaxRemoveSecurityKey(): void
+    {
+        check_ajax_referer('formflow_security_nonce', 'nonce');
+
+        if (!current_user_can('read')) {
+            wp_send_json_error(['message' => __('Permissão negada', 'formflow-pro')]);
+        }
+
+        $userId = get_current_user_id();
+        $keyId = absint($_POST['key_id'] ?? 0);
+
+        if (!$keyId) {
+            wp_send_json_error(['message' => __('ID da chave inválido', 'formflow-pro')]);
+        }
+
+        global $wpdb;
+
+        // Verify ownership
+        $key = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT id, name FROM {$this->tableSecurityKeys} WHERE id = %d AND user_id = %d",
+                $keyId,
+                $userId
+            )
+        );
+
+        if (!$key) {
+            wp_send_json_error(['message' => __('Chave de segurança não encontrada', 'formflow-pro')]);
+        }
+
+        // Delete the key
+        $deleted = $wpdb->delete(
+            $this->tableSecurityKeys,
+            [
+                'id' => $keyId,
+                'user_id' => $userId,
+            ],
+            ['%d', '%d']
+        );
+
+        if (!$deleted) {
+            wp_send_json_error(['message' => __('Falha ao remover chave de segurança', 'formflow-pro')]);
+        }
+
+        do_action('formflow_security_key_removed', $userId, $keyId);
+
+        wp_send_json_success([
+            'message' => sprintf(__('Chave "%s" removida com sucesso', 'formflow-pro'), esc_html($key->name)),
+        ]);
+    }
+
+    /**
+     * Get user's security keys
+     */
+    public function getUserSecurityKeys(int $userId): array
+    {
+        global $wpdb;
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT id, name, transports, attestation_type, last_used, created_at
+                FROM {$this->tableSecurityKeys}
+                WHERE user_id = %d
+                ORDER BY created_at DESC",
+                $userId
+            ),
+            ARRAY_A
+        ) ?: [];
+    }
+
+    /**
+     * Verify security key authentication
+     */
+    public function verifySecurityKey(int $userId, string $credentialId, int $signCount): bool
+    {
+        global $wpdb;
+
+        $key = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT id, sign_count FROM {$this->tableSecurityKeys}
+                WHERE user_id = %d AND credential_id = %s",
+                $userId,
+                $credentialId
+            )
+        );
+
+        if (!$key) {
+            return false;
+        }
+
+        // Verify sign count to prevent replay attacks
+        if ($signCount <= $key->sign_count) {
+            $this->logAttempt($userId, '2fa', false, 'security_key');
+            return false;
+        }
+
+        // Update sign count and last used
+        $wpdb->update(
+            $this->tableSecurityKeys,
+            [
+                'sign_count' => $signCount,
+                'last_used' => current_time('mysql'),
+            ],
+            ['id' => $key->id],
+            ['%d', '%s'],
+            ['%d']
+        );
+
+        $this->logAttempt($userId, '2fa', true, 'security_key');
+        return true;
+    }
 }
