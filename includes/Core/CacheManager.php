@@ -506,12 +506,176 @@ class CacheManager
     /**
      * Warm up cache for common queries.
      *
+     * Pre-loads frequently accessed data into cache layers to improve
+     * initial page load performance after cache invalidation.
+     *
      * @since 2.0.0
+     * @return array Statistics about warmed cache entries.
      */
     public function warm_cache()
     {
-        // This will be implemented with specific cache warming strategies
-        // based on frequently accessed data patterns
+        if (!$this->cache_enabled) {
+            return ['status' => 'disabled', 'entries' => 0];
+        }
+
+        $warmed = 0;
+
+        // 1. Warm plugin settings
+        $warmed += $this->warm_plugin_settings();
+
+        // 2. Warm active forms
+        $warmed += $this->warm_active_forms();
+
+        // 3. Warm integration mappings
+        $warmed += $this->warm_integration_mappings();
+
+        // 4. Warm security settings
+        $warmed += $this->warm_security_settings();
+
+        // 5. Allow extensions to add their own warming strategies
         do_action('formflow_cache_warm_up', $this);
+
+        return [
+            'status' => 'completed',
+            'entries' => $warmed,
+            'timestamp' => current_time('mysql'),
+        ];
+    }
+
+    /**
+     * Warm plugin settings cache.
+     *
+     * @since 2.0.0
+     * @return int Number of entries warmed.
+     */
+    private function warm_plugin_settings()
+    {
+        $settings_keys = [
+            'formflow_settings',
+            'formflow_ai_settings',
+            'formflow_api_keys',
+            'formflow_webhooks',
+            'formflow_cache_ttl',
+            'formflow_api_rate_limit',
+            'formflow_debug_mode',
+            'formflow_log_retention_days',
+        ];
+
+        $warmed = 0;
+        foreach ($settings_keys as $key) {
+            $value = get_option($key, null);
+            if ($value !== null) {
+                $this->set("settings_{$key}", $value, self::DEFAULT_TTL * 2);
+                $warmed++;
+            }
+        }
+
+        return $warmed;
+    }
+
+    /**
+     * Warm active forms cache.
+     *
+     * @since 2.0.0
+     * @return int Number of entries warmed.
+     */
+    private function warm_active_forms()
+    {
+        $forms = $this->wpdb->get_results(
+            "SELECT id, title, fields, settings
+            FROM {$this->wpdb->prefix}formflow_forms
+            WHERE status = 'active'
+            ORDER BY updated_at DESC
+            LIMIT 50"
+        );
+
+        if (empty($forms)) {
+            return 0;
+        }
+
+        $warmed = 0;
+        foreach ($forms as $form) {
+            $this->set("form_{$form->id}", $form, 1800);
+            $warmed++;
+        }
+
+        // Also cache form count for dashboard
+        $count = $this->wpdb->get_var(
+            "SELECT COUNT(*) FROM {$this->wpdb->prefix}formflow_forms WHERE status = 'active'"
+        );
+        $this->set('active_forms_count', (int) $count, 3600);
+        $warmed++;
+
+        return $warmed;
+    }
+
+    /**
+     * Warm integration mappings cache.
+     *
+     * @since 2.0.0
+     * @return int Number of entries warmed.
+     */
+    private function warm_integration_mappings()
+    {
+        $mappings = get_option('formflow_integration_mappings', []);
+        if (!empty($mappings)) {
+            $this->set('integration_mappings', $mappings, self::DEFAULT_TTL * 2);
+            return 1;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Warm security settings cache.
+     *
+     * @since 2.0.0
+     * @return int Number of entries warmed.
+     */
+    private function warm_security_settings()
+    {
+        $security_keys = [
+            'formflow_2fa_enforced_roles',
+            'formflow_session_ip_strict',
+            'formflow_max_sessions',
+            'formflow_geo_blocking_enabled',
+            'formflow_security_headers_enabled',
+            'formflow_audit_retention_days',
+            'formflow_gdpr_auto_delete_days',
+        ];
+
+        $security_settings = [];
+        foreach ($security_keys as $key) {
+            $security_settings[$key] = get_option($key);
+        }
+
+        $this->set('security_settings_bundle', $security_settings, self::DEFAULT_TTL);
+
+        return 1;
+    }
+
+    /**
+     * Schedule cache warming via WordPress cron.
+     *
+     * @since 2.0.0
+     */
+    public function schedule_warm_cache()
+    {
+        if (!wp_next_scheduled('formflow_warm_cache_event')) {
+            wp_schedule_event(time(), 'hourly', 'formflow_warm_cache_event');
+        }
+    }
+
+    /**
+     * Unschedule cache warming.
+     *
+     * @since 2.0.0
+     */
+    public function unschedule_warm_cache()
+    {
+        $timestamp = wp_next_scheduled('formflow_warm_cache_event');
+        if ($timestamp) {
+            wp_unschedule_event($timestamp, 'formflow_warm_cache_event');
+        }
     }
 }
