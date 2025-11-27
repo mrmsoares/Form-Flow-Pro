@@ -47,6 +47,28 @@ if (!defined('FORMFLOW_BASENAME')) {
     define('FORMFLOW_BASENAME', 'formflow-pro/formflow-pro.php');
 }
 
+// Legacy constant alias (used by some components)
+if (!defined('JEFORM_VERSION')) {
+    define('JEFORM_VERSION', FORMFLOW_VERSION);
+}
+
+// Database constants for testing
+if (!defined('DB_NAME')) {
+    define('DB_NAME', 'formflow_test');
+}
+if (!defined('DB_USER')) {
+    define('DB_USER', 'test');
+}
+if (!defined('DB_PASSWORD')) {
+    define('DB_PASSWORD', '');
+}
+if (!defined('DB_HOST')) {
+    define('DB_HOST', 'localhost');
+}
+if (!defined('DB_CHARSET')) {
+    define('DB_CHARSET', 'utf8mb4');
+}
+
 // Mock WordPress functions for unit tests
 require_once FORMFLOW_TESTS_DIR . '/mocks/wordpress-functions.php';
 

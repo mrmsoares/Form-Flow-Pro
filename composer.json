@@ -27,12 +27,48 @@
     "autoload": {
         "psr-4": {
             "FormFlowPro\\": "includes/"
-        }
+        },
+        "classmap": [
+            "includes/queue/",
+            "includes/email/",
+            "includes/cache/",
+            "includes/logs/",
+            "includes/pdf/",
+            "includes/autentique/",
+            "includes/ajax/",
+            "includes/admin/",
+            "includes/analytics/",
+            "includes/shortcodes/",
+            "includes/integrations/",
+            "includes/FormBuilder/",
+            "includes/Notifications/",
+            "includes/PWA/",
+            "includes/Payments/",
+            "includes/Security/",
+            "includes/AI/",
+            "includes/MultiSite/",
+            "includes/Database/",
+            "includes/API/",
+            "includes/Traits/",
+            "includes/Core/",
+            "includes/class-loader.php",
+            "includes/class-i18n.php",
+            "includes/class-activator.php",
+            "includes/class-deactivator.php",
+            "includes/class-services.php",
+            "includes/class-cron-schedules.php",
+            "includes/class-archive-manager.php",
+            "includes/class-formflow-plugin.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "FormFlowPro\\Tests\\": "tests/"
-        }
+        },
+        "classmap": [
+            "tests/unit/",
+            "tests/integration/"
+        ]
     },
     "scripts": {
         "test": "phpunit",

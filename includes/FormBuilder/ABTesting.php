@@ -24,25 +24,25 @@ if (!defined('ABSPATH')) {
  */
 class ABTest
 {
-    public int $id;
-    public int $form_id;
-    public string $name;
-    public string $description;
-    public string $status; // draft, running, paused, completed
-    public string $test_type; // ab, multivariate, split_url
-    public string $goal_type; // submission, conversion, engagement
-    public array $goal_config;
-    public array $variants;
-    public string $traffic_allocation; // equal, weighted, bandit
-    public array $allocation_weights;
-    public int $minimum_sample;
-    public float $confidence_level;
-    public string $winner_variant_id;
-    public string $start_date;
-    public string $end_date;
-    public string $created_at;
-    public int $created_by;
-    public array $results;
+    public int $id = 0;
+    public int $form_id = 0;
+    public string $name = '';
+    public string $description = '';
+    public string $status = 'draft'; // draft, running, paused, completed
+    public string $test_type = 'ab'; // ab, multivariate, split_url
+    public string $goal_type = 'submission'; // submission, conversion, engagement
+    public array $goal_config = [];
+    public array $variants = [];
+    public string $traffic_allocation = 'equal'; // equal, weighted, bandit
+    public array $allocation_weights = [];
+    public int $minimum_sample = 100;
+    public float $confidence_level = 0.95;
+    public ?string $winner_variant_id = null;
+    public ?string $start_date = null;
+    public ?string $end_date = null;
+    public string $created_at = '';
+    public int $created_by = 0;
+    public array $results = [];
 
     public function __construct(array $data = [])
     {
