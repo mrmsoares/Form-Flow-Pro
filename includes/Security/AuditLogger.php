@@ -841,7 +841,7 @@ class AuditLogger
         $output = fopen('php://temp', 'r+');
 
         // Header
-        fputcsv($output, array_keys($logs[0]));
+        fputcsv($output, array_keys($logs[0]), ',', '"', '\\');
 
         // Data
         foreach ($logs as $log) {
@@ -851,7 +851,7 @@ class AuditLogger
                 }
                 return $value;
             }, $log);
-            fputcsv($output, $row);
+            fputcsv($output, $row, ',', '"', '\\');
         }
 
         rewind($output);

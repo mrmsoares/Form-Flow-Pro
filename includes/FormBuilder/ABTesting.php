@@ -1132,7 +1132,7 @@ class ABTesting
             'allocation_weights' => json_decode($row['allocation_weights'] ?? '[]', true) ?? [],
             'minimum_sample' => (int) $row['minimum_sample'],
             'confidence_level' => (float) $row['confidence_level'],
-            'winner_variant_id' => $row['winner_variant_id'],
+            'winner_variant_id' => $row['winner_variant_id'] ?? '',
             'start_date' => $row['start_date'],
             'end_date' => $row['end_date'],
             'created_at' => $row['created_at'],

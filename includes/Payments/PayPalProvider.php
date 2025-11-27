@@ -109,7 +109,7 @@ class PayPalProvider implements PaymentProviderInterface
     public function createPayment(array $data): array
     {
         $order_data = [
-            'intent' => $data['capture'] === false ? 'AUTHORIZE' : 'CAPTURE',
+            'intent' => ($data['capture'] ?? true) === false ? 'AUTHORIZE' : 'CAPTURE',
             'purchase_units' => [[
                 'reference_id' => $data['reference_id'] ?? uniqid('ffp_'),
                 'description' => $data['description'] ?? '',

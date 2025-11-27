@@ -207,8 +207,11 @@ class PaymentManager
             KEY user_id (user_id)
         ) {$charset_collate};";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+        $upgrade_file = ABSPATH . 'wp-admin/includes/upgrade.php';
+        if (file_exists($upgrade_file)) {
+            require_once($upgrade_file);
+            dbDelta($sql);
+        }
     }
 
     private function initializeProviders(): void
