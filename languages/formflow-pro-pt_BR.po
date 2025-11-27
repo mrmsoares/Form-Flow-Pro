@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: FormFlow Pro Enterprise 2.0.0\n"
 "Report-Msgid-Bugs-To: https://formflowpro.com/support\n"
 "POT-Creation-Date: " . date('Y-m-d H:i+0000') . "\n"
-"PO-Revision-Date: 2025-11-27 16:16+0000
+"PO-Revision-Date: 2025-11-27 16:22+0000
 "Last-Translator: FormFlow Pro Team <support@formflowpro.com>\n"
 "Language-Team: Portuguese (Brazil) <support@formflowpro.com>\n"
 "Language: pt_BR\n"
@@ -5118,46 +5118,46 @@ msgid "Temporarily Blocked IPs"
 msgstr "IPs Temporariamente Bloqueados"
 
 msgid "Terminate"
-msgstr ""
+msgstr "Encerrar"
 
 msgid "Terminate All Other Sessions"
-msgstr ""
+msgstr "Encerrar Todas as Outras Sessões"
 
 msgid "Terminate session when IP changes"
-msgstr ""
+msgstr "Encerrar sessão quando o IP mudar"
 
 msgid "Terminate this session?"
-msgstr ""
+msgstr "Encerrar esta sessão?"
 
 msgid "Terms of Service"
 msgstr "Termos de Serviço"
 
 msgid "Test"
-msgstr ""
+msgstr "Testar"
 
 msgid "Test Connection"
 msgstr "Testar Conexão"
 
 msgid "Test Mode"
-msgstr ""
+msgstr "Modo de Teste"
 
 msgid "Test email sent successfully to %s"
-msgstr ""
+msgstr "E-mail de teste enviado com sucesso para %s"
 
 msgid "Test email sent successfully."
 msgstr "E-mail de teste enviado com sucesso."
 
 msgid "Test notification sent!"
-msgstr ""
+msgstr "Notificação de teste enviada!"
 
 msgid "Test the connection to verify everything is working"
-msgstr ""
+msgstr "Teste a conexão para verificar se tudo está funcionando"
 
 msgid "Test webhook sent successfully! Check your Zapier dashboard."
-msgstr ""
+msgstr "Webhook de teste enviado com sucesso! Verifique seu painel do Zapier."
 
 msgid "Test your extension thoroughly"
-msgstr ""
+msgstr "Teste sua extensão completamente"
 
 msgid "Text"
 msgstr "Texto"
@@ -5166,19 +5166,19 @@ msgid "Text Area"
 msgstr "Área de Texto"
 
 msgid "Text Color"
-msgstr ""
+msgstr "Cor do Texto"
 
 msgid "Text displayed next to the consent checkbox on forms."
-msgstr ""
+msgstr "Texto exibido ao lado da caixa de consentimento nos formulários."
 
 msgid "Thank you! Your submission has been received."
-msgstr ""
+msgstr "Obrigado! Seu envio foi recebido."
 
 msgid "The Entity ID of your Identity Provider"
-msgstr ""
+msgstr "O ID da Entidade do seu Provedor de Identidade"
 
 msgid "The spreadsheet ID from the Google Sheets URL."
-msgstr ""
+msgstr "O ID da planilha da URL do Google Sheets."
 
 msgid "Theme Color"
 msgstr "Cor do Tema"
@@ -5187,7 +5187,7 @@ msgid "Then"
 msgstr "Então"
 
 msgid "These are the devices currently logged into your account."
-msgstr ""
+msgstr "Estes são os dispositivos atualmente conectados à sua conta."
 
 msgid "This Month"
 msgstr "Este Mês"
@@ -5196,61 +5196,61 @@ msgid "This Week"
 msgstr "Esta Semana"
 
 msgid "This Year"
-msgstr ""
+msgstr "Este Ano"
 
 msgid "This action cannot be undone."
 msgstr "Esta ação não pode ser desfeita."
 
 msgid "This extension requires FormFlow Pro %s or higher"
-msgstr ""
+msgstr "Esta extensão requer FormFlow Pro %s ou superior"
 
 msgid "This extension requires PHP %s or higher"
-msgstr ""
+msgstr "Esta extensão requer PHP %s ou superior"
 
 msgid "This extension requires WordPress %s or higher"
-msgstr ""
+msgstr "Esta extensão requer WordPress %s ou superior"
 
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
 msgid "This is a test email from FormFlow Pro."
-msgstr ""
+msgstr "Este é um e-mail de teste do FormFlow Pro."
 
 msgid "This submission has been flagged as potential spam."
-msgstr ""
+msgstr "Este envio foi marcado como potencial spam."
 
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 msgid "Time"
 msgstr "Hora"
 
 msgid "Time:"
-msgstr ""
+msgstr "Hora:"
 
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 msgid "To date"
 msgstr "Até"
 
 msgid "To:"
-msgstr ""
+msgstr "Para:"
 
 msgid "Today"
 msgstr "Hoje"
 
 msgid "Token URL"
-msgstr ""
+msgstr "URL do Token"
 
 msgid "Too many attempts. Please try again later."
-msgstr ""
+msgstr "Muitas tentativas. Por favor, tente novamente mais tarde."
 
 msgid "Too many failed attempts. Please try again in 15 minutes."
-msgstr ""
+msgstr "Muitas tentativas falhas. Por favor, tente novamente em 15 minutos."
 
 msgid "Too many failed login attempts. Please try again in %d minutes."
-msgstr ""
+msgstr "Muitas tentativas de login falhas. Por favor, tente novamente em %d minutos."
 
 msgid "Tools"
 msgstr "Ferramentas"
@@ -5259,7 +5259,7 @@ msgid "Top Forms"
 msgstr "Formulários Principais"
 
 msgid "Top Sites by Submissions"
-msgstr ""
+msgstr "Sites com Mais Envios"
 
 msgid "Total"
 msgstr "Total"
@@ -5268,31 +5268,31 @@ msgid "Total Documents"
 msgstr "Total de Documentos"
 
 msgid "Total Forms"
-msgstr ""
+msgstr "Total de Formulários"
 
 msgid "Total Requests"
-msgstr ""
+msgstr "Total de Solicitações"
 
 msgid "Total Revenue"
-msgstr ""
+msgstr "Receita Total"
 
 msgid "Total Sites"
-msgstr ""
+msgstr "Total de Sites"
 
 msgid "Total Submissions"
 msgstr "Total de Envios"
 
 msgid "Total Transactions"
-msgstr ""
+msgstr "Total de Transações"
 
 msgid "Total Workflows"
-msgstr ""
+msgstr "Total de Fluxos de Trabalho"
 
 msgid "Transaction ID"
 msgstr "ID da Transação"
 
 msgid "Transactions"
-msgstr ""
+msgstr "Transações"
 
 msgid "Trends"
 msgstr "Tendências"
@@ -5301,85 +5301,85 @@ msgid "Trigger"
 msgstr "Gatilho"
 
 msgid "Triggered after form submission"
-msgstr ""
+msgstr "Acionado após envio do formulário"
 
 msgid "Triggers"
 msgstr "Gatilhos"
 
 msgid "Trusted Devices"
-msgstr ""
+msgstr "Dispositivos Confiáveis"
 
 msgid "Twilio"
 msgstr "Twilio"
 
 msgid "Two-Factor Auth"
-msgstr ""
+msgstr "Autenticação de Dois Fatores"
 
 msgid "Two-Factor Authentication"
 msgstr "Autenticação de Dois Fatores"
 
 msgid "Two-factor authentication configured"
-msgstr ""
+msgstr "Autenticação de dois fatores configurada"
 
 msgid "Two-factor authentication disabled."
-msgstr ""
+msgstr "Autenticação de dois fatores desativada."
 
 msgid "Two-factor authentication enabled successfully!"
-msgstr ""
+msgstr "Autenticação de dois fatores ativada com sucesso!"
 
 msgid "Two-factor authentication is enabled"
-msgstr ""
+msgstr "A autenticação de dois fatores está ativada"
 
 msgid "Type"
 msgstr "Tipo"
 
 msgid "Type: %s"
-msgstr ""
+msgstr "Tipo: %s"
 
 msgid "URL"
 msgstr "URL"
 
 msgid "URL to redirect users after successful SSO login"
-msgstr ""
+msgstr "URL para redirecionar usuários após login SSO bem-sucedido"
 
 msgid "URL to your custom logo image"
-msgstr ""
+msgstr "URL para sua imagem de logotipo personalizado"
 
 msgid "Unblock"
-msgstr ""
+msgstr "Desbloquear"
 
 msgid "Undo"
-msgstr ""
+msgstr "Desfazer"
 
 msgid "Unexpected response from AI."
-msgstr ""
+msgstr "Resposta inesperada da IA."
 
 msgid "Uninstall"
 msgstr "Desinstalar"
 
 msgid "Uninstalling..."
-msgstr ""
+msgstr "Desinstalando..."
 
 msgid "Unknown Form"
-msgstr ""
+msgstr "Formulário Desconhecido"
 
 msgid "Unknown cache driver."
-msgstr ""
+msgstr "Driver de cache desconhecido."
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Erro desconhecido"
 
 msgid "Unlicensed"
 msgstr "Não Licenciado"
 
 msgid "Unlimited"
-msgstr ""
+msgstr "Ilimitado"
 
 msgid "Unlink"
-msgstr ""
+msgstr "Desvincular"
 
 msgid "Unqualified"
-msgstr ""
+msgstr "Não Qualificado"
 
 msgid "Unsaved changes"
 msgstr "Alterações não salvas"
@@ -5394,307 +5394,307 @@ msgid "Update Available"
 msgstr "Atualização Disponível"
 
 msgid "Update Existing Contacts"
-msgstr ""
+msgstr "Atualizar Contatos Existentes"
 
 msgid "Update Field"
 msgstr "Atualizar Campo"
 
 msgid "Update Status"
-msgstr ""
+msgstr "Atualizar Status"
 
 msgid "Update Workflow"
-msgstr ""
+msgstr "Atualizar Fluxo de Trabalho"
 
 msgid "Update contact if email already exists."
-msgstr ""
+msgstr "Atualizar contato se o e-mail já existir."
 
 msgid "Update existing"
-msgstr ""
+msgstr "Atualizar existente"
 
 msgid "Update failed."
-msgstr ""
+msgstr "Falha na atualização."
 
 msgid "Update to %s available"
-msgstr ""
+msgstr "Atualização para %s disponível"
 
 msgid "Update user profile with IdP data on each login"
-msgstr ""
+msgstr "Atualizar perfil do usuário com dados do IdP em cada login"
 
 msgid "Updated"
 msgstr "Atualizado"
 
 msgid "Updated successfully."
-msgstr ""
+msgstr "Atualizado com sucesso."
 
 msgid "Updating..."
-msgstr ""
+msgstr "Atualizando..."
 
 msgid "Upload"
 msgstr "Enviar"
 
 msgid "Use Application Passwords or JWT for authentication."
-msgstr ""
+msgstr "Use Senhas de Aplicativo ou JWT para autenticação."
 
 msgid "Use PKCE"
-msgstr ""
+msgstr "Usar PKCE"
 
 msgid "Use SSL (LDAPS)"
-msgstr ""
+msgstr "Usar SSL (LDAPS)"
 
 msgid "Use StartTLS"
-msgstr ""
+msgstr "Usar StartTLS"
 
 msgid "Use WooCommerce payment gateways"
-msgstr ""
+msgstr "Usar gateways de pagamento do WooCommerce"
 
 msgid "Use it in your form automations"
-msgstr ""
+msgstr "Use em suas automações de formulário"
 
 msgid "Use same integration credentials for all sites"
-msgstr ""
+msgstr "Usar mesmas credenciais de integração para todos os sites"
 
 msgid "Use sandbox environment for testing. Documents created in sandbox mode are not legally binding. Disable for production use."
-msgstr ""
+msgstr "Use o ambiente sandbox para testes. Documentos criados em modo sandbox não são juridicamente vinculantes. Desative para uso em produção."
 
 msgid "Use test credentials for all payment gateways. No real charges will be made."
-msgstr ""
+msgstr "Use credenciais de teste para todos os gateways de pagamento. Nenhuma cobrança real será feita."
 
 msgid "Use the Scaffold tool to generate extension boilerplate"
-msgstr ""
+msgstr "Use a ferramenta Scaffold para gerar a estrutura base da extensão"
 
 msgid "Use these filters to modify data at specific points in FormFlow Pro."
-msgstr ""
+msgstr "Use estes filtros para modificar dados em pontos específicos do FormFlow Pro."
 
 msgid "Use these hooks to execute code at specific points in FormFlow Pro."
-msgstr ""
+msgstr "Use estes hooks para executar código em pontos específicos do FormFlow Pro."
 
 msgid "Use these values to configure your Identity Provider:"
-msgstr ""
+msgstr "Use estes valores para configurar seu Provedor de Identidade:"
 
 msgid "Use this URL as the redirect/callback URI in your OAuth2 provider configuration."
-msgstr ""
+msgstr "Use esta URL como URI de redirecionamento/callback na configuração do seu provedor OAuth2."
 
 msgid "Use this URL when creating a Zapier trigger for FormFlow Pro."
-msgstr ""
+msgstr "Use esta URL ao criar um gatilho Zapier para o FormFlow Pro."
 
 msgid "Used in documents and email templates"
-msgstr ""
+msgstr "Usado em documentos e modelos de e-mail"
 
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 msgid "User Email Subject"
-msgstr ""
+msgstr "Assunto do E-mail do Usuário"
 
 msgid "User Filter"
-msgstr ""
+msgstr "Filtro de Usuário"
 
 msgid "User ID Attribute"
-msgstr ""
+msgstr "Atributo de ID do Usuário"
 
 msgid "User Provisioning"
-msgstr ""
+msgstr "Provisionamento de Usuário"
 
 msgid "User Registration"
-msgstr ""
+msgstr "Registro de Usuário"
 
 msgid "User Search Settings"
-msgstr ""
+msgstr "Configurações de Busca de Usuário"
 
 msgid "UserInfo URL"
-msgstr ""
+msgstr "URL de UserInfo"
 
 msgid "Username"
-msgstr ""
+msgstr "Nome de Usuário"
 
 msgid "Username and password are required"
-msgstr ""
+msgstr "Nome de usuário e senha são obrigatórios"
 
 msgid "Users"
-msgstr ""
+msgstr "Usuários"
 
 msgid "Users can exercise their rights through these endpoints:"
-msgstr ""
+msgstr "Os usuários podem exercer seus direitos através destes endpoints:"
 
 msgid "Users with 2FA enabled"
-msgstr ""
+msgstr "Usuários com 2FA ativado"
 
 msgid "Utilities"
-msgstr ""
+msgstr "Utilitários"
 
 msgid "Valid"
 msgstr "Válido"
 
 msgid "Valid license required to activate premium extension"
-msgstr ""
+msgstr "Licença válida necessária para ativar extensão premium"
 
 msgid "Validate extension manifest"
-msgstr ""
+msgstr "Validar manifesto da extensão"
 
 msgid "Value"
 msgstr "Valor"
 
 msgid "Value for LeadSource field."
-msgstr ""
+msgstr "Valor para o campo LeadSource."
 
 msgid "Verification Code"
 msgstr "Código de Verificação"
 
 msgid "Verification successful!"
-msgstr ""
+msgstr "Verificação bem-sucedida!"
 
 msgid "Verify"
-msgstr ""
+msgstr "Verificar"
 
 msgid "Verify & Enable"
-msgstr ""
+msgstr "Verificar e Ativar"
 
 msgid "Verify Setup"
-msgstr ""
+msgstr "Verificar Configuração"
 
 msgid "Verify that your API key is valid and the connection to Autentique is working."
-msgstr ""
+msgstr "Verifique se sua chave de API é válida e se a conexão com o Autentique está funcionando."
 
 msgid "Verify your identity to continue as %s"
-msgstr ""
+msgstr "Verifique sua identidade para continuar como %s"
 
 msgid "Verifying..."
-msgstr ""
+msgstr "Verificando..."
 
 msgid "Version"
 msgstr "Versão"
 
 msgid "Version must be in semver format (e.g., 1.0.0)"
-msgstr ""
+msgstr "A versão deve estar no formato semver (ex.: 1.0.0)"
 
 msgid "Version:"
-msgstr ""
+msgstr "Versão:"
 
 msgid "Video"
-msgstr ""
+msgstr "Vídeo"
 
 msgid "View"
 msgstr "Visualizar"
 
 msgid "View All"
-msgstr ""
+msgstr "Ver Tudo"
 
 msgid "View Analytics"
-msgstr ""
+msgstr "Ver Analytics"
 
 msgid "View Docs"
-msgstr ""
+msgstr "Ver Documentação"
 
 msgid "View Documentation"
-msgstr ""
+msgstr "Ver Documentação"
 
 msgid "View Documents"
-msgstr ""
+msgstr "Ver Documentos"
 
 msgid "View Info"
-msgstr ""
+msgstr "Ver Informações"
 
 msgid "View Logs"
-msgstr ""
+msgstr "Ver Logs"
 
 msgid "View Pricing"
-msgstr ""
+msgstr "Ver Preços"
 
 msgid "View Submission"
 msgstr "Ver Envio"
 
 msgid "View name required."
-msgstr ""
+msgstr "Nome da visualização obrigatório."
 
 msgid "View saved successfully."
-msgstr ""
+msgstr "Visualização salva com sucesso."
 
 msgid "View submission: %s"
-msgstr ""
+msgstr "Ver envio: %s"
 
 msgid "View system information and debug data."
-msgstr ""
+msgstr "Ver informações do sistema e dados de depuração."
 
 msgid "View updates"
-msgstr ""
+msgstr "Ver atualizações"
 
 msgid "Visit"
-msgstr ""
+msgstr "Visitar"
 
 msgid "Wait"
 msgstr "Aguardar"
 
 msgid "Want Assertions Signed"
-msgstr ""
+msgstr "Deseja Asserções Assinadas"
 
 msgid "Warning"
 msgstr "Aviso"
 
 msgid "Warning:"
-msgstr ""
+msgstr "Aviso:"
 
 msgid "Warning: This will permanently delete all forms, submissions, and settings"
-msgstr ""
+msgstr "Aviso: Isso excluirá permanentemente todos os formulários, envios e configurações"
 
 msgid "Warning: This will reduce the security of your account."
-msgstr ""
+msgstr "Aviso: Isso reduzirá a segurança da sua conta."
 
 msgid "Web Server"
-msgstr ""
+msgstr "Servidor Web"
 
 msgid "Webhook"
 msgstr "Webhook"
 
 msgid "Webhook Configuration"
-msgstr ""
+msgstr "Configuração de Webhook"
 
 msgid "Webhook Payload Format"
-msgstr ""
+msgstr "Formato do Payload do Webhook"
 
 msgid "Webhook Received"
-msgstr ""
+msgstr "Webhook Recebido"
 
 msgid "Webhook Secret"
-msgstr ""
+msgstr "Segredo do Webhook"
 
 msgid "Webhook URL"
 msgstr "URL do Webhook"
 
 msgid "Webhook test failed: %s"
-msgstr ""
+msgstr "Teste de webhook falhou: %s"
 
 msgid "Webhooks"
-msgstr ""
+msgstr "Webhooks"
 
 msgid "Webhooks imported:"
-msgstr ""
+msgstr "Webhooks importados:"
 
 msgid "Website"
-msgstr ""
+msgstr "Site"
 
 msgid "Weekly"
 msgstr "Semanal"
 
 msgid "Welcome to FormFlow Pro SDK"
-msgstr ""
+msgstr "Bem-vindo ao FormFlow Pro SDK"
 
 msgid "When enabled, form payments will use all active WooCommerce payment methods."
-msgstr ""
+msgstr "Quando ativado, os pagamentos do formulário usarão todos os métodos de pagamento ativos do WooCommerce."
 
 msgid "When enabled, signers will automatically receive an email with the signature link. If disabled, documents will be created but you will need to send them manually."
-msgstr ""
+msgstr "Quando ativado, os assinantes receberão automaticamente um e-mail com o link de assinatura. Se desativado, os documentos serão criados, mas você precisará enviá-los manualmente."
 
 msgid "White Label"
-msgstr ""
+msgstr "Marca Branca"
 
 msgid "White Label Settings"
-msgstr ""
+msgstr "Configurações de Marca Branca"
 
 msgid "White label settings saved successfully."
-msgstr ""
+msgstr "Configurações de marca branca salvas com sucesso."
 
 msgid "Whitelist (Allow)"
-msgstr ""
+msgstr "Lista de Permissão (Permitir)"
 
 msgid "Width"
 msgstr "Largura"
@@ -5703,28 +5703,28 @@ msgid "WooCommerce"
 msgstr "WooCommerce"
 
 msgid "WooCommerce not detected!"
-msgstr ""
+msgstr "WooCommerce não detectado!"
 
 msgid "WordPress"
 msgstr "WordPress"
 
 msgid "WordPress Memory Limit"
-msgstr ""
+msgstr "Limite de Memória do WordPress"
 
 msgid "WordPress Transient (Default)"
-msgstr ""
+msgstr "Transiente WordPress (Padrão)"
 
 msgid "WordPress Version"
-msgstr ""
+msgstr "Versão do WordPress"
 
 msgid "Workflow"
 msgstr "Fluxo de Trabalho"
 
 msgid "Workflow Action"
-msgstr ""
+msgstr "Ação do Fluxo de Trabalho"
 
 msgid "Workflow Actions"
-msgstr ""
+msgstr "Ações do Fluxo de Trabalho"
 
 msgid "Workflow Name"
 msgstr "Nome do Fluxo"
@@ -5733,22 +5733,22 @@ msgid "Workflow Status"
 msgstr "Status do Fluxo"
 
 msgid "Workflow created successfully."
-msgstr ""
+msgstr "Fluxo de trabalho criado com sucesso."
 
 msgid "Workflow deleted successfully."
-msgstr ""
+msgstr "Fluxo de trabalho excluído com sucesso."
 
 msgid "Workflow updated successfully."
-msgstr ""
+msgstr "Fluxo de trabalho atualizado com sucesso."
 
 msgid "Workflows"
 msgstr "Fluxos de Trabalho"
 
 msgid "X.509 certificate from your Identity Provider"
-msgstr ""
+msgstr "Certificado X.509 do seu Provedor de Identidade"
 
 msgid "X.509 certificate from your Identity Provider (PEM format)"
-msgstr ""
+msgstr "Certificado X.509 do seu Provedor de Identidade (formato PEM)"
 
 msgid "Yearly"
 msgstr "Anual"
@@ -5757,28 +5757,28 @@ msgid "Yes"
 msgstr "Sim"
 
 msgid "You have %d backup codes remaining."
-msgstr ""
+msgstr "Você tem %d códigos de backup restantes."
 
 msgid "Your Autentique integration is ready to use."
-msgstr ""
+msgstr "Sua integração com o Autentique está pronta para uso."
 
 msgid "Your HubSpot Portal ID (optional, auto-detected)."
-msgstr ""
+msgstr "Seu ID do Portal HubSpot (opcional, detectado automaticamente)."
 
 msgid "Your IP address has been temporarily blocked."
-msgstr ""
+msgstr "Seu endereço IP foi temporariamente bloqueado."
 
 msgid "Your Salesforce instance URL (e.g., https://yourcompany.salesforce.com)."
-msgstr ""
+msgstr "URL da sua instância Salesforce (ex.: https://suaempresa.salesforce.com)."
 
 msgid "Your Twilio phone number in E.164 format."
-msgstr ""
+msgstr "Seu número de telefone Twilio no formato E.164."
 
 msgid "Your Two-Factor Authentication"
-msgstr ""
+msgstr "Sua Autenticação de Dois Fatores"
 
 msgid "Your password concatenated with security token."
-msgstr ""
+msgstr "Sua senha concatenada com o token de segurança."
 
 msgid "ZIP Code"
 msgstr "CEP"
@@ -5787,58 +5787,58 @@ msgid "Zapier"
 msgstr "Zapier"
 
 msgid "Zapier Integration"
-msgstr ""
+msgstr "Integração Zapier"
 
 msgid "Zapier integration is not enabled."
-msgstr ""
+msgstr "A integração Zapier não está ativada."
 
 msgid "[%s] Verify your %s request"
-msgstr ""
+msgstr "[%s] Verifique sua solicitação de %s"
 
 msgid "[%s] Your data export is ready"
-msgstr ""
+msgstr "[%s] Sua exportação de dados está pronta"
 
 msgid "[%s] Your data has been deleted"
-msgstr ""
+msgstr "[%s] Seus dados foram excluídos"
 
 msgid "[%s] Your verification code"
-msgstr ""
+msgstr "[%s] Seu código de verificação"
 
 msgid "admin@example.com"
-msgstr ""
+msgstr "admin@example.com"
 
 msgid "ago"
 msgstr "atrás"
 
 msgid "by %s"
-msgstr ""
+msgstr "por %s"
 
 msgid "contains"
-msgstr ""
+msgstr "contém"
 
 msgid "data correction"
-msgstr ""
+msgstr "correção de dados"
 
 msgid "data deletion"
-msgstr ""
+msgstr "exclusão de dados"
 
 msgid "data export"
-msgstr ""
+msgstr "exportação de dados"
 
 msgid "days"
 msgstr "dias"
 
 msgid "does not contain"
-msgstr ""
+msgstr "não contém"
 
 msgid "does not equal"
-msgstr ""
+msgstr "não é igual a"
 
 msgid "ends with"
-msgstr ""
+msgstr "termina com"
 
 msgid "equals"
-msgstr ""
+msgstr "é igual a"
 
 msgid "from now"
 msgstr "a partir de agora"
@@ -5847,35 +5847,35 @@ msgid "hours"
 msgstr "horas"
 
 msgid "https://your-link.com"
-msgstr ""
+msgstr "https://seu-link.com"
 
 msgid "is between"
-msgstr ""
+msgstr "está entre"
 
 msgid "is checked"
-msgstr ""
+msgstr "está marcado"
 
 msgid "is empty"
-msgstr ""
+msgstr "está vazio"
 
 msgid "is greater than"
-msgstr ""
+msgstr "é maior que"
 
 msgid "is less than"
-msgstr ""
+msgstr "é menor que"
 
 msgid "is not checked"
-msgstr ""
+msgstr "não está marcado"
 
 msgid "is not empty"
-msgstr ""
+msgstr "não está vazio"
 
 msgid "key1=value1
 key2=value2"
 msgstr ""
 
 msgid "matches pattern"
-msgstr ""
+msgstr "corresponde ao padrão"
 
 msgid "minutes"
 msgstr "minutos"
@@ -5884,31 +5884,31 @@ msgid "months"
 msgstr "meses"
 
 msgid "not contains"
-msgstr ""
+msgstr "não contém"
 
 msgid "not equals"
-msgstr ""
+msgstr "não é igual a"
 
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 msgid "processing restriction"
-msgstr ""
+msgstr "restrição de processamento"
 
 msgid "reCAPTCHA"
 msgstr "reCAPTCHA"
 
 msgid "requests per minute per IP"
-msgstr ""
+msgstr "requisições por minuto por IP"
 
 msgid "seconds"
 msgstr "segundos"
 
 msgid "starts with"
-msgstr ""
+msgstr "começa com"
 
 msgid "vs previous"
-msgstr ""
+msgstr "vs anterior"
 
 msgid "weeks"
 msgstr "semanas"
@@ -5917,4 +5917,4 @@ msgid "years"
 msgstr "anos"
 
 msgid "← Back to login"
-msgstr ""
+msgstr "← Voltar ao login"
