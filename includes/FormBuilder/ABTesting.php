@@ -100,10 +100,10 @@ class ABTesting
 {
     use SingletonTrait;
 
-    private string $tests_table;
-    private string $variants_table;
-    private string $results_table;
-    private string $events_table;
+    private string $tests_table = '';
+    private string $variants_table = '';
+    private string $results_table = '';
+    private string $events_table = '';
 
     protected function init(): void
     {

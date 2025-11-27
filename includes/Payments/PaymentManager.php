@@ -100,9 +100,9 @@ class PaymentManager
 {
     use SingletonTrait;
 
-    private string $payments_table;
-    private string $subscriptions_table;
-    private string $invoices_table;
+    private string $payments_table = '';
+    private string $subscriptions_table = '';
+    private string $invoices_table = '';
     private array $providers = [];
 
     protected function init(): void

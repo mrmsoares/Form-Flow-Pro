@@ -17,21 +17,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Payment Provider Interface
- */
-interface PaymentProviderInterface
-{
-    public function createPayment(array $data): array;
-    public function capturePayment(string $payment_id): array;
-    public function refundPayment(string $payment_id, float $amount = null): array;
-    public function getPayment(string $payment_id): array;
-    public function createCustomer(array $data): array;
-    public function createSubscription(array $data): array;
-    public function cancelSubscription(string $subscription_id): array;
-    public function handleWebhook(string $payload, string $signature): array;
-    public function isConfigured(): bool;
-}
+// Include interface
+require_once __DIR__ . '/PaymentProviderInterface.php';
 
 /**
  * Stripe Payment Provider
