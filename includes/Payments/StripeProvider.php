@@ -228,7 +228,7 @@ class StripeProvider implements PaymentProviderInterface
     /**
      * Refund payment
      */
-    public function refundPayment(string $payment_id, float $amount = null): array
+    public function refundPayment(string $payment_id, ?float $amount = null): array
     {
         $params = [
             'payment_intent' => $payment_id,

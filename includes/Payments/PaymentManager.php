@@ -338,7 +338,7 @@ class PaymentManager
     /**
      * Refund payment
      */
-    public function refundPayment(string $provider, string $payment_id, float $amount = null): array
+    public function refundPayment(string $provider, string $payment_id, ?float $amount = null): array
     {
         $payment_provider = $this->getProvider($provider);
 
@@ -625,7 +625,7 @@ class PaymentManager
     /**
      * Get user subscriptions
      */
-    public function getUserSubscriptions(int $user_id, string $status = null): array
+    public function getUserSubscriptions(int $user_id, ?string $status = null): array
     {
         global $wpdb;
 
